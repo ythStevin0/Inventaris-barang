@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
+use Illuminate\Support\Facades\Route;
 
 // Public routes
 Route::post('/register', [AuthController::class, 'register']);
@@ -13,3 +14,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me',      [AuthController::class, 'me']);
 });
 
+Route::middleware(['auth:sanctum', 'role:admin,pengurus'])->group(function () {
+    Route::apiResource('categories', CategoryController::class);
+});

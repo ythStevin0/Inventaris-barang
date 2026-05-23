@@ -12,6 +12,7 @@ class MaintenanceLog extends Model
 
     protected $fillable = [
         'item_id',
+        'item_unit_id',
         'reported_by',
         'type',
         'description',
@@ -32,6 +33,11 @@ class MaintenanceLog extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function itemUnit(): BelongsTo
+    {
+        return $this->belongsTo(ItemUnit::class);
     }
 
     public function reporter(): BelongsTo

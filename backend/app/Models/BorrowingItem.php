@@ -14,6 +14,7 @@ class BorrowingItem extends Model
     protected $fillable = [
         'borrowing_id',
         'item_id',
+        'item_unit_id',
         'quantity',
         'quantity_damaged',
         'fine_amount',
@@ -40,6 +41,11 @@ class BorrowingItem extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function itemUnit(): BelongsTo
+    {
+        return $this->belongsTo(ItemUnit::class);
     }
 
     public function stockMovements(): HasMany

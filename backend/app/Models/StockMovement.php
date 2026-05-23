@@ -12,6 +12,7 @@ class StockMovement extends Model
 
     protected $fillable = [
         'item_id',
+        'item_unit_id',
         'created_by',
         'borrowing_item_id',
         'type',
@@ -33,6 +34,11 @@ class StockMovement extends Model
     public function item(): BelongsTo
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function itemUnit(): BelongsTo
+    {
+        return $this->belongsTo(ItemUnit::class);
     }
 
     public function creator(): BelongsTo

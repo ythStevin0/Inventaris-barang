@@ -7,47 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Item extends Model
+class ItemUnit extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'category_id',
-        'item_code',
-        'name',
-        'description',
-        'type',
-        'unit',
-        'stock_total',
-        'stock_available',
-        'stock_damaged',
-        'location',
-        'brand',
-        'image',
+        'item_id',
+        'unit_code',
+        'qr_code',
+        'condition',
+        'status',
+        'notes',
+        'last_borrowed_at',
     ];
 
     protected function casts(): array
     {
         return [
-            'stock_total' => 'integer',
-            'stock_available' => 'integer',
-            'stock_damaged' => 'integer',
+            'last_borrowed_at' => 'datetime',
         ];
     }
 
-    public function category(): BelongsTo
+    public function item(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Item::class);
     }
 
     public function borrowingItems(): HasMany
     {
         return $this->hasMany(BorrowingItem::class);
-    }
-
-    public function itemUnits(): HasMany
-    {
-        return $this->hasMany(ItemUnit::class);
     }
 
     public function maintenanceLogs(): HasMany

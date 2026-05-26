@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Auth/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
+import ItemsPage from './pages/Items/ItemsPage';
 import useAuthStore from './store/authStore';
 
 function PrivateRoute({ children }) {
@@ -16,6 +17,11 @@ export default function App() {
                 <Route path="/dashboard" element={
                     <PrivateRoute>
                         <Dashboard />
+                    </PrivateRoute>
+                } />
+                <Route path="/items" element={
+                    <PrivateRoute>
+                        <ItemsPage />
                     </PrivateRoute>
                 } />
                 <Route path="/" element={<Navigate to="/login" />} />

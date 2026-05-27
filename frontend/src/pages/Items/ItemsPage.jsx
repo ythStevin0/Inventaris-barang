@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/layout/PageHeader';
 import ItemForm from '../../components/items/ItemForm';
@@ -51,6 +51,28 @@ export default function ItemsPage() {
     loadPage();
   }, [getMe, user]);
 
+  const clientError = useMemo(() => {
+    const { stock_total, stock_available, stock_damaged } = form;
+
+    if (stock_total < 0 || stock_available < 0 || stock_damaged < 0) {
+      return 'Nilai stok tidak boleh kurang dari 0.';
+    }
+
+    if (stock_available > stock_total) {
+      return 'Stok tersedia tidak boleh melebihi stok total.';
+    }
+
+    if (stock_damaged > stock_total) {
+      return 'Stok rusak tidak boleh melebihi stok total.';
+    }
+
+    if (stock_available + stock_damaged > stock_total) {
+      return 'Stok tersedia ditambah stok rusak tidak boleh melebihi stok total.';
+    }
+
+    return '';
+  }, [form]);
+
   const refreshItems = async () => {
     const response = await getItems();
     setItems(response);
@@ -85,6 +107,11 @@ export default function ItemsPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (clientError) {
+      setError(clientError);
+      return;
+    }
+
     setSubmitting(true);
     setError('');
     setSuccess('');
@@ -182,6 +209,7 @@ export default function ItemsPage() {
           ) : (
             <ItemForm
               categories={categories}
+              clientError={clientError}
               form={form}
               submitting={submitting}
               onChange={handleChange}

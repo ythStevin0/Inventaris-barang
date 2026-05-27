@@ -1,5 +1,8 @@
+import Alert from '../ui/Alert';
+
 export default function ItemForm({
   categories,
+  clientError,
   form,
   submitting,
   onChange,
@@ -7,6 +10,8 @@ export default function ItemForm({
 }) {
   return (
     <form onSubmit={onSubmit} className="grid gap-4">
+      {clientError ? <Alert tone="warning">{clientError}</Alert> : null}
+
       <FormField label="Kategori">
         <select
           name="category_id"
@@ -157,7 +162,7 @@ export default function ItemForm({
       <button
         type="submit"
         className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
-        disabled={submitting}
+        disabled={submitting || Boolean(clientError)}
       >
         {submitting ? 'Menyimpan...' : 'Simpan Barang'}
       </button>

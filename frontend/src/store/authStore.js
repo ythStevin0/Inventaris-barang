@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import api from '../services/api';
+import { loginRequest, logoutRequest, meRequest } from '../services/authService';
 
 const useAuthStore = create((set) => ({
     user: null,
@@ -7,22 +7,23 @@ const useAuthStore = create((set) => ({
     isAuthenticated: !!localStorage.getItem('token'),
 
     login: async (email, password) => {
-        const response = await api.post('/login', { email, password });
-        const { token, user } = response.data;
+        const response = await loginRequest(email, password);
+        const { token, user } = response;
         localStorage.setItem('token', token);
         set({ user, token, isAuthenticated: true });
-        return response.data;
+        return response;
     },
 
     logout: async () => {
-        await api.post('/logout');
+        await logoutRequest();
         localStorage.removeItem('token');
         set({ user: null, token: null, isAuthenticated: false });
     },
 
     getMe: async () => {
-        const response = await api.get('/me');
-        set({ user: response.data });
+        const user = await meRequest();
+        set({ user });
+        return user;
     },
 }));
 

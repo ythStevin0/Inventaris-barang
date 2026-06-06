@@ -3,6 +3,7 @@ import PrivateRoute from './PrivateRoute';
 import Login from '../pages/Auth/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import ItemsPage from '../pages/Items/ItemsPage';
+import CategoriesPage from '../pages/Categories/CategoriesPage';
 
 export default function AppRouter() {
   return (
@@ -22,6 +23,14 @@ export default function AppRouter() {
           element={
             <PrivateRoute>
               <ItemsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/categories"
+          element={
+            <PrivateRoute>
+              <CategoriesPage />
             </PrivateRoute>
           }
         />

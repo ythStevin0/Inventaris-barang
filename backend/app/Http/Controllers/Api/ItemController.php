@@ -177,7 +177,6 @@ class ItemController extends Controller
     {
         if (
             $item->borrowingItems()->exists() ||
-            $item->itemUnits()->exists() ||
             $item->maintenanceLogs()->exists() ||
             $item->stockMovements()->exists()
         ) {

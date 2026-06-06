@@ -7,6 +7,8 @@ export default function ItemForm({
   submitting,
   onChange,
   onSubmit,
+  isEditing,
+  onCancelEdit,
 }) {
   return (
     <form onSubmit={onSubmit} className="grid gap-4">
@@ -159,13 +161,25 @@ export default function ItemForm({
         />
       </FormField>
 
-      <button
-        type="submit"
-        className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
-        disabled={submitting || Boolean(clientError)}
-      >
-        {submitting ? 'Menyimpan...' : 'Simpan Barang'}
-      </button>
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+        {isEditing && (
+          <button
+            type="button"
+            onClick={onCancelEdit}
+            className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+            disabled={submitting}
+          >
+            Batal Edit
+          </button>
+        )}
+        <button
+          type="submit"
+          className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+          disabled={submitting || Boolean(clientError)}
+        >
+          {submitting ? 'Menyimpan...' : (isEditing ? 'Simpan Perubahan' : 'Simpan Barang')}
+        </button>
+      </div>
     </form>
   );
 }

@@ -1,4 +1,4 @@
-export default function ItemsTable({ items }) {
+export default function ItemsTable({ items, canManageItems, onEdit, onDelete }) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full border-collapse text-left">
@@ -9,6 +9,7 @@ export default function ItemsTable({ items }) {
             <th className="px-3 py-3 font-semibold">Kategori</th>
             <th className="px-3 py-3 font-semibold">Tipe</th>
             <th className="px-3 py-3 font-semibold">Stok</th>
+            {canManageItems && <th className="px-3 py-3 font-semibold text-right">Aksi</th>}
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,26 @@ export default function ItemsTable({ items }) {
                 </p>
                 <p className="mt-1 text-sm text-slate-500">rusak: {item.stock_damaged}</p>
               </td>
+              {canManageItems && (
+                <td className="px-3 py-4 text-right">
+                  <div className="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => onEdit(item)}
+                      className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onDelete(item.id)}
+                      className="rounded-lg border border-red-200 bg-white px-3 py-1 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

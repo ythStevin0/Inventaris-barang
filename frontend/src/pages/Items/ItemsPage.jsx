@@ -6,7 +6,7 @@ import { initialItemForm } from '../../components/items/itemFormDefaults';
 import ItemsTable from '../../components/items/ItemsTable';
 import Alert from '../../components/ui/Alert';
 import { getCategories } from '../../services/categoriesService';
-import { createItem, getItems } from '../../services/itemsService';
+import { createItem, getItems, updateItem, deleteItem } from '../../services/itemsService';
 import useAuthStore from '../../store/authStore';
 import { canManageInventory } from '../../utils/permissions';
 import { validateItemForm } from '../../utils/validateItemForm';
@@ -21,6 +21,7 @@ export default function ItemsPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [form, setForm] = useState(initialItemForm);
+  const [editingItemId, setEditingItemId] = useState(null);
 
   const canManageItems = canManageInventory(user);
 
@@ -104,9 +105,15 @@ export default function ItemsPage() {
         image: form.image || null,
       };
 
-      const response = await createItem(payload);
+      if (editingItemId) {
+        const response = await updateItem(editingItemId, payload);
+        setSuccess(response.message ?? 'Barang berhasil diperbarui.');
+        setEditingItemId(null);
+      } else {
+        const response = await createItem(payload);
+        setSuccess(response.message ?? 'Barang berhasil dibuat.');
+      }
 
-      setSuccess(response.message ?? 'Barang berhasil dibuat.');
       setForm(initialItemForm);
       await refreshItems();
     } catch (submitError) {
@@ -118,6 +125,50 @@ export default function ItemsPage() {
       setError(firstError ?? 'Gagal menyimpan barang.');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleEdit = (item) => {
+    setEditingItemId(item.id);
+    setForm({
+      item_code: item.item_code,
+      name: item.name,
+      category_id: item.category_id,
+      type: item.type,
+      unit: item.unit,
+      stock_total: item.stock_total,
+      stock_available: item.stock_available,
+      stock_damaged: item.stock_damaged,
+      description: item.description || '',
+      location: item.location || '',
+      brand: item.brand || '',
+      image: item.image || '',
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingItemId(null);
+    setForm(initialItemForm);
+    setError('');
+    setSuccess('');
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+      return;
+    }
+
+    try {
+      const response = await deleteItem(id);
+      setSuccess(response.message ?? 'Barang berhasil dihapus.');
+      if (editingItemId === id) {
+        handleCancelEdit();
+      }
+      await refreshItems();
+    } catch (err) {
+      const message = err.response?.data?.message || 'Gagal menghapus barang.';
+      setError(message);
     }
   };
 
@@ -173,13 +224,20 @@ export default function ItemsPage() {
             </span>
           </div>
 
-          <ItemsTable items={items} />
+          <ItemsTable 
+            items={items} 
+            canManageItems={canManageItems} 
+            onEdit={handleEdit} 
+            onDelete={handleDelete} 
+          />
         </div>
 
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-          <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">Tambah Barang Baru</h2>
+          <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
+            {editingItemId ? 'Edit Barang' : 'Tambah Barang Baru'}
+          </h2>
           <p className="mb-5 text-sm text-slate-500">
-            Form ini akan mengirim request ke backend melalui <code>POST /api/items</code>.
+            Form ini akan mengirim request ke backend melalui <code>{editingItemId ? `PUT /api/items/${editingItemId}` : 'POST /api/items'}</code>.
           </p>
 
           {!canManageItems ? (
@@ -195,6 +253,8 @@ export default function ItemsPage() {
               submitting={submitting}
               onChange={handleChange}
               onSubmit={handleSubmit}
+              isEditing={!!editingItemId}
+              onCancelEdit={handleCancelEdit}
             />
           )}
         </div>

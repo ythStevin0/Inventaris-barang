@@ -1,6 +1,7 @@
 import useAuthStore from '../../store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { canManageInventory } from '../../utils/permissions';
 
 export default function Dashboard() {
     const { user, logout, getMe } = useAuthStore();
@@ -26,18 +27,29 @@ export default function Dashboard() {
                 </p>
 
                 <div className="flex flex-wrap gap-3">
-                    <Link
-                        to="/items"
-                        className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
-                    >
-                        Kelola Barang
-                    </Link>
-                    <Link
-                        to="/categories"
-                        className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-violet-600 to-fuchsia-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
-                    >
-                        Kelola Kategori
-                    </Link>
+                    {canManageInventory(user) ? (
+                        <>
+                            <Link
+                                to="/items"
+                                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                            >
+                                Kelola Barang
+                            </Link>
+                            <Link
+                                to="/categories"
+                                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-violet-600 to-fuchsia-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                            >
+                                Kelola Kategori
+                            </Link>
+                        </>
+                    ) : (
+                        <Link
+                            to="/items"
+                            className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                        >
+                            Daftar Barang
+                        </Link>
+                    )}
                     <button
                         onClick={handleLogout}
                         className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"

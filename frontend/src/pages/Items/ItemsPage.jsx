@@ -30,10 +30,17 @@ export default function ItemsPage() {
       try {
         const currentUser = user ?? (await getMe());
 
-        const [categoriesResponse, itemsResponse] = await Promise.all([
-          getCategories(),
-          getItems(),
-        ]);
+        let categoriesResponse = [];
+        let itemsResponse = [];
+
+        if (canManageInventory(currentUser)) {
+          [categoriesResponse, itemsResponse] = await Promise.all([
+            getCategories(),
+            getItems(),
+          ]);
+        } else {
+          itemsResponse = await getItems();
+        }
 
         setCategories(categoriesResponse);
         setItems(itemsResponse);

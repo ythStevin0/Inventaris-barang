@@ -28,7 +28,7 @@ export default function Dashboard() {
                 <div className="flex flex-wrap gap-3">
                     <Link
                         to="/items"
-                        className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                        className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
                     >
                         Kelola Barang
                     </Link>

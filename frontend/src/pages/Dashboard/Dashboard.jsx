@@ -32,6 +32,12 @@ export default function Dashboard() {
                     >
                         Kelola Barang
                     </Link>
+                    <Link
+                        to="/categories"
+                        className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-violet-600 to-fuchsia-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                    >
+                        Kelola Kategori
+                    </Link>
                     <button
                         onClick={handleLogout}
                         className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"

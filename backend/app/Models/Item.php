@@ -24,6 +24,7 @@ class Item extends Model
         'location',
         'brand',
         'image',
+        'is_active',
     ];
 
     protected function casts(): array
@@ -32,6 +33,7 @@ class Item extends Model
             'stock_total' => 'integer',
             'stock_available' => 'integer',
             'stock_damaged' => 'integer',
+            'is_active' => 'boolean',
         ];
     }
 

@@ -191,6 +191,49 @@ export default function ItemsPage() {
     }
   };
 
+  const handleToggleActive = async (item) => {
+    const nextIsActive = !item.is_active;
+    const actionLabel = nextIsActive ? 'mengaktifkan' : 'menonaktifkan';
+
+    if (!window.confirm(`Apakah Anda yakin ingin ${actionLabel} barang ini?`)) {
+      return;
+    }
+
+    try {
+      const response = await updateItem(item.id, {
+        item_code: item.item_code,
+        name: item.name,
+        category_id: item.category_id,
+        type: item.type,
+        unit: item.unit,
+        stock_total: item.stock_total,
+        stock_available: item.stock_available,
+        stock_damaged: item.stock_damaged,
+        description: item.description || '',
+        location: item.location || '',
+        brand: item.brand || '',
+        image: item.image || null,
+        is_active: nextIsActive,
+      });
+
+      setSuccess(
+        response.message ??
+          `Barang berhasil ${nextIsActive ? 'diaktifkan' : 'dinonaktifkan'}.`
+      );
+
+      if (editingItemId === item.id) {
+        handleCancelEdit();
+      }
+
+      await refreshItems();
+    } catch (err) {
+      const message =
+        err.response?.data?.message ??
+        `Gagal ${nextIsActive ? 'mengaktifkan' : 'menonaktifkan'} barang.`;
+      setError(message);
+    }
+  };
+
   if (loading) {
     return (
       <div className="grid min-h-screen place-items-center text-base text-slate-600">
@@ -265,6 +308,7 @@ export default function ItemsPage() {
             canManageItems={canManageItems} 
             onEdit={handleEdit} 
             onDelete={handleDelete} 
+            onToggleActive={handleToggleActive}
           />
         </div>
 

@@ -1,4 +1,10 @@
-export default function ItemsTable({ items, canManageItems, onEdit, onDelete }) {
+export default function ItemsTable({
+  items,
+  canManageItems,
+  onEdit,
+  onDelete,
+  onToggleActive,
+}) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full border-collapse text-left">
@@ -60,6 +66,17 @@ export default function ItemsTable({ items, canManageItems, onEdit, onDelete }) 
                       className="rounded-lg border border-red-200 bg-white px-3 py-1 text-sm font-medium text-red-600 transition hover:bg-red-50"
                     >
                       Hapus
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onToggleActive(item)}
+                      className={`rounded-lg border px-3 py-1 text-sm font-medium transition ${
+                        item.is_active
+                          ? 'border-amber-200 bg-white text-amber-700 hover:bg-amber-50'
+                          : 'border-emerald-200 bg-white text-emerald-700 hover:bg-emerald-50'
+                      }`}
+                    >
+                      {item.is_active ? 'Nonaktifkan' : 'Aktifkan'}
                     </button>
                   </div>
                 </td>

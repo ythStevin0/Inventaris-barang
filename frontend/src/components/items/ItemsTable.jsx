@@ -8,6 +8,7 @@ export default function ItemsTable({ items, canManageItems, onEdit, onDelete }) 
             <th className="px-3 py-3 font-semibold">Nama</th>
             <th className="px-3 py-3 font-semibold">Kategori</th>
             <th className="px-3 py-3 font-semibold">Tipe</th>
+            <th className="px-3 py-3 font-semibold">Status</th>
             <th className="px-3 py-3 font-semibold">Stok</th>
             {canManageItems && <th className="px-3 py-3 font-semibold text-right">Aksi</th>}
           </tr>
@@ -24,6 +25,17 @@ export default function ItemsTable({ items, canManageItems, onEdit, onDelete }) 
               <td className="px-3 py-4">
                 <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold capitalize text-slate-700">
                   {item.type}
+                </span>
+              </td>
+              <td className="px-3 py-4">
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                    item.is_active
+                      ? 'bg-emerald-50 text-emerald-700'
+                      : 'bg-slate-100 text-slate-600'
+                  }`}
+                >
+                  {item.is_active ? 'Aktif' : 'Nonaktif'}
                 </span>
               </td>
               <td className="px-3 py-4 text-slate-800">

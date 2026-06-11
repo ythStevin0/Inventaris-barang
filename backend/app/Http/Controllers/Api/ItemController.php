@@ -43,6 +43,10 @@ class ItemController extends Controller
             $query->where('type', $request->string('type'));
         }
 
+        if ($request->filled('is_active')) {
+            $query->where('is_active', $request->boolean('is_active'));
+        }
+
         $items = $query->paginate($perPage)->withQueryString();
 
         return response()->json([
@@ -177,6 +181,7 @@ class ItemController extends Controller
     {
         if (
             $item->borrowingItems()->exists() ||
+            $item->itemUnits()->exists() ||
             $item->maintenanceLogs()->exists() ||
             $item->stockMovements()->exists()
         ) {

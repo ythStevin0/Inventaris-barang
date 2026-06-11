@@ -47,6 +47,7 @@ class StoreItemRequest extends FormRequest
             'location' => ['nullable', 'string', 'max:255'],
             'brand' => ['nullable', 'string', 'max:255'],
             'image' => ['nullable', 'string', 'max:255'],
+            'is_active' => ['sometimes', 'boolean'],
         ];
     }
 }

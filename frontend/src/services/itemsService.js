@@ -1,7 +1,10 @@
 import api from './api';
 
-export async function getItems() {
-  const response = await api.get('/items');
+export async function getItems(filters = {}) {
+  const response = await api.get('/items', {
+    params: filters,
+  });
+
   return response.data.data ?? [];
 }
 

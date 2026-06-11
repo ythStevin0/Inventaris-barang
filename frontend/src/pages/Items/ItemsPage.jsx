@@ -22,8 +22,20 @@ export default function ItemsPage() {
   const [success, setSuccess] = useState('');
   const [form, setForm] = useState(initialItemForm);
   const [editingItemId, setEditingItemId] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('active');
 
   const canManageItems = canManageInventory(user);
+  const itemFilters = useMemo(() => {
+    if (activeFilter === 'active') {
+      return { is_active: 1 };
+    }
+
+    if (activeFilter === 'inactive') {
+      return { is_active: 0 };
+    }
+
+    return {};
+  }, [activeFilter]);
 
   useEffect(() => {
     const loadPage = async () => {
@@ -36,10 +48,10 @@ export default function ItemsPage() {
         if (canManageInventory(currentUser)) {
           [categoriesResponse, itemsResponse] = await Promise.all([
             getCategories(),
-            getItems(),
+            getItems(itemFilters),
           ]);
         } else {
-          itemsResponse = await getItems();
+          itemsResponse = await getItems(itemFilters);
         }
 
         setCategories(categoriesResponse);
@@ -58,12 +70,12 @@ export default function ItemsPage() {
     };
 
     loadPage();
-  }, [getMe, user]);
+  }, [getMe, itemFilters, user]);
 
   const clientError = useMemo(() => validateItemForm(form), [form]);
 
   const refreshItems = async () => {
-    const response = await getItems();
+    const response = await getItems(itemFilters);
     setItems(response);
   };
 
@@ -231,6 +243,23 @@ export default function ItemsPage() {
             </span>
           </div>
 
+          <div className="mb-5 inline-flex rounded-lg border border-slate-200 bg-white p-1">
+            {statusFilters.map((filter) => (
+              <button
+                key={filter.value}
+                type="button"
+                onClick={() => setActiveFilter(filter.value)}
+                className={`rounded-md px-3 py-2 text-sm font-semibold transition ${
+                  activeFilter === filter.value
+                    ? 'bg-slate-900 text-white'
+                    : 'text-slate-600 hover:bg-slate-50'
+                }`}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
+
           <ItemsTable 
             items={items} 
             canManageItems={canManageItems} 
@@ -269,3 +298,9 @@ export default function ItemsPage() {
     </div>
   );
 }
+
+const statusFilters = [
+  { label: 'Aktif', value: 'active' },
+  { label: 'Nonaktif', value: 'inactive' },
+  { label: 'Semua', value: 'all' },
+];

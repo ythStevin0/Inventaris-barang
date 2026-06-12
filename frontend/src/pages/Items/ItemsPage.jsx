@@ -174,7 +174,11 @@ export default function ItemsPage() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
+    if (
+      !window.confirm(
+        'Hapus permanen hanya untuk barang yang belum punya riwayat atau unit fisik. Lanjutkan hapus barang ini?'
+      )
+    ) {
       return;
     }
 
@@ -186,7 +190,9 @@ export default function ItemsPage() {
       }
       await refreshItems();
     } catch (err) {
-      const message = err.response?.data?.message || 'Gagal menghapus barang.';
+      const message =
+        err.response?.data?.message ||
+        'Gagal menghapus barang. Jika barang sudah punya riwayat, gunakan Nonaktifkan.';
       setError(message);
     }
   };

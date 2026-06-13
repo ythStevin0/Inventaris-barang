@@ -41,14 +41,28 @@ export default function Dashboard() {
                             >
                                 Kelola Kategori
                             </Link>
+                            <Link
+                                to="/borrowings"
+                                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-emerald-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                            >
+                                Kelola Peminjaman
+                            </Link>
                         </>
                     ) : (
-                        <Link
-                            to="/items"
-                            className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
-                        >
-                            Daftar Barang
-                        </Link>
+                        <>
+                            <Link
+                                to="/items"
+                                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                            >
+                                Daftar Barang
+                            </Link>
+                            <Link
+                                to="/borrowings"
+                                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-emerald-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                            >
+                                Peminjaman Barang
+                            </Link>
+                        </>
                     )}
                     <button
                         onClick={handleLogout}

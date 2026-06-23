@@ -130,7 +130,7 @@ export default function ReturnForm({ borrowing, submitting, onSubmit, onCancel }
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:opacity-50"
+          className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-emerald-600 to-teal-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:opacity-50"
         >
           {submitting ? 'Memproses...' : 'Proses Pengembalian'}
         </button>

@@ -26,10 +26,12 @@ export default function Login() {
 
     return (
         <div 
-            className="min-h-screen relative flex flex-col bg-cover bg-center bg-no-repeat"
+            className="min-h-screen relative flex flex-col bg-no-repeat bg-[#0a0a0a]"
             style={{ 
                 // Background alam/hutan untuk tema MAPALA
-                backgroundImage: `url('https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGw4cHR4bWgxZWpsaTBzbjBkNWd4YWRreXdsODh2cTV0dHR1ZmtrciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZmzK0pb9yLfgs/giphy.gif')` 
+                backgroundImage: `url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMW1tY3QxbHd4NHBnODF5bDU1czlxbXA4OWU4cHdibTEwazd5bDRhbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WzLDljBpplUvm/giphy.gif')`,
+                backgroundSize: '100% 100%',
+                backgroundPosition: 'center'
             }}
         >
             {/* Dark overlay yang lebih transparan agar background lebih terlihat */}
@@ -142,11 +144,21 @@ export default function Login() {
                                 disabled={loading}
                                 className="w-full bg-[#f5a623] hover:bg-[#e0961b] text-black text-sm font-semibold rounded-lg px-4 py-2.5 mt-2 flex items-center justify-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_2px_10px_rgba(245,166,35,0.2)]"
                             >
-                                {loading ? 'Memproses...' : 'Masuk'}
-                                {!loading && (
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                                    </svg>
+                                {loading ? (
+                                    <>
+                                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Memproses...
+                                    </>
+                                ) : (
+                                    <>
+                                        Masuk
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                        </svg>
+                                    </>
                                 )}
                             </button>
                         </form>

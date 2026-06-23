@@ -48,18 +48,18 @@ export default function Login() {
             </div>
 
             {/* Main Content (Container) */}
-            <div className="relative z-10 w-full max-w-[1400px] mx-auto px-8 md:px-12 flex-1 flex flex-col lg:flex-row justify-between pb-12 lg:pb-24 pt-32">
+            <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-12 flex-1 flex flex-col lg:flex-row justify-between pb-12 lg:pb-24 pt-24 lg:pt-32 gap-10 lg:gap-0">
                 
                 {/* Left Side: Typography (Ditaruh lebih ke bawah dengan self-end) */}
-                <div className="flex-1 text-left max-w-xl hidden lg:flex flex-col justify-end self-end mb-8">
-                    <h1 className="text-white text-4xl xl:text-5xl font-semibold leading-tight mb-4 drop-shadow-lg tracking-tight">
-                        Kelola inventaris <br/> dengan cerdas.
+                <div className="flex-1 text-left max-w-xl flex flex-col justify-start lg:justify-end self-start lg:self-end mb-4 lg:mb-8 w-full mt-4 lg:mt-0">
+                    <h1 className="text-white text-3xl md:text-4xl xl:text-5xl font-semibold leading-tight mb-3 lg:mb-4 drop-shadow-lg tracking-tight">
+                        Kelola inventaris <br className="hidden md:block" /> dengan cerdas.
                     </h1>
-                    <p className="text-gray-200 text-base mb-5 drop-shadow-md max-w-md">
-                        Platform inventaris barang organisasi — <br/>
+                    <p className="text-gray-200 text-sm md:text-base mb-4 lg:mb-5 drop-shadow-md max-w-md">
+                        Platform inventaris barang organisasi — <br className="hidden md:block" />
                         dirancang untuk efisiensi dan kemudahan pengurus.
                     </p>
-                    <div className="text-yellow-400 font-medium tracking-wider text-xs drop-shadow-md">
+                    <div className="text-yellow-400 font-medium tracking-wider text-[10px] md:text-xs drop-shadow-md flex flex-wrap items-center">
                         <span className="text-yellow-400 mr-2">•</span> 
                         Pendataan <span className="mx-2 text-white/50">·</span> 
                         Peminjaman <span className="mx-2 text-white/50">·</span> 
@@ -68,9 +68,9 @@ export default function Login() {
                     </div>
                 </div>
 
-                {/* Right Side: Login Card (Dikecilkan ukurannya dan ditaruh agak ke bawah tengah) */}
+                {/* Right Side: Login Card */}
                 <div className="w-full lg:w-auto flex flex-col justify-center lg:justify-end lg:mb-4">
-                    <div className="w-[360px] bg-black/30 backdrop-blur-xl p-8 rounded-2xl border border-white/10 shadow-2xl mx-auto lg:mx-0">
+                    <div className="w-full max-w-[360px] md:max-w-[400px] lg:w-[400px] bg-black/30 backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl mx-auto lg:mx-0">
                         <div className="mb-6">
                             <h3 className="text-yellow-500 text-[10px] font-bold tracking-[0.2em] uppercase mb-1.5">
                                 Selamat Datang

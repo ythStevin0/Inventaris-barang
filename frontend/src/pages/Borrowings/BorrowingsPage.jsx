@@ -208,14 +208,16 @@ export default function BorrowingsPage() {
               </p>
             </div>
             
-            {/* Tombol Ajukan Peminjaman */}
-            <button
-              type="button"
-              onClick={() => setShowBorrowModal(true)}
-              className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
-            >
-              Ajukan Peminjaman Baru
-            </button>
+            {/* Tombol Ajukan Peminjaman (Hanya untuk Anggota) */}
+            {!isStaff && (
+              <button
+                type="button"
+                onClick={() => setShowBorrowModal(true)}
+                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+              >
+                Ajukan Peminjaman Baru
+              </button>
+            )}
           </div>
 
           <BorrowingsTable

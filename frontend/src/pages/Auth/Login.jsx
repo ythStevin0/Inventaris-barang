@@ -29,8 +29,8 @@ export default function Login() {
             className="min-h-screen relative flex flex-col bg-no-repeat bg-[#0a0a0a]"
             style={{ 
                 // Background alam/hutan untuk tema MAPALA
-                backgroundImage: `url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMW1tY3QxbHd4NHBnODF5bDU1czlxbXA4OWU4cHdibTEwazd5bDRhbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/WzLDljBpplUvm/giphy.gif')`,
-                backgroundSize: '100% 100%',
+                backgroundImage: `url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWY0dG43MjlxajNvbGE0YXgwZW13a2g5eWs1M2Fsam51MjRoNG1yNCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l1J3tqlqSwfLAg5u8/giphy.gif')`,
+                backgroundSize: 'cover',
                 backgroundPosition: 'center'
             }}
         >

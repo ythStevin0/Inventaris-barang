@@ -188,8 +188,8 @@ export default function Dashboard() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <h2 className="text-gray-900 font-semibold text-base mb-0.5">Peminjaman</h2>
-                                        <p className="text-gray-500 text-xs leading-relaxed">Pantau proses peminjaman, persetujuan, dan pengembalian alat.</p>
+                                        <h2 className="text-gray-900 font-semibold text-base mb-0.5">Kelola Peminjaman</h2>
+                                        <p className="text-gray-500 text-xs leading-relaxed">Pantau riwayat peminjaman anggota dan kelola persetujuan (acc/reject) barang.</p>
                                     </div>
                                 </div>
                                 <Link to="/borrowings" className="text-xs font-semibold flex items-center gap-1 group-hover:gap-2 transition-all" style={{ color: THEME.primary }}>

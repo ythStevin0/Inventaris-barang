@@ -20,6 +20,7 @@ class MaintenanceLog extends Model
         'maintenance_date',
         'resolved_date',
         'resolution_notes',
+        'cost',
     ];
 
     protected function casts(): array

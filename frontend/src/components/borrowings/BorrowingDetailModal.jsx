@@ -61,7 +61,9 @@ export default function BorrowingDetailModal({
 
           {borrowing.notes && (
             <div>
-              <span className="block text-xs text-slate-500 mb-1">Catatan Peminjaman / Penolakan</span>
+              <span className="block text-xs text-slate-500 mb-1">
+                {borrowing.status === 'rejected' ? 'Catatan Penolakan' : 'Catatan Peminjaman'}
+              </span>
               <p className="rounded-2xl border border-slate-100 p-3 text-sm text-slate-700 bg-white shadow-xs">
                 {borrowing.notes}
               </p>
@@ -72,19 +74,27 @@ export default function BorrowingDetailModal({
             <span className="block text-sm font-bold text-slate-800 mb-2">Daftar Barang</span>
             <div className="space-y-2">
               {(borrowing.borrowingItems ?? borrowing.borrowing_items ?? []).map((bi) => (
-                <div key={bi.id} className="flex justify-between items-center rounded-xl border border-slate-100 p-3 text-sm">
-                  <div>
-                    <span className="font-semibold text-slate-800">{bi.item?.name ?? 'Barang'}</span>
-                    <span className="block text-xs text-slate-500">{bi.item?.item_code}</span>
+                <div key={bi.id} className="flex flex-col rounded-xl border border-slate-100 p-3 text-sm">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span className="font-semibold text-slate-800">{bi.item?.name ?? 'Barang'}</span>
+                      <span className="block text-xs text-slate-500">{bi.item?.item_code}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-medium text-slate-800">{bi.quantity} unit</span>
+                      {bi.condition_after && (
+                        <span className="block text-xs text-slate-500">
+                          Kondisi akhir: <span className="font-semibold capitalize">{bi.condition_after}</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <span className="font-medium text-slate-800">{bi.quantity} unit</span>
-                    {bi.condition_after && (
-                      <span className="block text-xs text-slate-500">
-                        Kondisi akhir: <span className="font-semibold capitalize">{bi.condition_after}</span>
-                      </span>
-                    )}
-                  </div>
+                  {/* Menampilkan catatan kerusakan saat pengembalian (jika ada) */}
+                  {bi.damage_notes && (
+                    <div className="mt-2 rounded-lg bg-red-50 p-2 text-xs text-red-700 border border-red-100">
+                      <strong>Catatan Pengembalian:</strong> {bi.damage_notes}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

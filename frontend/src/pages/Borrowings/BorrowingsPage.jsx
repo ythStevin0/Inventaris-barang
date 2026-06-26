@@ -48,16 +48,13 @@ export default function BorrowingsPage() {
   useEffect(() => {
     const loadPage = async () => {
       try {
-        const currentUser = user ?? (await getMe());
+        if (!user) await getMe();
         const [borrowingsData, itemsData] = await Promise.all([
           getBorrowings(),
           getItems({ is_active: 1 }),
         ]);
         setBorrowings(borrowingsData.data ?? borrowingsData);
         setItems(itemsData);
-        if (!currentUser) {
-          setError('Gagal memuat data pengguna.');
-        }
       } catch (err) {
         setError(err.response?.data?.message ?? 'Gagal memuat data peminjaman.');
       } finally {
@@ -66,7 +63,8 @@ export default function BorrowingsPage() {
     };
 
     loadPage();
-  }, [getMe, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const refreshData = async () => {
     try {

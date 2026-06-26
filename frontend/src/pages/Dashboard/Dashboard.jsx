@@ -2,6 +2,7 @@ import useAuthStore from '../../store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { canManageInventory } from '../../utils/permissions';
+import { getDashboardStats } from '../../services/dashboardService';
 
 // Warna tema utama: Maroon (#8B1A1A) sesuai tema Pancasila
 const THEME = {
@@ -10,34 +11,6 @@ const THEME = {
     primaryBg: 'rgba(139, 26, 26, 0.08)',
     primaryBorder: 'rgba(139, 26, 26, 0.2)',
 };
-
-// Dummy data untuk statistik dashboard
-const dummyStats = {
-    totalBarang: 128,
-    totalKategori: 12,
-    barangDipinjam: 8,
-    peminjamanAktif: 5,
-    barangRusak: 3,
-};
-
-// Dummy data riwayat peminjaman terbaru
-const dummyBorrowings = [
-    { id: 1, nama: 'Andi Pratama', barang: 'Tenda Dome 4P', tglPinjam: '20 Mei 2024', tglKembali: '27 Mei 2024', status: 'Dipinjam' },
-    { id: 2, nama: 'Siti Rahma', barang: 'Carrier 60L', tglPinjam: '19 Mei 2024', tglKembali: '26 Mei 2024', status: 'Dipinjam' },
-    { id: 3, nama: 'Dimas Saputra', barang: 'Kompor Portable', tglPinjam: '18 Mei 2024', tglKembali: '25 Mei 2024', status: 'Dikembalikan' },
-    { id: 4, nama: 'Rina Amelia', barang: 'Headlamp', tglPinjam: '17 Mei 2024', tglKembali: '20 Mei 2024', status: 'Dikembalikan' },
-    { id: 5, nama: 'Fajar Nugroho', barang: 'Sleeping Bag', tglPinjam: '16 Mei 2024', tglKembali: '19 Mei 2024', status: 'Dikembalikan' },
-];
-
-// Dummy data kategori barang untuk donut chart
-const dummyCategories = [
-    { name: 'Perlengkapan Camping', percent: 40, color: '#8B1A1A' },
-    { name: 'Alat Masak', percent: 25, color: '#C0392B' },
-    { name: 'Navigasi', percent: 15, color: '#E74C3C' },
-    { name: 'Panjat Tebing', percent: 10, color: '#D4A574' },
-    { name: 'P3K', percent: 5, color: '#F1C40F' },
-    { name: 'Lainnya', percent: 5, color: '#95a5a6' },
-];
 
 // Komponen Donut Chart sederhana menggunakan SVG
 function DonutChart({ data }) {
@@ -79,9 +52,33 @@ export default function Dashboard() {
     const { user, logout, getMe } = useAuthStore();
     const navigate = useNavigate();
     const [showUserMenu, setShowUserMenu] = useState(false);
+    
+    // State API
+    const [stats, setStats] = useState({
+        totalBarang: 0,
+        totalKategori: 0,
+        barangDipinjam: 0,
+        peminjamanAktif: 0,
+        barangRusak: 0,
+    });
+    const [recentBorrowings, setRecentBorrowings] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        if (!user) getMe();
+        const loadDashboard = async () => {
+            try {
+                if (!user) await getMe();
+                
+                const data = await getDashboardStats();
+                setStats(data.stats);
+                setRecentBorrowings(data.recentBorrowings);
+                setCategories(data.categories);
+            } catch (error) {
+                console.error("Gagal memuat data dashboard:", error);
+            }
+        };
+
+        loadDashboard();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -301,7 +298,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                             <p className="text-gray-400 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Total Barang</p>
-                            <p className="text-gray-900 text-2xl font-bold leading-none">{dummyStats.totalBarang}</p>
+                            <p className="text-gray-900 text-2xl font-bold leading-none">{stats.totalBarang}</p>
                             <p className="text-gray-400 text-[10px]">Barang</p>
                         </div>
                     </div>
@@ -315,7 +312,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                             <p className="text-gray-400 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Total Kategori</p>
-                            <p className="text-gray-900 text-2xl font-bold leading-none">{dummyStats.totalKategori}</p>
+                            <p className="text-gray-900 text-2xl font-bold leading-none">{stats.totalKategori}</p>
                             <p className="text-gray-400 text-[10px]">Kategori</p>
                         </div>
                     </div>
@@ -329,7 +326,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                             <p className="text-gray-400 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Barang Dipinjam</p>
-                            <p className="text-gray-900 text-2xl font-bold leading-none">{dummyStats.barangDipinjam}</p>
+                            <p className="text-gray-900 text-2xl font-bold leading-none">{stats.barangDipinjam}</p>
                             <p className="text-gray-400 text-[10px]">Barang</p>
                         </div>
                     </div>
@@ -343,7 +340,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                             <p className="text-gray-400 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Peminjaman Aktif</p>
-                            <p className="text-gray-900 text-2xl font-bold leading-none">{dummyStats.peminjamanAktif}</p>
+                            <p className="text-gray-900 text-2xl font-bold leading-none">{stats.peminjamanAktif}</p>
                             <p className="text-gray-400 text-[10px]">Peminjaman</p>
                         </div>
                     </div>
@@ -357,7 +354,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                             <p className="text-gray-400 text-[10px] uppercase tracking-wider font-semibold mb-0.5">Barang Rusak</p>
-                            <p className="text-gray-900 text-2xl font-bold leading-none">{dummyStats.barangRusak}</p>
+                            <p className="text-gray-900 text-2xl font-bold leading-none">{stats.barangRusak}</p>
                             <p className="text-gray-400 text-[10px]">Barang</p>
                         </div>
                     </div>
@@ -391,12 +388,16 @@ export default function Dashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {dummyBorrowings.map((item) => (
+                                    {recentBorrowings.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={5} className="py-8 text-center text-gray-500 text-xs">Belum ada peminjaman.</td>
+                                        </tr>
+                                    ) : recentBorrowings.map((item) => (
                                         <tr key={item.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-100/50 transition-colors">
                                             <td className="py-3 pr-4">
                                                 <div className="flex items-center gap-2.5">
                                                     <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: THEME.primaryBg }}>
-                                                        <span className="text-[10px] font-bold" style={{ color: THEME.primary }}>{item.nama.charAt(0)}</span>
+                                                        <span className="text-[10px] font-bold" style={{ color: THEME.primary }}>{item.nama.charAt(0).toUpperCase()}</span>
                                                     </div>
                                                     <span className="text-gray-900 text-xs font-medium">{item.nama}</span>
                                                 </div>
@@ -406,8 +407,10 @@ export default function Dashboard() {
                                             <td className="py-3 pr-4 text-gray-500 text-xs">{item.tglKembali}</td>
                                             <td className="py-3">
                                                 <span className={`inline-block px-2.5 py-1 rounded-md text-[10px] font-semibold ${
-                                                    item.status === 'Dipinjam' 
+                                                    ['Dipinjam', 'Menunggu'].includes(item.status) 
                                                         ? 'bg-amber-50 text-amber-600 border border-amber-200' 
+                                                        : item.status === 'Ditolak'
+                                                        ? 'bg-red-50 text-red-600 border border-red-200'
                                                         : 'bg-emerald-50 text-emerald-600 border border-emerald-200'
                                                 }`}>
                                                     {item.status}
@@ -435,12 +438,20 @@ export default function Dashboard() {
                         <div className="flex flex-col sm:flex-row items-center gap-6">
                             {/* Donut */}
                             <div className="shrink-0">
-                                <DonutChart data={dummyCategories} />
+                                {categories.length > 0 ? (
+                                    <DonutChart data={categories} />
+                                ) : (
+                                    <div className="w-[180px] h-[180px] rounded-full border-8 border-gray-100 flex items-center justify-center">
+                                        <span className="text-gray-400 text-xs">No Data</span>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Legend */}
                             <div className="flex flex-col gap-2.5 w-full">
-                                {dummyCategories.map((cat, index) => (
+                                {categories.length === 0 ? (
+                                    <p className="text-gray-500 text-xs">Belum ada kategori / barang.</p>
+                                ) : categories.map((cat, index) => (
                                     <div key={index} className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: cat.color }}></div>

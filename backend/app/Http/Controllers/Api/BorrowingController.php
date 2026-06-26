@@ -232,16 +232,59 @@ class BorrowingController extends Controller
     }
 
     /**
-     * Proses pengembalian barang (oleh Admin/Pengurus).
+     * Pengajuan pengembalian oleh Anggota.
+     * Hanya mengubah status dari 'approved' menjadi 'return_requested'.
+     * Tidak ada perubahan stok — menunggu Admin untuk verifikasi fisik.
+     */
+    public function requestReturn(Request $request, Borrowing $borrowing): JsonResponse
+    {
+        $user = $request->user();
+
+        // Anggota hanya boleh mengajukan pengembalian miliknya sendiri
+        if ($user->hasRole('anggota') && $borrowing->user_id !== $user->id) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Anda tidak memiliki hak untuk mengajukan pengembalian peminjaman ini.',
+            ], 403);
+        }
+
+        if ($borrowing->status !== 'approved') {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Hanya peminjaman berstatus "approved" yang dapat diajukan pengembaliannya.',
+            ], 422);
+        }
+
+        $borrowing->update([
+            'status' => 'return_requested',
+        ]);
+
+        $borrowing->load([
+            'user:id,name,email,nim_nip',
+            'approver:id,name',
+            'borrowingItems.item:id,name,item_code,unit',
+        ]);
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Pengajuan pengembalian berhasil. Menunggu pengecekan oleh pengurus.',
+            'data'    => $borrowing,
+        ]);
+    }
+
+    /**
+     * Proses finalisasi pengembalian barang (oleh Admin/Pengurus).
+     * Admin bisa memproses dari status 'return_requested' (normal flow)
+     * maupun langsung dari status 'approved' (bypass jika anggota lupa).
      * Stok tersedia ditambahkan kembali untuk barang yang kondisinya baik.
      * Barang rusak masuk ke stock_damaged.
      */
     public function returnBorrowing(Request $request, Borrowing $borrowing): JsonResponse
     {
-        if ($borrowing->status !== 'approved') {
+        if (!in_array($borrowing->status, ['approved', 'return_requested'])) {
             return response()->json([
                 'status'  => 'error',
-                'message' => 'Hanya peminjaman berstatus "approved" yang dapat dikembalikan.',
+                'message' => 'Hanya peminjaman berstatus "approved" atau "return_requested" yang dapat diproses pengembaliannya.',
             ], 422);
         }
 

@@ -25,6 +25,11 @@ export async function rejectBorrowing(id, notes = '') {
   return response.data;
 }
 
+export async function requestReturn(id) {
+  const response = await api.post(`/borrowings/${id}/request-return`);
+  return response.data;
+}
+
 export async function returnBorrowing(id, payload) {
   const response = await api.post(`/borrowings/${id}/return`, payload);
   return response.data;

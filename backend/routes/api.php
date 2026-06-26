@@ -21,6 +21,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/borrowings',             [BorrowingController::class, 'index']);
     Route::get('/borrowings/{borrowing}', [BorrowingController::class, 'show']);
     Route::post('/borrowings',            [BorrowingController::class, 'store']);
+
+    // Pengajuan pengembalian — anggota bisa mengajukan pengembalian barang
+    Route::post('/borrowings/{borrowing}/request-return', [BorrowingController::class, 'requestReturn']);
 });
 
 // Admin & Pengurus only
@@ -31,7 +34,7 @@ Route::middleware(['auth:sanctum', 'role:admin,pengurus'])->group(function () {
     Route::patch('/items/{item}', [ItemController::class, 'update']);
     Route::delete('/items/{item}', [ItemController::class, 'destroy']);
 
-    // Peminjaman — persetujuan & pengembalian
+    // Peminjaman — persetujuan, penolakan, dan finalisasi pengembalian
     Route::post('/borrowings/{borrowing}/approve', [BorrowingController::class, 'approve']);
     Route::post('/borrowings/{borrowing}/reject',  [BorrowingController::class, 'reject']);
     Route::post('/borrowings/{borrowing}/return',  [BorrowingController::class, 'returnBorrowing']);

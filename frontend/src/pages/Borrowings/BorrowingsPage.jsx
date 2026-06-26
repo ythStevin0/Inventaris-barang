@@ -13,6 +13,7 @@ import {
   approveBorrowing,
   rejectBorrowing,
   returnBorrowing,
+  requestReturn,
 } from '../../services/borrowingsService';
 import { getItems } from '../../services/itemsService';
 import useAuthStore from '../../store/authStore';
@@ -36,6 +37,7 @@ export default function BorrowingsPage() {
   const [showReturnModal, setShowReturnModal] = useState(false);
   const [selectedBorrowing, setSelectedBorrowing] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showRequestReturnModal, setShowRequestReturnModal] = useState(false);
   
   // Reject notes
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -158,6 +160,23 @@ export default function BorrowingsPage() {
     }
   };
 
+  const handleRequestReturnSubmit = async () => {
+    if (!selectedBorrowing) return;
+    setSubmitting(true);
+    setError('');
+    setSuccess('');
+    try {
+      const response = await requestReturn(selectedBorrowing.id);
+      setSuccess(response.message ?? 'Pengajuan pengembalian berhasil. Menunggu pengecekan pengurus.');
+      setShowRequestReturnModal(false);
+      setSelectedBorrowing(null);
+      await refreshData();
+    } catch (err) {
+      setError(err.response?.data?.message ?? 'Gagal mengajukan pengembalian.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
 
   if (loading) {
@@ -236,6 +255,10 @@ export default function BorrowingsPage() {
               setSelectedBorrowing(borrowing);
               setShowReturnModal(true);
             }}
+            onRequestReturn={(borrowing) => {
+              setSelectedBorrowing(borrowing);
+              setShowRequestReturnModal(true);
+            }}
           />
         </div>
       </div>
@@ -289,6 +312,52 @@ export default function BorrowingsPage() {
           rejectNotes={rejectNotes}
           setRejectNotes={setRejectNotes}
         />
+      )}
+
+      {/* Modal Konfirmasi Ajukan Pengembalian (Untuk Anggota) */}
+      {showRequestReturnModal && selectedBorrowing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-md rounded-[28px] border border-white bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-slate-900">Ajukan Pengembalian</h3>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowRequestReturnModal(false);
+                  setSelectedBorrowing(null);
+                }}
+                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="mb-6 text-slate-600">
+              Yakin ingin mengajukan pengembalian untuk <strong>{selectedBorrowing.purpose}</strong>?
+              <br /><br />
+              Pastikan Anda telah menyerahkan barang fisik ke pengurus agar bisa segera diproses.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowRequestReturnModal(false);
+                  setSelectedBorrowing(null);
+                }}
+                className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                disabled={submitting}
+                onClick={handleRequestReturnSubmit}
+                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-violet-600 to-fuchsia-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:opacity-50"
+              >
+                {submitting ? 'Memproses...' : 'Ya, Ajukan'}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Modal Proses Pengembalian */}

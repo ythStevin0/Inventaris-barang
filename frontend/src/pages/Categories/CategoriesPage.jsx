@@ -29,12 +29,9 @@ export default function CategoriesPage() {
   useEffect(() => {
     const loadPage = async () => {
       try {
-        const currentUser = user ?? (await getMe());
+        if (!user) await getMe();
         const data = await getCategories();
         setCategories(data);
-        if (!currentUser) {
-          setError('Gagal memuat data pengguna.');
-        }
       } catch (err) {
         setError(
           err.response?.data?.message ?? 'Gagal memuat data kategori.'
@@ -45,7 +42,8 @@ export default function CategoriesPage() {
     };
 
     loadPage();
-  }, [getMe, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const refreshCategories = async () => {
     const data = await getCategories();

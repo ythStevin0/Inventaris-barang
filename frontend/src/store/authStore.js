@@ -1,27 +1,44 @@
 import { create } from 'zustand';
 import { loginRequest, logoutRequest, meRequest } from '../services/authService';
 
-const useAuthStore = create((set) => ({
-    user: null,
-    token: localStorage.getItem('token') || null,
-    isAuthenticated: !!localStorage.getItem('token'),
+// Hydrate user dari sessionStorage agar tidak perlu memanggil getMe() berulang
+function getStoredUser() {
+  try {
+    const raw = sessionStorage.getItem('user');
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+const useAuthStore = create((set, get) => ({
+    user: getStoredUser(),
+    token: sessionStorage.getItem('token') || null,
+    isAuthenticated: !!sessionStorage.getItem('token'),
 
     login: async (email, password) => {
         const response = await loginRequest(email, password);
         const { token, user } = response;
-        localStorage.setItem('token', token);
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', JSON.stringify(user));
         set({ user, token, isAuthenticated: true });
         return response;
     },
 
     logout: async () => {
-        await logoutRequest();
-        localStorage.removeItem('token');
+        try { await logoutRequest(); } catch { /* ignore */ }
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user');
         set({ user: null, token: null, isAuthenticated: false });
     },
 
     getMe: async () => {
+        // Jika user sudah ada di store, langsung kembalikan
+        const current = get().user;
+        if (current) return current;
+
         const user = await meRequest();
+        sessionStorage.setItem('user', JSON.stringify(user));
         set({ user });
         return user;
     },

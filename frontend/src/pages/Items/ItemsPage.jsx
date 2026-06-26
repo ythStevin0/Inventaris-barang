@@ -40,12 +40,12 @@ export default function ItemsPage() {
   useEffect(() => {
     const loadPage = async () => {
       try {
-        const currentUser = user ?? (await getMe());
+        if (!user) await getMe();
 
         let categoriesResponse = [];
         let itemsResponse = [];
 
-        if (canManageInventory(currentUser)) {
+        if (canManageInventory(user)) {
           [categoriesResponse, itemsResponse] = await Promise.all([
             getCategories(),
             getItems(itemFilters),
@@ -56,9 +56,6 @@ export default function ItemsPage() {
 
         setCategories(categoriesResponse);
         setItems(itemsResponse);
-        if (!currentUser) {
-          setError('Gagal memuat data pengguna.');
-        }
       } catch (loadError) {
         setError(
           loadError.response?.data?.message ??
@@ -70,7 +67,8 @@ export default function ItemsPage() {
     };
 
     loadPage();
-  }, [getMe, itemFilters, user]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemFilters]);
 
   const clientError = useMemo(() => validateItemForm(form), [form]);
 

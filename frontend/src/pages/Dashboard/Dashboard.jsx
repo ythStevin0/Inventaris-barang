@@ -81,8 +81,9 @@ export default function Dashboard() {
     const [showUserMenu, setShowUserMenu] = useState(false);
 
     useEffect(() => {
-        getMe();
-    }, [getMe]);
+        if (!user) getMe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleLogout = async () => {
         await logout();

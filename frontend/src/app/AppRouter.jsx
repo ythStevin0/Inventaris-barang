@@ -5,6 +5,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import ItemsPage from '../pages/Items/ItemsPage';
 import CategoriesPage from '../pages/Categories/CategoriesPage';
 import BorrowingsPage from '../pages/Borrowings/BorrowingsPage';
+import MaintenancePage from '../pages/Maintenance/MaintenancePage';
 
 export default function AppRouter() {
   return (
@@ -40,6 +41,14 @@ export default function AppRouter() {
           element={
             <PrivateRoute>
               <BorrowingsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/maintenance"
+          element={
+            <PrivateRoute>
+              <MaintenancePage />
             </PrivateRoute>
           }
         />

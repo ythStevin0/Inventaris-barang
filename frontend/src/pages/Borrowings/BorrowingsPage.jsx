@@ -15,6 +15,7 @@ import {
   returnBorrowing,
   requestReturn,
 } from '../../services/borrowingsService';
+import { exportBorrowingsPdf, exportBorrowingsExcel } from '../../services/reportService';
 import { getItems } from '../../services/itemsService';
 import useAuthStore from '../../store/authStore';
 import { canManageInventory } from '../../utils/permissions';
@@ -29,6 +30,8 @@ export default function BorrowingsPage() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [exportingPdf, setExportingPdf] = useState(false);
+  const [exportingExcel, setExportingExcel] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -177,6 +180,28 @@ export default function BorrowingsPage() {
   };
 
 
+  const handleExportPdf = async () => {
+    setExportingPdf(true);
+    try {
+      await exportBorrowingsPdf();
+    } catch {
+      setError('Gagal mengunduh PDF.');
+    } finally {
+      setExportingPdf(false);
+    }
+  };
+
+  const handleExportExcel = async () => {
+    setExportingExcel(true);
+    try {
+      await exportBorrowingsExcel();
+    } catch {
+      setError('Gagal mengunduh Excel.');
+    } finally {
+      setExportingExcel(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="grid min-h-screen place-items-center text-base text-slate-600">
@@ -225,16 +250,39 @@ export default function BorrowingsPage() {
               </p>
             </div>
             
-            {/* Tombol Ajukan Peminjaman (Hanya untuk Anggota) */}
-            {!isStaff && (
-              <button
-                type="button"
-                onClick={() => setShowBorrowModal(true)}
-                className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
-              >
-                Ajukan Peminjaman Baru
-              </button>
-            )}
+            <div className="flex items-center gap-3">
+              {isStaff && (
+                <>
+                  <button
+                    type="button"
+                    onClick={handleExportPdf}
+                    disabled={exportingPdf}
+                    className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 disabled:opacity-50"
+                  >
+                    {exportingPdf ? 'Mencetak...' : 'Cetak PDF'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleExportExcel}
+                    disabled={exportingExcel}
+                    className="inline-flex items-center justify-center rounded-2xl bg-green-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 disabled:opacity-50"
+                  >
+                    {exportingExcel ? 'Mengekspor...' : 'Ekspor Excel'}
+                  </button>
+                </>
+              )}
+
+              {/* Tombol Ajukan Peminjaman (Hanya untuk Anggota) */}
+              {!isStaff && (
+                <button
+                  type="button"
+                  onClick={() => setShowBorrowModal(true)}
+                  className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                >
+                  Ajukan Peminjaman Baru
+                </button>
+              )}
+            </div>
           </div>
 
           <BorrowingsTable

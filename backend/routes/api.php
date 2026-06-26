@@ -38,4 +38,8 @@ Route::middleware(['auth:sanctum', 'role:admin,pengurus'])->group(function () {
     Route::post('/borrowings/{borrowing}/approve', [BorrowingController::class, 'approve']);
     Route::post('/borrowings/{borrowing}/reject',  [BorrowingController::class, 'reject']);
     Route::post('/borrowings/{borrowing}/return',  [BorrowingController::class, 'returnBorrowing']);
+
+    // Laporan Peminjaman
+    Route::get('/reports/borrowings/pdf', [\App\Http\Controllers\Api\ReportController::class, 'exportBorrowingsPdf']);
+    Route::get('/reports/borrowings/excel', [\App\Http\Controllers\Api\ReportController::class, 'exportBorrowingsExcel']);
 });

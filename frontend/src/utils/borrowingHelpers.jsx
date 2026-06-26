@@ -6,6 +6,8 @@ export function getStatusBadge(status) {
       return <span className="inline-flex items-center rounded-full bg-sky-100 px-2.5 py-0.5 text-xs font-semibold text-sky-800">Sedang Dipinjam</span>;
     case 'rejected':
       return <span className="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-semibold text-red-800">Ditolak</span>;
+    case 'return_requested':
+      return <span className="inline-flex items-center rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-semibold text-violet-800">Menunggu Pengecekan</span>;
     case 'returned':
       return <span className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-800">Sudah Dikembalikan</span>;
     default:

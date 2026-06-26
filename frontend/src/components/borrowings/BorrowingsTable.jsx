@@ -7,6 +7,7 @@ export default function BorrowingsTable({
   onApprove,
   onShowReject,
   onShowReturn,
+  onRequestReturn,
 }) {
   return (
     <div className="overflow-x-auto">
@@ -52,45 +53,46 @@ export default function BorrowingsTable({
                     Detail
                   </button>
                   
-                  {isStaff && (
+                  {/* === ADMIN/PENGURUS: Setujui & Tolak (hanya status pending) === */}
+                  {isStaff && borrowing.status === 'pending' && (
                     <>
-                      {/* Tampilkan Setujui / Tolak jika status pending */}
-                      {borrowing.status === 'pending' && (
-                        <>
-                          <button
-                            type="button"
-                            onClick={() => onApprove(borrowing.id)}
-                            className="inline-flex items-center rounded-lg bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100"
-                          >
-                            Setujui
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => onShowReject(borrowing)}
-                            className="inline-flex items-center rounded-lg bg-red-50 px-2.5 py-1.5 text-xs font-semibold text-red-700 transition hover:bg-red-100"
-                          >
-                            Tolak
-                          </button>
-                        </>
-                      )}
-
-                      {/* Tombol Kembalikan: Aktif jika approved, Disable jika pending */}
-                      {(borrowing.status === 'pending' || borrowing.status === 'approved') && (
-                        <button
-                          type="button"
-                          onClick={() => borrowing.status === 'approved' && onShowReturn(borrowing)}
-                          disabled={borrowing.status === 'pending'}
-                          className={`inline-flex items-center rounded-lg px-2.5 py-1.5 text-xs font-semibold transition ${
-                            borrowing.status === 'approved'
-                              ? 'bg-blue-50 text-blue-700 hover:bg-blue-100 cursor-pointer'
-                              : 'bg-slate-50 text-slate-400 cursor-not-allowed opacity-60'
-                          }`}
-                          title={borrowing.status === 'pending' ? 'Harus disetujui terlebih dahulu' : 'Kembalikan Barang'}
-                        >
-                          Kembalikan
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        onClick={() => onApprove(borrowing.id)}
+                        className="inline-flex items-center rounded-lg bg-emerald-50 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100"
+                      >
+                        Setujui
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onShowReject(borrowing)}
+                        className="inline-flex items-center rounded-lg bg-red-50 px-2.5 py-1.5 text-xs font-semibold text-red-700 transition hover:bg-red-100"
+                      >
+                        Tolak
+                      </button>
                     </>
+                  )}
+
+                  {/* === ANGGOTA: Ajukan Pengembalian (hanya status approved) === */}
+                  {!isStaff && borrowing.status === 'approved' && (
+                    <button
+                      type="button"
+                      onClick={() => onRequestReturn(borrowing)}
+                      className="inline-flex items-center rounded-lg bg-violet-50 px-2.5 py-1.5 text-xs font-semibold text-violet-700 transition hover:bg-violet-100"
+                    >
+                      Ajukan Pengembalian
+                    </button>
+                  )}
+
+                  {/* === ADMIN/PENGURUS: Proses Pengembalian (status approved ATAU return_requested) === */}
+                  {isStaff && (borrowing.status === 'approved' || borrowing.status === 'return_requested') && (
+                    <button
+                      type="button"
+                      onClick={() => onShowReturn(borrowing)}
+                      className="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1.5 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
+                    >
+                      Proses Pengembalian
+                    </button>
                   )}
                 </td>
               </tr>

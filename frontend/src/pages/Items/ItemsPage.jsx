@@ -23,19 +23,22 @@ export default function ItemsPage() {
   const [form, setForm] = useState(initialItemForm);
   const [editingItemId, setEditingItemId] = useState(null);
   const [activeFilter, setActiveFilter] = useState('active');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [meta, setMeta] = useState(null);
 
   const canManageItems = canManageInventory(user);
   const itemFilters = useMemo(() => {
+    const filters = { page: currentPage };
     if (activeFilter === 'active') {
-      return { is_active: 1 };
+      return { ...filters, is_active: 1 };
     }
 
     if (activeFilter === 'inactive') {
-      return { is_active: 0 };
+      return { ...filters, is_active: 0 };
     }
 
-    return {};
-  }, [activeFilter]);
+    return filters;
+  }, [activeFilter, currentPage]);
 
   useEffect(() => {
     const loadPage = async () => {
@@ -55,7 +58,8 @@ export default function ItemsPage() {
         }
 
         setCategories(categoriesResponse);
-        setItems(itemsResponse);
+        setItems(itemsResponse.data || []);
+        setMeta(itemsResponse.meta || null);
       } catch (loadError) {
         setError(
           loadError.response?.data?.message ??
@@ -74,7 +78,8 @@ export default function ItemsPage() {
 
   const refreshItems = async () => {
     const response = await getItems(itemFilters);
-    setItems(response);
+    setItems(response.data || []);
+    setMeta(response.meta || null);
   };
 
   const handleLogout = async () => {
@@ -295,7 +300,10 @@ export default function ItemsPage() {
               <button
                 key={filter.value}
                 type="button"
-                onClick={() => setActiveFilter(filter.value)}
+                onClick={() => {
+                  setActiveFilter(filter.value);
+                  setCurrentPage(1);
+                }}
                 className={`rounded-md px-3 py-2 text-sm font-semibold transition ${
                   activeFilter === filter.value
                     ? 'bg-slate-900 text-white'
@@ -309,6 +317,8 @@ export default function ItemsPage() {
 
           <ItemsTable 
             items={items} 
+            meta={meta}
+            onPageChange={setCurrentPage}
             canManageItems={canManageItems} 
             onEdit={handleEdit} 
             onDelete={handleDelete} 

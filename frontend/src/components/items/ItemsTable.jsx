@@ -1,5 +1,7 @@
 export default function ItemsTable({
   items,
+  meta,
+  onPageChange,
   canManageItems,
   onEdit,
   onDelete,
@@ -95,6 +97,32 @@ export default function ItemsTable({
           })}
         </tbody>
       </table>
+
+      {meta && meta.last_page > 1 && (
+        <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 sm:px-6 mt-4">
+          <div className="hidden sm:block">
+            <p className="text-sm text-slate-700">
+              Menampilkan <span className="font-semibold">{meta.from || 0}</span> sampai <span className="font-semibold">{meta.to || 0}</span> dari <span className="font-semibold">{meta.total}</span> hasil
+            </p>
+          </div>
+          <div className="flex flex-1 justify-between sm:justify-end gap-2">
+            <button
+              onClick={() => onPageChange(meta.current_page - 1)}
+              disabled={meta.current_page === 1}
+              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Sebelumnya
+            </button>
+            <button
+              onClick={() => onPageChange(meta.current_page + 1)}
+              disabled={meta.current_page === meta.last_page}
+              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Selanjutnya
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

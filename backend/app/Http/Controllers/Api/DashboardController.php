@@ -9,6 +9,7 @@ use App\Models\Item;
 use App\Models\MaintenanceLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -25,20 +26,30 @@ class DashboardController extends Controller
         $categoriesQuery = Category::query();
 
         // Stats
-        $totalBarang = $itemsQuery->sum('stock_total');
-        $totalKategori = $categoriesQuery->count();
-        
-        // Barang Dipinjam (Quantity of items currently borrowed)
-        $barangDipinjam = DB::table('borrowing_items')
-            ->join('borrowings', 'borrowing_items.borrowing_id', '=', 'borrowings.id')
-            ->where('borrowings.status', 'borrowed')
-            ->sum('borrowing_items.quantity');
+        $stats = Cache::remember("dashboard_stats", 300, function () {
+            $totalBarang = Item::sum('stock_total');
+            $totalKategori = Category::count();
             
-        // Peminjaman Aktif (Number of active borrowing requests)
-        $peminjamanAktif = Borrowing::where('status', 'borrowed')->count();
-        
-        // Barang Rusak (Total damaged stock across all items)
-        $barangRusak = Item::sum('stock_damaged');
+            // Barang Dipinjam (Quantity of items currently borrowed)
+            $barangDipinjam = DB::table('borrowing_items')
+                ->join('borrowings', 'borrowing_items.borrowing_id', '=', 'borrowings.id')
+                ->where('borrowings.status', 'borrowed')
+                ->sum('borrowing_items.quantity');
+                
+            // Peminjaman Aktif (Number of active borrowing requests)
+            $peminjamanAktif = Borrowing::where('status', 'borrowed')->count();
+            
+            // Barang Rusak (Total damaged stock across all items)
+            $barangRusak = Item::sum('stock_damaged');
+            
+            return [
+                'totalBarang' => (int) $totalBarang,
+                'totalKategori' => $totalKategori,
+                'barangDipinjam' => (int) $barangDipinjam,
+                'peminjamanAktif' => $peminjamanAktif,
+                'barangRusak' => $barangRusak,
+            ];
+        });
 
         // Recent Borrowings
         $recentBorrowingsQuery = Borrowing::with(['user', 'borrowingItems.item'])
@@ -80,30 +91,26 @@ class DashboardController extends Controller
         });
         
         // Category distribution for Donut Chart
-        $categories = Category::withCount('items')->get();
-        $totalItemsCount = $categories->sum('items_count');
-        
-        $colors = ['#8B1A1A', '#C0392B', '#E74C3C', '#D4A574', '#F1C40F', '#95a5a6', '#34495e', '#2ecc71', '#3498db', '#9b59b6'];
-        
-        $categoryStats = $categories->map(function ($cat, $index) use ($totalItemsCount, $colors) {
-            $percent = $totalItemsCount > 0 ? round(($cat->items_count / $totalItemsCount) * 100) : 0;
-            return [
-                'name' => $cat->name,
-                'percent' => $percent,
-                'color' => $colors[$index % count($colors)]
-            ];
-        })->filter(function ($cat) {
-            return $cat['percent'] > 0;
-        })->values();
+        $categoryStats = Cache::remember('dashboard_categories_chart', 300, function () {
+            $categories = Category::withCount('items')->get();
+            $totalItemsCount = $categories->sum('items_count');
+            
+            $colors = ['#8B1A1A', '#C0392B', '#E74C3C', '#D4A574', '#F1C40F', '#95a5a6', '#34495e', '#2ecc71', '#3498db', '#9b59b6'];
+            
+            return $categories->map(function ($cat, $index) use ($totalItemsCount, $colors) {
+                $percent = $totalItemsCount > 0 ? round(($cat->items_count / $totalItemsCount) * 100) : 0;
+                return [
+                    'name' => $cat->name,
+                    'percent' => $percent,
+                    'color' => $colors[$index % count($colors)]
+                ];
+            })->filter(function ($cat) {
+                return $cat['percent'] > 0;
+            })->values();
+        });
 
         return response()->json([
-            'stats' => [
-                'totalBarang' => (int) $totalBarang,
-                'totalKategori' => $totalKategori,
-                'barangDipinjam' => (int) $barangDipinjam,
-                'peminjamanAktif' => $peminjamanAktif,
-                'barangRusak' => $barangRusak,
-            ],
+            'stats' => $stats,
             'recentBorrowings' => $recentBorrowings,
             'categories' => $categoryStats
         ]);

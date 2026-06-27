@@ -1,16 +1,19 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 import PrivateRoute from './PrivateRoute';
-import Login from '../pages/Auth/Login';
-import Dashboard from '../pages/Dashboard/Dashboard';
-import ItemsPage from '../pages/Items/ItemsPage';
-import CategoriesPage from '../pages/Categories/CategoriesPage';
-import BorrowingsPage from '../pages/Borrowings/BorrowingsPage';
-import MaintenancePage from '../pages/Maintenance/MaintenancePage';
+
+const Login = lazy(() => import('../pages/Auth/Login'));
+const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
+const ItemsPage = lazy(() => import('../pages/Items/ItemsPage'));
+const CategoriesPage = lazy(() => import('../pages/Categories/CategoriesPage'));
+const BorrowingsPage = lazy(() => import('../pages/Borrowings/BorrowingsPage'));
+const MaintenancePage = lazy(() => import('../pages/Maintenance/MaintenancePage'));
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
-      <Routes>
+      <Suspense fallback={<div className="grid min-h-screen place-items-center text-base text-slate-600">Memuat halaman...</div>}>
+        <Routes>
         <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
@@ -54,6 +57,7 @@ export default function AppRouter() {
         />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

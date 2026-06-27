@@ -34,6 +34,8 @@ export default function BorrowingsPage() {
   const [exportingExcel, setExportingExcel] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [meta, setMeta] = useState(null);
 
   // Modals / forms state
   const [showBorrowModal, setShowBorrowModal] = useState(false);
@@ -53,11 +55,12 @@ export default function BorrowingsPage() {
       try {
         if (!user) await getMe();
         const [borrowingsData, itemsData] = await Promise.all([
-          getBorrowings(),
+          getBorrowings({ page: currentPage }),
           getItems({ is_active: 1 }),
         ]);
         setBorrowings(borrowingsData.data ?? borrowingsData);
-        setItems(itemsData);
+        setMeta(borrowingsData.meta || null);
+        setItems(itemsData.data ?? itemsData);
       } catch (err) {
         setError(err.response?.data?.message ?? 'Gagal memuat data peminjaman.');
       } finally {
@@ -67,16 +70,17 @@ export default function BorrowingsPage() {
 
     loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentPage]);
 
   const refreshData = async () => {
     try {
       const [borrowingsData, itemsData] = await Promise.all([
-        getBorrowings(),
+        getBorrowings({ page: currentPage }),
         getItems({ is_active: 1 }),
       ]);
       setBorrowings(borrowingsData.data ?? borrowingsData);
-      setItems(itemsData);
+      setMeta(borrowingsData.meta || null);
+      setItems(itemsData.data ?? itemsData);
     } catch (err) {
       setError(err.response?.data?.message ?? 'Gagal memuat data peminjaman.');
     }
@@ -287,6 +291,8 @@ export default function BorrowingsPage() {
 
           <BorrowingsTable
             borrowings={borrowings}
+            meta={meta}
+            onPageChange={setCurrentPage}
             isStaff={isStaff}
             onShowDetail={(borrowing) => {
               setSelectedBorrowing(borrowing);

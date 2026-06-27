@@ -5,7 +5,7 @@ export async function getItems(filters = {}) {
     params: filters,
   });
 
-  return response.data.data ?? [];
+  return response.data;
 }
 
 export async function createItem(payload) {

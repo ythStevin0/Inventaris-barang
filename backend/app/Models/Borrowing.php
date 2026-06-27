@@ -48,4 +48,20 @@ class Borrowing extends Model
     {
         return $this->hasMany(BorrowingItem::class);
     }
+
+    /**
+     * Scope a query to only include active borrowings (currently borrowed).
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'borrowed');
+    }
+
+    /**
+     * Scope a query to only include pending borrowing requests.
+     */
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
 }

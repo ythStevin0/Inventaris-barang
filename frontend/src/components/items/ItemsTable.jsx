@@ -1,4 +1,6 @@
-export default function ItemsTable({
+import { memo } from 'react';
+
+const ItemsTable = memo(function ItemsTable({
   items,
   meta,
   onPageChange,
@@ -125,4 +127,6 @@ export default function ItemsTable({
       )}
     </div>
   );
-}
+});
+
+export default ItemsTable;

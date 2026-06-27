@@ -61,4 +61,20 @@ class Item extends Model
     {
         return $this->hasMany(StockMovement::class);
     }
+
+    /**
+     * Scope a query to only include active items.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Scope a query to only include items with available stock.
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->where('stock_available', '>', 0);
+    }
 }

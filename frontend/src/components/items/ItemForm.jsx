@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import Alert from '../ui/Alert';
 
-export default function ItemForm({
+const ItemForm = memo(function ItemForm({
   categories,
   clientError,
   form,
@@ -182,7 +183,9 @@ export default function ItemForm({
       </div>
     </form>
   );
-}
+});
+
+export default ItemForm;
 
 function FormField({ label, children }) {
   return (

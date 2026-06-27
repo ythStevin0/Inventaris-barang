@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/layout/PageHeader';
 import ItemForm from '../../components/items/ItemForm';
@@ -76,18 +76,18 @@ export default function ItemsPage() {
 
   const clientError = useMemo(() => validateItemForm(form), [form]);
 
-  const refreshItems = async () => {
+  const refreshItems = useCallback(async () => {
     const response = await getItems(itemFilters);
     setItems(response.data || []);
     setMeta(response.meta || null);
-  };
+  }, [itemFilters]);
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     await logout();
     navigate('/login');
-  };
+  }, [logout, navigate]);
 
-  const handleChange = (event) => {
+  const handleChange = useCallback((event) => {
     const { name, value } = event.target;
 
     setForm((currentForm) => {
@@ -107,9 +107,9 @@ export default function ItemsPage() {
 
       return nextForm;
     });
-  };
+  }, []);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
     if (clientError) {
       setError(clientError);
@@ -148,9 +148,9 @@ export default function ItemsPage() {
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [clientError, form, editingItemId, refreshItems]);
 
-  const handleEdit = (item) => {
+  const handleEdit = useCallback((item) => {
     setEditingItemId(item.id);
     setForm({
       item_code: item.item_code,
@@ -167,16 +167,16 @@ export default function ItemsPage() {
       image: item.image || '',
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = useCallback(() => {
     setEditingItemId(null);
     setForm(initialItemForm);
     setError('');
     setSuccess('');
-  };
+  }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = useCallback(async (id) => {
     if (
       !window.confirm(
         'Hapus permanen hanya untuk barang yang belum punya riwayat atau unit fisik. Lanjutkan hapus barang ini?'
@@ -198,9 +198,9 @@ export default function ItemsPage() {
         'Gagal menghapus barang. Jika barang sudah punya riwayat, gunakan Nonaktifkan.';
       setError(message);
     }
-  };
+  }, [editingItemId, handleCancelEdit, refreshItems]);
 
-  const handleToggleActive = async (item) => {
+  const handleToggleActive = useCallback(async (item) => {
     const nextIsActive = !item.is_active;
     const actionLabel = nextIsActive ? 'mengaktifkan' : 'menonaktifkan';
 
@@ -241,7 +241,7 @@ export default function ItemsPage() {
         `Gagal ${nextIsActive ? 'mengaktifkan' : 'menonaktifkan'} barang.`;
       setError(message);
     }
-  };
+  }, [editingItemId, handleCancelEdit, refreshItems]);
 
   if (loading) {
     return (

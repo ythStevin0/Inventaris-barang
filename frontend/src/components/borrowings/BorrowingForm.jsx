@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
-export default function BorrowingForm({ items, submitting, onSubmit, onCancel }) {
+export default function BorrowingForm({ items, submitting, onSubmit, onCancel, initialItemId }) {
   const [form, setForm] = useState({
     borrow_date: new Date().toISOString().split('T')[0],
     due_date: '',
     purpose: '',
     notes: '',
   });
-  const [selectedItems, setSelectedItems] = useState([{ item_id: '', quantity: 1, notes: '' }]);
+  const [selectedItems, setSelectedItems] = useState([{ item_id: initialItemId || '', quantity: 1, notes: '' }]);
 
   const availableItems = items.filter((item) => item.is_active && item.stock_available > 0);
 

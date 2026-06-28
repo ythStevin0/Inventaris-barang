@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import PageHeader from '../../components/layout/PageHeader';
 import Alert from '../../components/ui/Alert';
 import BorrowingForm from '../../components/borrowings/BorrowingForm';
@@ -7,6 +7,7 @@ import ReturnForm from '../../components/borrowings/ReturnForm';
 import BorrowingsTable from '../../components/borrowings/BorrowingsTable';
 import BorrowingDetailModal from '../../components/borrowings/BorrowingDetailModal';
 import RejectBorrowingModal from '../../components/borrowings/RejectBorrowingModal';
+import QRScannerModal from '../../components/borrowings/QRScannerModal';
 import {
   getBorrowings,
   createBorrowing,
@@ -22,6 +23,8 @@ import { canManageInventory } from '../../utils/permissions';
 
 export default function BorrowingsPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialItemId = searchParams.get('item_id');
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const getMe = useAuthStore((state) => state.getMe);
@@ -43,6 +46,10 @@ export default function BorrowingsPage() {
   const [selectedBorrowing, setSelectedBorrowing] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showRequestReturnModal, setShowRequestReturnModal] = useState(false);
+  
+  // Scanner state
+  const [showScannerModal, setShowScannerModal] = useState(false);
+  const [scannedItemId, setScannedItemId] = useState('');
   
   // Reject notes
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -71,6 +78,35 @@ export default function BorrowingsPage() {
     loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage]);
+
+  useEffect(() => {
+    if (initialItemId && !isStaff) {
+      const timer = setTimeout(() => {
+        setScannedItemId(initialItemId);
+        setShowBorrowModal(true);
+        setSearchParams({}); // Bersihkan parameter setelah ditangkap
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [initialItemId, isStaff, setSearchParams]);
+
+  const handleScanSuccess = (decodedText) => {
+    try {
+      const url = new URL(decodedText);
+      const itemId = url.searchParams.get('item_id');
+      if (itemId) {
+        setScannedItemId(itemId);
+        setShowScannerModal(false);
+        setShowBorrowModal(true);
+      }
+    } catch {
+      if (!isNaN(decodedText)) {
+        setScannedItemId(decodedText);
+        setShowScannerModal(false);
+        setShowBorrowModal(true);
+      }
+    }
+  };
 
   const refreshData = async () => {
     try {
@@ -278,13 +314,25 @@ export default function BorrowingsPage() {
 
               {/* Tombol Ajukan Peminjaman (Hanya untuk Anggota) */}
               {!isStaff && (
-                <button
-                  type="button"
-                  onClick={() => setShowBorrowModal(true)}
-                  className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
-                >
-                  Ajukan Peminjaman Baru
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowScannerModal(true)}
+                    className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                  >
+                    📷 Scan QR Code
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setScannedItemId('');
+                      setShowBorrowModal(true);
+                    }}
+                    className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                  >
+                    Ajukan Peminjaman
+                  </button>
+                </div>
               )}
             </div>
           </div>
@@ -334,6 +382,7 @@ export default function BorrowingsPage() {
               submitting={submitting}
               onSubmit={handleCreateBorrowing}
               onCancel={() => setShowBorrowModal(false)}
+              initialItemId={scannedItemId}
             />
           </div>
         </div>
@@ -441,6 +490,13 @@ export default function BorrowingsPage() {
           </div>
         </div>
       )}
+
+      {/* Modal Scanner QR Code */}
+      <QRScannerModal
+        isOpen={showScannerModal}
+        onClose={() => setShowScannerModal(false)}
+        onScanSuccess={handleScanSuccess}
+      />
     </div>
   );
 }

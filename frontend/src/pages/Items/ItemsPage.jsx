@@ -101,14 +101,16 @@ export default function ItemsPage() {
     const { name, value } = event.target;
 
     setForm((currentForm) => {
+      let finalValue = value;
+      if (event.target.type === 'file') {
+        finalValue = event.target.files[0] || null;
+      } else if (name === 'stock_total' || name === 'stock_available' || name === 'stock_damaged') {
+        finalValue = Number(value);
+      }
+
       const nextForm = {
         ...currentForm,
-        [name]:
-          name === 'stock_total' ||
-          name === 'stock_available' ||
-          name === 'stock_damaged'
-            ? Number(value)
-            : value,
+        [name]: finalValue,
       };
 
       if (name === 'type' && value === 'consumable' && currentForm.unit === 'unit') {

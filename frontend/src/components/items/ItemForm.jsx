@@ -152,14 +152,23 @@ const ItemForm = memo(function ItemForm({
         </FormField>
       </div>
 
-      <FormField label="Image URL (opsional)">
-        <input
-          name="image"
-          value={form.image}
-          onChange={onChange}
-          className={fieldClassName}
-          placeholder="https://..."
-        />
+      <FormField label="Foto Barang (opsional)">
+        <div className="flex flex-col gap-2">
+          {form.image && typeof form.image === 'string' && (
+            <img src={form.image} alt="Preview" className="h-32 w-32 object-cover rounded-xl border border-slate-200" />
+          )}
+          {form.image && form.image instanceof File && (
+            <img src={URL.createObjectURL(form.image)} alt="Preview" className="h-32 w-32 object-cover rounded-xl border border-slate-200" />
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            name="image"
+            onChange={onChange}
+            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100"
+          />
+        </div>
       </FormField>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">

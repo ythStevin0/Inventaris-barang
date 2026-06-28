@@ -31,7 +31,7 @@ export default function MaintenancePage() {
         // Coba ambil items jika admin/pengurus
         try {
           const itemsData = await getItems();
-          setItems(itemsData);
+          setItems(itemsData.data || []);
         } catch {
           // Anggota mungkin tidak punya akses items penuh, abaikan saja
           setItems([]);

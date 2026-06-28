@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export default function ReturnForm({ borrowing, submitting, onSubmit, onCancel }) {
   const [returnDate, setReturnDate] = useState(new Date().toISOString().split('T')[0]);
+  const [returnProofImage, setReturnProofImage] = useState(null);
   const [returnItems, setReturnItems] = useState(
     (borrowing?.borrowingItems ?? borrowing?.borrowing_items ?? []).map((bi) => ({
       borrowing_item_id: bi.id,
@@ -38,6 +39,7 @@ export default function ReturnForm({ borrowing, submitting, onSubmit, onCancel }
         fine_amount: Number(ri.fine_amount),
         damage_notes: ri.damage_notes || null,
       })),
+      return_proof_image: returnProofImage,
     };
     onSubmit(payload);
   };
@@ -56,6 +58,24 @@ export default function ReturnForm({ borrowing, submitting, onSubmit, onCancel }
           required
           className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
         />
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm font-semibold text-slate-700">
+          Foto Bukti Pengembalian <span className="text-slate-400 font-normal">(Opsional)</span>
+        </label>
+        <div className="flex flex-col gap-2">
+          {returnProofImage && (
+            <img src={URL.createObjectURL(returnProofImage)} alt="Preview" className="h-32 w-32 object-cover rounded-xl border border-slate-200" />
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => setReturnProofImage(e.target.files[0] || null)}
+            className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100"
+          />
+        </div>
       </div>
 
       <div>

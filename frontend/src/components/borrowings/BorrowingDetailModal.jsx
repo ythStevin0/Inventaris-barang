@@ -99,6 +99,19 @@ export default function BorrowingDetailModal({
               ))}
             </div>
           </div>
+
+          {borrowing.return_proof_image && (
+            <div>
+              <span className="block text-sm font-bold text-slate-800 mb-2">Foto Bukti Pengembalian</span>
+              <div className="rounded-xl border border-slate-100 overflow-hidden bg-slate-50 flex justify-center p-2">
+                <img 
+                  src={borrowing.return_proof_image} 
+                  alt="Bukti Pengembalian" 
+                  className="max-h-64 object-contain rounded-lg shadow-sm"
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="mt-6 flex justify-end">

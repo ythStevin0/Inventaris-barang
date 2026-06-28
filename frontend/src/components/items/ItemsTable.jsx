@@ -8,6 +8,7 @@ const ItemsTable = memo(function ItemsTable({
   onEdit,
   onDelete,
   onToggleActive,
+  onShowQR,
 }) {
   return (
     <div className="overflow-x-auto">
@@ -60,6 +61,13 @@ const ItemsTable = memo(function ItemsTable({
                 {canManageItems && (
                   <td className="px-3 py-4 text-right">
                     <div className="flex flex-wrap justify-end gap-2">
+                      <button
+                        type="button"
+                        onClick={() => onShowQR && onShowQR(item)}
+                        className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                      >
+                        QR Code
+                      </button>
                       <button
                         type="button"
                         onClick={() => onEdit(item)}

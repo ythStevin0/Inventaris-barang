@@ -4,6 +4,7 @@ import PageHeader from '../../components/layout/PageHeader';
 import ItemForm from '../../components/items/ItemForm';
 import { initialItemForm } from '../../components/items/itemFormDefaults';
 import ItemsTable from '../../components/items/ItemsTable';
+import ItemQRCodeModal from '../../components/items/ItemQRCodeModal';
 import Alert from '../../components/ui/Alert';
 import { getCategories } from '../../services/categoriesService';
 import { createItem, getItems, updateItem, deleteItem } from '../../services/itemsService';
@@ -25,6 +26,10 @@ export default function ItemsPage() {
   const [activeFilter, setActiveFilter] = useState('active');
   const [currentPage, setCurrentPage] = useState(1);
   const [meta, setMeta] = useState(null);
+  
+  // State for QR Code
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [selectedItemForQR, setSelectedItemForQR] = useState(null);
 
   const canManageItems = canManageInventory(user);
   const itemFilters = useMemo(() => {
@@ -243,6 +248,11 @@ export default function ItemsPage() {
     }
   }, [editingItemId, handleCancelEdit, refreshItems]);
 
+  const handleShowQR = useCallback((item) => {
+    setSelectedItemForQR(item);
+    setShowQRModal(true);
+  }, []);
+
   if (loading) {
     return (
       <div className="grid min-h-screen place-items-center text-base text-slate-600">
@@ -323,6 +333,7 @@ export default function ItemsPage() {
             onEdit={handleEdit} 
             onDelete={handleDelete} 
             onToggleActive={handleToggleActive}
+            onShowQR={handleShowQR}
           />
         </div>
 
@@ -353,6 +364,12 @@ export default function ItemsPage() {
           )}
         </div>
       </section>
+
+      <ItemQRCodeModal 
+        isOpen={showQRModal} 
+        onClose={() => setShowQRModal(false)} 
+        item={selectedItemForQR} 
+      />
     </div>
   );
 }

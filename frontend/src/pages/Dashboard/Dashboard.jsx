@@ -19,6 +19,13 @@ function DonutChart({ data }) {
     const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
 
+    const [animated, setAnimated] = useState(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setAnimated(true), 100);
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
         <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="transform -rotate-90">
             {data.map((segment, index) => {
@@ -26,7 +33,9 @@ function DonutChart({ data }) {
                     .slice(0, index)
                     .reduce((sum, item) => sum + item.percent, 0);
                     
-                const strokeDasharray = `${(segment.percent / 100) * circumference} ${circumference}`;
+                const targetLength = (segment.percent / 100) * circumference;
+                const strokeDasharray = `${targetLength} ${circumference}`;
+                const initialDasharray = `0 ${circumference}`;
                 const strokeDashoffset = -((cumulativePercent / 100) * circumference);
                 
                 return (
@@ -38,9 +47,10 @@ function DonutChart({ data }) {
                         fill="none"
                         stroke={segment.color}
                         strokeWidth={strokeWidth}
-                        strokeDasharray={strokeDasharray}
+                        strokeDasharray={animated ? strokeDasharray : initialDasharray}
                         strokeDashoffset={strokeDashoffset}
                         strokeLinecap="butt"
+                        style={{ transition: 'stroke-dasharray 1s ease-out' }}
                     />
                 );
             })}

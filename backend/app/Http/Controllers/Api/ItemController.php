@@ -203,6 +203,39 @@ class ItemController extends Controller
         ]);
     }
 
+    public function import(Request $request): JsonResponse
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv|max:10240',
+        ]);
+
+        try {
+            \Maatwebsite\Excel\Facades\Excel::import(new \App\Imports\ItemsImport, $request->file('file'));
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data barang berhasil diimport.',
+            ]);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errors = [];
+            foreach ($failures as $failure) {
+                $errors[] = 'Baris ' . $failure->row() . ': ' . implode(', ', $failure->errors());
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terdapat kesalahan validasi pada file Excel.',
+                'errors' => ['file' => $errors],
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Gagal mengimport data: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
     private function syncDurableUnits(Item $item, int $stockDamaged): void
     {
         $existingCount = $item->itemUnits()->count();

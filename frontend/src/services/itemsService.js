@@ -21,3 +21,15 @@ export async function deleteItem(id) {
   const response = await api.delete(`/items/${id}`);
   return response.data;
 }
+
+export async function importItems(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  const response = await api.post('/items/import', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  return response.data;
+}

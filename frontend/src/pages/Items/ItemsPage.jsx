@@ -5,9 +5,10 @@ import ItemForm from '../../components/items/ItemForm';
 import { initialItemForm } from '../../components/items/itemFormDefaults';
 import ItemsTable from '../../components/items/ItemsTable';
 import ItemQRCodeModal from '../../components/items/ItemQRCodeModal';
+import ImportItemsModal from '../../components/items/ImportItemsModal';
 import Alert from '../../components/ui/Alert';
 import { getCategories } from '../../services/categoriesService';
-import { createItem, getItems, updateItem, deleteItem } from '../../services/itemsService';
+import { createItem, getItems, updateItem, deleteItem, importItems } from '../../services/itemsService';
 import useAuthStore from '../../store/authStore';
 import { canManageInventory } from '../../utils/permissions';
 import { validateItemForm } from '../../utils/validateItemForm';
@@ -30,6 +31,10 @@ export default function ItemsPage() {
   // State for QR Code
   const [showQRModal, setShowQRModal] = useState(false);
   const [selectedItemForQR, setSelectedItemForQR] = useState(null);
+
+  // State for Import
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importing, setImporting] = useState(false);
 
   const canManageItems = canManageInventory(user);
   const itemFilters = useMemo(() => {
@@ -248,6 +253,26 @@ export default function ItemsPage() {
     }
   }, [editingItemId, handleCancelEdit, refreshItems]);
 
+  const handleImport = useCallback(async (file) => {
+    setImporting(true);
+    setError('');
+    setSuccess('');
+    try {
+      const response = await importItems(file);
+      setSuccess(response.message || 'Barang berhasil diimport.');
+      setShowImportModal(false);
+      await refreshItems();
+    } catch (err) {
+      let errorMessage = err.response?.data?.message || 'Gagal mengimport barang.';
+      if (err.response?.data?.errors?.file) {
+        errorMessage = err.response.data.errors.file.join('\n');
+      }
+      setError(errorMessage);
+    } finally {
+      setImporting(false);
+    }
+  }, [refreshItems]);
+
   const handleShowQR = useCallback((item) => {
     setSelectedItemForQR(item);
     setShowQRModal(true);
@@ -338,12 +363,27 @@ export default function ItemsPage() {
         </div>
 
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-          <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
-            {editingItemId ? 'Edit Barang' : 'Tambah Barang Baru'}
-          </h2>
-          <p className="mb-5 text-sm text-slate-500">
-            Form ini akan mengirim request ke backend melalui <code>{editingItemId ? `PUT /api/items/${editingItemId}` : 'POST /api/items'}</code>.
-          </p>
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h2 className="mb-1 text-2xl font-bold tracking-tight text-slate-900">
+                {editingItemId ? 'Edit Barang' : 'Tambah Barang Baru'}
+              </h2>
+              <p className="text-sm text-slate-500">
+                Form ini akan mengirim request ke backend melalui <code>{editingItemId ? `PUT /api/items/${editingItemId}` : 'POST /api/items'}</code>.
+              </p>
+            </div>
+            {canManageItems && !editingItemId && (
+              <button 
+                onClick={() => setShowImportModal(true)}
+                className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 transition flex items-center gap-2"
+              >
+                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                </svg>
+                Import Excel
+              </button>
+            )}
+          </div>
 
           {!canManageItems ? (
             <Alert tone="warning">
@@ -369,6 +409,13 @@ export default function ItemsPage() {
         isOpen={showQRModal} 
         onClose={() => setShowQRModal(false)} 
         item={selectedItemForQR} 
+      />
+
+      <ImportItemsModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onImport={handleImport}
+        submitting={importing}
       />
     </div>
   );

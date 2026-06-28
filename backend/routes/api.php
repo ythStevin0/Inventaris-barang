@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware(['auth:sanctum', 'role:admin,pengurus'])->group(function () {
     Route::apiResource('categories', CategoryController::class);
     Route::post('/items', [ItemController::class, 'store']);
+    Route::post('/items/import', [ItemController::class, 'import']);
     Route::put('/items/{item}', [ItemController::class, 'update']);
     Route::patch('/items/{item}', [ItemController::class, 'update']);
     Route::delete('/items/{item}', [ItemController::class, 'destroy']);

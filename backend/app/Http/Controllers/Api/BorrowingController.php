@@ -10,6 +10,7 @@ use App\Models\Item;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BorrowingController extends Controller
 {
@@ -296,9 +297,15 @@ class BorrowingController extends Controller
             'items.*.quantity_damaged'       => ['nullable', 'integer', 'min:0'],
             'items.*.fine_amount'            => ['nullable', 'numeric', 'min:0'],
             'items.*.damage_notes'           => ['nullable', 'string', 'max:500'],
+            'return_proof_image'             => ['nullable', 'image', 'max:2048'],
         ]);
 
         $validated = $request->all();
+
+        if ($request->hasFile('return_proof_image')) {
+            $path = $request->file('return_proof_image')->store('returns', 'public');
+            $validated['return_proof_image'] = Storage::url($path);
+        }
 
         DB::transaction(function () use ($validated, $borrowing) {
             $totalFine = 0;
@@ -344,9 +351,10 @@ class BorrowingController extends Controller
             }
 
             $borrowing->update([
-                'status'      => 'returned',
-                'return_date' => $validated['return_date'],
-                'total_fine'  => $totalFine,
+                'status'             => 'returned',
+                'return_date'        => $validated['return_date'],
+                'total_fine'         => $totalFine,
+                'return_proof_image' => $validated['return_proof_image'] ?? null,
             ]);
         });
 

@@ -13,7 +13,7 @@ export default function PageHeader({
           </p>
         ) : null}
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+          <h1 className="text-3xl font-bold tracking-tight text-secondary-900 sm:text-5xl">
             {title}
           </h1>
           {description ? (

@@ -1,14 +1,48 @@
 @import "tailwindcss";
 
+@theme {
+  /* Primary: Burnt Terracotta #C34811 */
+  --color-primary-50: #fdf4f0;
+  --color-primary-100: #fbe5d9;
+  --color-primary-200: #f7caa8;
+  --color-primary-300: #f1a370;
+  --color-primary-400: #eb7b40; 
+  --color-primary-500: #c34811;
+  --color-primary-600: #ad370b;
+  --color-primary-700: #8b2609;
+  --color-primary-800: #6b1f09;
+  --color-primary-900: #541a0b;
+
+  /* Secondary: Gallery Blue #0B369A */
+  --color-secondary-50: #eff3fd;
+  --color-secondary-100: #dbe5fa;
+  --color-secondary-200: #bed0f7;
+  --color-secondary-300: #90b0f2;
+  --color-secondary-400: #5c8aea;
+  --color-secondary-500: #3662de;
+  --color-secondary-600: #0b369a;
+  --color-secondary-700: #1d3283;
+  --color-secondary-800: #1c2a6b;
+  --color-secondary-900: #1b255a;
+
+  /* Accent: Stone Linen #D9D1CA */
+  --color-accent-50: #f8f6f5;
+  --color-accent-100: #f1edea;
+  --color-accent-200: #e2dad5;
+  --color-accent-300: #d9d1ca;
+  --color-accent-400: #b3a79d;
+  --color-accent-500: #8e8076;
+}
+
 :root {
   font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #1f2937;
   background:
-    radial-gradient(circle at top left, rgba(14, 165, 233, 0.18), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(249, 115, 22, 0.16), transparent 28%),
-    #f4f7fb;
+    radial-gradient(circle at top left, rgba(195, 72, 17, 0.1), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(11, 54, 154, 0.08), transparent 28%),
+    #f8f6f5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

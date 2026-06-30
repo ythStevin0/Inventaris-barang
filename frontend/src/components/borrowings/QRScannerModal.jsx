@@ -47,14 +47,14 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/60 p-4 backdrop-blur-xs">
       <div className="w-full max-w-md rounded-[28px] border border-white bg-white p-6 shadow-2xl text-center">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-slate-900">Scan QR Code Barang</h3>
+          <h3 className="text-xl font-bold text-secondary-900">Scan QR Code Barang</h3>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+            className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
           >
             ✕
           </button>
@@ -77,7 +77,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
         <button
           type="button"
           onClick={onClose}
-          className="w-full inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          className="w-full inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-secondary-700 transition hover:bg-accent-50"
         >
           Batal Scan
         </button>

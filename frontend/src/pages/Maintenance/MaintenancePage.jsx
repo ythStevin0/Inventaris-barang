@@ -31,7 +31,7 @@ export default function MaintenancePage() {
         // Coba ambil items jika admin/pengurus
         try {
           const itemsData = await getItems();
-          setItems(itemsData);
+          setItems(itemsData.data || []);
         } catch {
           // Anggota mungkin tidak punya akses items penuh, abaikan saja
           setItems([]);
@@ -116,14 +116,14 @@ export default function MaintenancePage() {
           <>
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
               Kembali ke Dashboard
             </Link>
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
               Logout
             </button>
@@ -140,14 +140,14 @@ export default function MaintenancePage() {
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900">Data Riwayat</h2>
+              <h2 className="text-2xl font-bold tracking-tight text-secondary-900">Data Riwayat</h2>
               <p className="text-sm text-slate-500">Semua laporan kerusakan, perbaikan, dan kehilangan barang.</p>
             </div>
             {canManage && (
               <button
                 type="button"
                 onClick={handleAdd}
-                className="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-slate-800"
+                className="rounded-xl bg-secondary-900 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-secondary-800"
               >
                 + Tambah Laporan
               </button>

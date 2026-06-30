@@ -10,6 +10,7 @@ use App\Models\ItemUnit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -84,6 +85,11 @@ class ItemController extends Controller
         $validated['stock_damaged'] = $stockDamaged;
         $validated['stock_available'] = $stockAvailable;
 
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('items', 'public');
+            $validated['image'] = Storage::url($path);
+        }
+
         $item = DB::transaction(function () use ($validated, $stockDamaged): Item {
             $item = Item::create($validated);
 
@@ -143,6 +149,16 @@ class ItemController extends Controller
 
         $validated['stock_damaged'] = $stockDamaged;
         $validated['stock_available'] = $stockAvailable;
+
+        if ($request->hasFile('image')) {
+            if ($item->image) {
+                // Hapus path 'storage/' dari URL untuk mendapatkan path relative di public disk
+                $oldPath = str_replace('/storage/', '', $item->image);
+                Storage::disk('public')->delete($oldPath);
+            }
+            $path = $request->file('image')->store('items', 'public');
+            $validated['image'] = Storage::url($path);
+        }
 
         $updatedItem = DB::transaction(function () use ($item, $validated, $stockDamaged): Item|JsonResponse {
             $currentUnitCount = $item->itemUnits()->count();

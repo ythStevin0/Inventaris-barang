@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
 
 const ItemsTable = memo(function ItemsTable({
   items,
@@ -30,14 +31,19 @@ const ItemsTable = memo(function ItemsTable({
 
             return (
               <tr key={item.id} className="border-b border-slate-100 align-top">
-                <td className="px-3 py-4 font-semibold text-slate-800">{item.item_code}</td>
-                <td className="px-3 py-4 text-slate-800">
-                  <p className="font-semibold">{item.name}</p>
+                <td className="px-3 py-4 font-semibold text-secondary-800">{item.item_code}</td>
+                <td className="px-3 py-4 text-secondary-800">
+                  <Link
+                    to={`/items/${item.id}`}
+                    className="font-semibold text-secondary-800 hover:text-primary-600 transition hover:underline text-left block"
+                  >
+                    {item.name}
+                  </Link>
                   <p className="mt-1 text-sm text-slate-500">{item.brand || '-'}</p>
                 </td>
-                <td className="px-3 py-4 text-slate-700">{item.category?.name ?? '-'}</td>
+                <td className="px-3 py-4 text-secondary-700">{item.category?.name ?? '-'}</td>
                 <td className="px-3 py-4">
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold capitalize text-slate-700">
+                  <span className="rounded-full bg-accent-100 px-3 py-1 text-xs font-semibold capitalize text-secondary-700">
                     {item.type}
                   </span>
                 </td>
@@ -46,13 +52,13 @@ const ItemsTable = memo(function ItemsTable({
                     className={`rounded-full px-3 py-1 text-xs font-semibold ${
                       item.is_active
                         ? 'bg-emerald-50 text-emerald-700'
-                        : 'bg-slate-100 text-slate-600'
+                        : 'bg-accent-100 text-slate-600'
                     }`}
                   >
                     {item.is_active ? 'Aktif' : 'Nonaktif'}
                   </span>
                 </td>
-                <td className="px-3 py-4 text-slate-800">
+                <td className="px-3 py-4 text-secondary-800">
                   <p className="font-semibold">
                     {item.stock_available}/{item.stock_total}
                   </p>
@@ -64,14 +70,14 @@ const ItemsTable = memo(function ItemsTable({
                       <button
                         type="button"
                         onClick={() => onShowQR && onShowQR(item)}
-                        className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                        className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-secondary-700 transition hover:bg-accent-50"
                       >
                         QR Code
                       </button>
                       <button
                         type="button"
                         onClick={() => onEdit(item)}
-                        className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                        className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-secondary-700 transition hover:bg-accent-50"
                       >
                         Edit
                       </button>
@@ -84,7 +90,7 @@ const ItemsTable = memo(function ItemsTable({
                           Hapus
                         </button>
                       ) : (
-                        <span className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-500">
+                        <span className="rounded-lg border border-slate-200 bg-accent-50 px-3 py-1 text-sm font-medium text-slate-500">
                           Tidak bisa hapus
                         </span>
                       )}
@@ -111,7 +117,7 @@ const ItemsTable = memo(function ItemsTable({
       {meta && meta.last_page > 1 && (
         <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 sm:px-6 mt-4">
           <div className="hidden sm:block">
-            <p className="text-sm text-slate-700">
+            <p className="text-sm text-secondary-700">
               Menampilkan <span className="font-semibold">{meta.from || 0}</span> sampai <span className="font-semibold">{meta.to || 0}</span> dari <span className="font-semibold">{meta.total}</span> hasil
             </p>
           </div>
@@ -119,14 +125,14 @@ const ItemsTable = memo(function ItemsTable({
             <button
               onClick={() => onPageChange(meta.current_page - 1)}
               disabled={meta.current_page === 1}
-              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 hover:bg-accent-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Sebelumnya
             </button>
             <button
               onClick={() => onPageChange(meta.current_page + 1)}
               disabled={meta.current_page === meta.last_page}
-              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 hover:bg-accent-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Selanjutnya
             </button>

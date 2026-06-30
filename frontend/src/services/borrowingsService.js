@@ -31,6 +31,26 @@ export async function requestReturn(id) {
 }
 
 export async function returnBorrowing(id, payload) {
-  const response = await api.post(`/borrowings/${id}/return`, payload);
+  let data = payload;
+  let headers = {};
+  if (payload.return_proof_image instanceof File) {
+    data = new FormData();
+    for (const key in payload) {
+      if (key === 'items') {
+        payload[key].forEach((item, index) => {
+          for (const itemKey in item) {
+            if (item[itemKey] !== null && item[itemKey] !== undefined) {
+              data.append(`items[${index}][${itemKey}]`, item[itemKey]);
+            }
+          }
+        });
+      } else if (payload[key] !== null && payload[key] !== undefined) {
+        data.append(key, payload[key]);
+      }
+    }
+    headers['Content-Type'] = 'multipart/form-data';
+  }
+
+  const response = await api.post(`/borrowings/${id}/return`, data, { headers });
   return response.data;
 }

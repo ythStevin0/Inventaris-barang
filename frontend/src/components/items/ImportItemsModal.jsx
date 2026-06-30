@@ -42,13 +42,13 @@ export default function ImportItemsModal({ isOpen, onClose, onImport, submitting
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/50 p-4 backdrop-blur-sm">
       <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-slate-100 p-6">
-          <h2 className="text-xl font-bold text-slate-800">Import Data Barang</h2>
+          <h2 className="text-xl font-bold text-secondary-800">Import Data Barang</h2>
           <button
             onClick={onClose}
-            className="rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition"
+            className="rounded-full p-2 text-slate-400 hover:bg-accent-100 hover:text-slate-600 transition"
           >
             <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path
@@ -62,7 +62,7 @@ export default function ImportItemsModal({ isOpen, onClose, onImport, submitting
 
         <form onSubmit={handleSubmit} className="p-6">
           <div className="space-y-4">
-            <div className="bg-blue-50 text-blue-800 p-4 rounded-xl text-sm leading-relaxed">
+            <div className="bg-primary-50 text-primary-800 p-4 rounded-xl text-sm leading-relaxed">
               <p className="font-semibold mb-2">Panduan Import:</p>
               <ul className="list-disc pl-5 space-y-1">
                 <li>Gunakan file Excel (.xlsx) atau CSV (.csv)</li>
@@ -72,14 +72,14 @@ export default function ImportItemsModal({ isOpen, onClose, onImport, submitting
               <button
                 type="button"
                 onClick={downloadTemplate}
-                className="mt-3 text-blue-600 font-semibold hover:text-blue-700 underline text-sm"
+                className="mt-3 text-primary-600 font-semibold hover:text-primary-700 underline text-sm"
               >
                 Unduh Template CSV
               </button>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label className="block text-sm font-medium text-secondary-700 mb-1">
                 File Data Barang
               </label>
               <input
@@ -90,8 +90,8 @@ export default function ImportItemsModal({ isOpen, onClose, onImport, submitting
                   file:mr-4 file:py-2 file:px-4
                   file:rounded-full file:border-0
                   file:text-sm file:font-semibold
-                  file:bg-indigo-50 file:text-indigo-700
-                  hover:file:bg-indigo-100 cursor-pointer"
+                  file:bg-primary-50 file:text-primary-700
+                  hover:file:bg-primary-100 cursor-pointer"
               />
               {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
             </div>
@@ -101,7 +101,7 @@ export default function ImportItemsModal({ isOpen, onClose, onImport, submitting
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-100 transition"
+              className="rounded-xl px-5 py-2.5 text-sm font-semibold text-slate-600 hover:bg-accent-100 transition"
               disabled={submitting}
             >
               Batal
@@ -109,7 +109,7 @@ export default function ImportItemsModal({ isOpen, onClose, onImport, submitting
             <button
               type="submit"
               disabled={!file || submitting}
-              className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="rounded-xl bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {submitting ? (
                 <>

@@ -24,7 +24,7 @@ export default function BorrowingsTable({
             <th className="py-3.5 px-4 text-right">Aksi</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
+        <tbody className="divide-y divide-slate-100 text-sm text-secondary-700">
           {borrowings.length === 0 ? (
             <tr>
               <td colSpan="6" className="py-8 text-center text-slate-400">
@@ -33,8 +33,8 @@ export default function BorrowingsTable({
             </tr>
           ) : (
             borrowings.map((borrowing) => (
-              <tr key={borrowing.id} className="hover:bg-slate-50/50 transition">
-                <td className="py-4 px-4 font-semibold text-slate-900">
+              <tr key={borrowing.id} className="hover:bg-accent-50/50 transition">
+                <td className="py-4 px-4 font-semibold text-secondary-900">
                   {borrowing.borrower_name}
                   {isStaff && borrowing.user && (
                     <span className="block text-xs font-normal text-slate-500">
@@ -50,7 +50,7 @@ export default function BorrowingsTable({
                   <button
                     type="button"
                     onClick={() => onShowDetail(borrowing)}
-                    className="inline-flex items-center rounded-lg bg-slate-50 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                    className="inline-flex items-center rounded-lg bg-accent-50 px-2.5 py-1.5 text-xs font-semibold text-secondary-700 transition hover:bg-accent-100"
                   >
                     Detail
                   </button>
@@ -91,7 +91,7 @@ export default function BorrowingsTable({
                     <button
                       type="button"
                       onClick={() => onShowReturn(borrowing)}
-                      className="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1.5 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
+                      className="inline-flex items-center rounded-lg bg-primary-50 px-2.5 py-1.5 text-xs font-semibold text-primary-700 transition hover:bg-primary-100"
                     >
                       Proses Pengembalian
                     </button>
@@ -106,7 +106,7 @@ export default function BorrowingsTable({
       {meta && meta.last_page > 1 && (
         <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 sm:px-6 mt-4">
           <div className="hidden sm:block">
-            <p className="text-sm text-slate-700">
+            <p className="text-sm text-secondary-700">
               Menampilkan <span className="font-semibold">{meta.from || 0}</span> sampai <span className="font-semibold">{meta.to || 0}</span> dari <span className="font-semibold">{meta.total}</span> hasil
             </p>
           </div>
@@ -114,14 +114,14 @@ export default function BorrowingsTable({
             <button
               onClick={() => onPageChange(meta.current_page - 1)}
               disabled={meta.current_page === 1}
-              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 hover:bg-accent-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Sebelumnya
             </button>
             <button
               onClick={() => onPageChange(meta.current_page + 1)}
               disabled={meta.current_page === meta.last_page}
-              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-secondary-700 hover:bg-accent-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Selanjutnya
             </button>

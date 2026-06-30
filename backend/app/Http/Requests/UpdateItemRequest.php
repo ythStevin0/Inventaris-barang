@@ -54,7 +54,7 @@ class UpdateItemRequest extends FormRequest
             'stock_damaged' => ['nullable', 'integer', 'min:0'],
             'location' => ['nullable', 'string', 'max:255'],
             'brand' => ['nullable', 'string', 'max:255'],
-            'image' => ['nullable', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'max:2048'],
             'is_active' => ['sometimes', 'boolean'],
         ];
     }

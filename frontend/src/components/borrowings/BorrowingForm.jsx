@@ -58,7 +58,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
       {/* Tanggal Pinjam */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="borrow_date" className="mb-1 block text-sm font-semibold text-slate-700">
+          <label htmlFor="borrow_date" className="mb-1 block text-sm font-semibold text-secondary-700">
             Tanggal Pinjam <span className="text-red-500">*</span>
           </label>
           <input
@@ -68,11 +68,11 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
             value={form.borrow_date}
             onChange={handleFormChange}
             required
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-secondary-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
           />
         </div>
         <div>
-          <label htmlFor="due_date" className="mb-1 block text-sm font-semibold text-slate-700">
+          <label htmlFor="due_date" className="mb-1 block text-sm font-semibold text-secondary-700">
             Tanggal Tenggat Kembali <span className="text-red-500">*</span>
           </label>
           <input
@@ -83,14 +83,14 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
             onChange={handleFormChange}
             min={form.borrow_date}
             required
-            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+            className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-secondary-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
           />
         </div>
       </div>
 
       {/* Tujuan */}
       <div>
-        <label htmlFor="purpose" className="mb-1 block text-sm font-semibold text-slate-700">
+        <label htmlFor="purpose" className="mb-1 block text-sm font-semibold text-secondary-700">
           Tujuan Peminjaman <span className="text-red-500">*</span>
         </label>
         <textarea
@@ -101,13 +101,13 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
           required
           rows={3}
           placeholder="Jelaskan tujuan peminjaman..."
-          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-secondary-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
         />
       </div>
 
       {/* Catatan */}
       <div>
-        <label htmlFor="notes" className="mb-1 block text-sm font-semibold text-slate-700">
+        <label htmlFor="notes" className="mb-1 block text-sm font-semibold text-secondary-700">
           Catatan (opsional)
         </label>
         <input
@@ -117,14 +117,14 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
           value={form.notes}
           onChange={handleFormChange}
           placeholder="Catatan tambahan..."
-          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+          className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-secondary-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
         />
       </div>
 
       {/* Daftar barang yang akan dipinjam */}
       <div>
         <div className="mb-3 flex items-center justify-between">
-          <label className="text-sm font-semibold text-slate-700">
+          <label className="text-sm font-semibold text-secondary-700">
             Barang yang Dipinjam <span className="text-red-500">*</span>
           </label>
           <button
@@ -140,7 +140,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
           {selectedItems.map((si, index) => (
             <div
               key={index}
-              className="flex flex-wrap items-end gap-3 rounded-xl border border-slate-100 bg-slate-50/50 p-3"
+              className="flex flex-wrap items-end gap-3 rounded-xl border border-slate-100 bg-accent-50/50 p-3"
             >
               <div className="min-w-[180px] flex-1">
                 <label className="mb-1 block text-xs font-medium text-slate-600">Pilih Barang</label>
@@ -148,7 +148,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
                   value={si.item_id}
                   onChange={(e) => handleItemChange(index, 'item_id', e.target.value)}
                   required
-                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-secondary-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
                 >
                   <option value="">-- Pilih barang --</option>
                   {availableItems.map((item) => (
@@ -168,7 +168,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
                   value={si.quantity}
                   onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
                   required
-                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-secondary-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
                 />
               </div>
 
@@ -179,7 +179,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
                   value={si.notes}
                   onChange={(e) => handleItemChange(index, 'notes', e.target.value)}
                   placeholder="Opsional..."
-                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
+                  className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-secondary-800 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-100"
                 />
               </div>
 
@@ -209,7 +209,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
         <button
           type="button"
           onClick={onCancel}
-          className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-secondary-700 transition hover:bg-accent-50"
         >
           Batal
         </button>

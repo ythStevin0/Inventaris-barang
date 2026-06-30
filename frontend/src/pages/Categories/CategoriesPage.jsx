@@ -151,14 +151,14 @@ export default function CategoriesPage() {
           <>
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
               Kembali ke Dashboard
             </Link>
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
               Logout
             </button>
@@ -176,7 +176,7 @@ export default function CategoriesPage() {
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
           <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
+              <h2 className="mb-2 text-2xl font-bold tracking-tight text-secondary-900">
                 Daftar Kategori
               </h2>
               <p className="text-sm text-slate-500">
@@ -218,7 +218,7 @@ export default function CategoriesPage() {
                       key={category.id}
                       className="border-b border-slate-100 align-top"
                     >
-                      <td className="px-3 py-4 font-semibold text-slate-800">
+                      <td className="px-3 py-4 font-semibold text-secondary-800">
                         {category.name}
                       </td>
                       <td className="px-3 py-4 text-sm text-slate-600">
@@ -230,7 +230,7 @@ export default function CategoriesPage() {
                             <button
                               type="button"
                               onClick={() => handleEdit(category)}
-                              className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                              className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm font-medium text-secondary-700 transition hover:bg-accent-50"
                             >
                               Edit
                             </button>
@@ -254,7 +254,7 @@ export default function CategoriesPage() {
 
         {/* Form Tambah / Edit Kategori */}
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-          <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
+          <h2 className="mb-2 text-2xl font-bold tracking-tight text-secondary-900">
             {editingId ? 'Edit Kategori' : 'Tambah Kategori Baru'}
           </h2>
           <p className="mb-5 text-sm text-slate-500">
@@ -275,21 +275,21 @@ export default function CategoriesPage() {
           ) : (
             <form onSubmit={handleSubmit} className="grid gap-4">
               <label className="grid gap-2">
-                <span className="text-sm font-semibold text-slate-700">
+                <span className="text-sm font-semibold text-secondary-700">
                   Nama Kategori
                 </span>
                 <input
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
                   placeholder="Contoh: Elektronik"
                   required
                 />
               </label>
 
               <label className="grid gap-2">
-                <span className="text-sm font-semibold text-slate-700">
+                <span className="text-sm font-semibold text-secondary-700">
                   Deskripsi (opsional)
                 </span>
                 <textarea
@@ -297,7 +297,7 @@ export default function CategoriesPage() {
                   value={form.description}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full min-h-20 resize-y rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
+                  className="w-full min-h-20 resize-y rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100"
                   placeholder="Deskripsi singkat kategori"
                 />
               </label>
@@ -307,7 +307,7 @@ export default function CategoriesPage() {
                   <button
                     type="button"
                     onClick={handleCancelEdit}
-                    className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                    className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-secondary-700 transition hover:bg-accent-50 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
                     disabled={submitting}
                   >
                     Batal Edit
@@ -315,7 +315,7 @@ export default function CategoriesPage() {
                 )}
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                  className="inline-flex items-center justify-center rounded-2xl bg-secondary-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-secondary-800 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
                   disabled={submitting}
                 >
                   {submitting

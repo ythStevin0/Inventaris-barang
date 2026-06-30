@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import PageHeader from '../../components/layout/PageHeader';
 import ItemForm from '../../components/items/ItemForm';
 import { initialItemForm } from '../../components/items/itemFormDefaults';
@@ -15,6 +15,7 @@ import { validateItemForm } from '../../utils/validateItemForm';
 
 export default function ItemsPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, logout, getMe } = useAuthStore();
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
@@ -83,6 +84,33 @@ export default function ItemsPage() {
     loadPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemFilters]);
+
+  useEffect(() => {
+    if (location.state?.editItemId && items.length > 0) {
+      const itemToEdit = items.find(i => i.id === location.state.editItemId);
+      if (itemToEdit) {
+        setTimeout(() => {
+          setEditingItemId(itemToEdit.id);
+          setForm({
+            item_code: itemToEdit.item_code,
+            name: itemToEdit.name,
+            category_id: itemToEdit.category_id,
+            type: itemToEdit.type,
+            unit: itemToEdit.unit,
+            stock_total: itemToEdit.stock_total,
+            stock_available: itemToEdit.stock_available,
+            stock_damaged: itemToEdit.stock_damaged,
+            description: itemToEdit.description || '',
+            location: itemToEdit.location || '',
+            brand: itemToEdit.brand || '',
+            image: itemToEdit.image || null,
+          });
+          // Clear state to avoid infinite loops or repeating triggers on reload
+          navigate(location.pathname, { replace: true, state: {} });
+        }, 0);
+      }
+    }
+  }, [location.state, items, navigate, location.pathname]);
 
   const clientError = useMemo(() => validateItemForm(form), [form]);
 
@@ -298,14 +326,14 @@ export default function ItemsPage() {
           <>
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
             Kembali ke Dashboard
             </Link>
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
             Logout
             </button>
@@ -322,7 +350,7 @@ export default function ItemsPage() {
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
           <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">Daftar Barang</h2>
+              <h2 className="mb-2 text-2xl font-bold tracking-tight text-secondary-900">Daftar Barang</h2>
               <p className="text-sm text-slate-500">
                 Data diambil langsung dari endpoint <code>/api/items</code>.
               </p>
@@ -343,8 +371,8 @@ export default function ItemsPage() {
                 }}
                 className={`rounded-md px-3 py-2 text-sm font-semibold transition ${
                   activeFilter === filter.value
-                    ? 'bg-slate-900 text-white'
-                    : 'text-slate-600 hover:bg-slate-50'
+                    ? 'bg-secondary-900 text-white'
+                    : 'text-slate-600 hover:bg-accent-50'
                 }`}
               >
                 {filter.label}
@@ -367,7 +395,7 @@ export default function ItemsPage() {
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
           <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h2 className="mb-1 text-2xl font-bold tracking-tight text-slate-900">
+              <h2 className="mb-1 text-2xl font-bold tracking-tight text-secondary-900">
                 {editingItemId ? 'Edit Barang' : 'Tambah Barang Baru'}
               </h2>
               <p className="text-sm text-slate-500">
@@ -377,7 +405,7 @@ export default function ItemsPage() {
             {canManageItems && !editingItemId && (
               <button 
                 onClick={() => setShowImportModal(true)}
-                className="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-100 transition flex items-center gap-2"
+                className="rounded-xl border border-primary-200 bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-700 hover:bg-primary-100 transition flex items-center gap-2"
               >
                 <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />

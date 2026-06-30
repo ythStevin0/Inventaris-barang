@@ -61,10 +61,10 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/50 backdrop-blur-sm p-4">
       <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900">
+          <h2 className="text-xl font-bold text-secondary-900">
             {initialData ? 'Edit Data Kerusakan' : 'Lapor Kerusakan/Maintenance'}
           </h2>
           <button type="button" onClick={onClose} className="text-slate-400 hover:text-slate-600">
@@ -85,13 +85,13 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
             {/* Kolom Kiri - Data Laporan */}
             <div className="space-y-5">
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Pilih Barang</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Pilih Barang</label>
                 <select
                   name="item_id"
                   value={form.item_id}
                   onChange={handleChange}
                   disabled={!!initialData}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-1 focus:ring-slate-500 disabled:bg-slate-100"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-slate-500 focus:ring-1 focus:ring-slate-500 disabled:bg-accent-100"
                 >
                   <option value="">-- Pilih Barang --</option>
                   {(items || []).map((item) => (
@@ -103,7 +103,7 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Jenis Laporan</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Jenis Laporan</label>
                 <select
                   name="type"
                   value={form.type}
@@ -117,7 +117,7 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Tgl Kejadian/Maintenance</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Tgl Kejadian/Maintenance</label>
                 <input
                   type="date"
                   name="maintenance_date"
@@ -128,7 +128,7 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Deskripsi Kendala</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Deskripsi Kendala</label>
                 <textarea
                   name="description"
                   value={form.description}
@@ -141,11 +141,11 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
             </div>
 
             {/* Kolom Kanan - Tindak Lanjut */}
-            <div className="space-y-5 rounded-xl bg-slate-50 p-4 border border-slate-100">
-              <h3 className="text-sm font-bold text-slate-800 border-b border-slate-200 pb-2 mb-3">Bagian Tindak Lanjut</h3>
+            <div className="space-y-5 rounded-xl bg-accent-50 p-4 border border-slate-100">
+              <h3 className="text-sm font-bold text-secondary-800 border-b border-slate-200 pb-2 mb-3">Bagian Tindak Lanjut</h3>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Status Perbaikan</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Status Perbaikan</label>
                 <select
                   name="status"
                   value={form.status}
@@ -159,7 +159,7 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Tgl Selesai Perbaikan</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Tgl Selesai Perbaikan</label>
                 <input
                   type="date"
                   name="resolved_date"
@@ -170,7 +170,7 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Biaya Perbaikan (Rp)</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Biaya Perbaikan (Rp)</label>
                 <input
                   type="number"
                   name="cost"
@@ -182,7 +182,7 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-slate-700">Catatan Penyelesaian</label>
+                <label className="mb-1.5 block text-sm font-semibold text-secondary-700">Catatan Penyelesaian</label>
                 <textarea
                   name="resolution_notes"
                   value={form.resolution_notes}
@@ -200,14 +200,14 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               type="button"
               onClick={onClose}
               disabled={submitting}
-              className="rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-100 disabled:opacity-50"
+              className="rounded-xl px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-accent-100 disabled:opacity-50"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-slate-900 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-slate-800 disabled:opacity-50"
+              className="rounded-xl bg-secondary-900 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-secondary-800 disabled:opacity-50"
             >
               {submitting ? 'Menyimpan...' : 'Simpan Laporan'}
             </button>

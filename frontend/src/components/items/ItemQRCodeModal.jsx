@@ -50,21 +50,21 @@ export default function ItemQRCodeModal({ isOpen, onClose, item }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
       <div className="w-full max-w-sm rounded-[28px] border border-white bg-white p-6 shadow-2xl text-center">
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-slate-900">QR Code Barang</h3>
+          <h3 className="text-xl font-bold text-secondary-900">QR Code Barang</h3>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+            className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
           >
             ✕
           </button>
         </div>
 
         <div className="mb-6 flex flex-col items-center justify-center">
-          <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 mb-4" ref={qrRef}>
+          <div className="bg-accent-50 p-4 rounded-2xl border border-slate-100 mb-4" ref={qrRef}>
             <QRCodeCanvas 
               value={qrValue} 
               size={200} 
@@ -74,7 +74,7 @@ export default function ItemQRCodeModal({ isOpen, onClose, item }) {
               fgColor={"#0f172a"}
             />
           </div>
-          <h4 className="font-bold text-lg text-slate-800">{item.name}</h4>
+          <h4 className="font-bold text-lg text-secondary-800">{item.name}</h4>
           <p className="text-sm text-slate-500 font-mono mt-1">{item.item_code}</p>
         </div>
 
@@ -89,7 +89,7 @@ export default function ItemQRCodeModal({ isOpen, onClose, item }) {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="flex-1 inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-secondary-700 transition hover:bg-accent-50"
           >
             Tutup
           </button>

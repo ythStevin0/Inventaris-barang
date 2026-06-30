@@ -260,14 +260,14 @@ export default function BorrowingsPage() {
           <>
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
               Kembali ke Dashboard
             </Link>
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
+              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
             >
               Logout
             </button>
@@ -284,7 +284,7 @@ export default function BorrowingsPage() {
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900">Riwayat Peminjaman</h2>
+              <h2 className="text-2xl font-bold tracking-tight text-secondary-900">Riwayat Peminjaman</h2>
               <p className="text-sm text-slate-500">
                 {isStaff ? 'Daftar semua pengajuan peminjaman barang oleh anggota.' : 'Daftar pengajuan peminjaman barang Anda.'}
               </p>
@@ -318,7 +318,7 @@ export default function BorrowingsPage() {
                   <button
                     type="button"
                     onClick={() => setShowScannerModal(true)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                    className="inline-flex items-center justify-center rounded-2xl bg-secondary-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
                   >
                     📷 Scan QR Code
                   </button>
@@ -365,14 +365,14 @@ export default function BorrowingsPage() {
 
       {/* Modal Ajukan Peminjaman */}
       {showBorrowModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
           <div className="w-full max-w-3xl rounded-[28px] border border-white bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-slate-900">Form Pengajuan Peminjaman</h3>
+              <h3 className="text-xl font-bold text-secondary-900">Form Pengajuan Peminjaman</h3>
               <button
                 type="button"
                 onClick={() => setShowBorrowModal(false)}
-                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
               >
                 ✕
               </button>
@@ -417,17 +417,17 @@ export default function BorrowingsPage() {
 
       {/* Modal Konfirmasi Ajukan Pengembalian (Untuk Anggota) */}
       {showRequestReturnModal && selectedBorrowing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
           <div className="w-full max-w-md rounded-[28px] border border-white bg-white p-6 shadow-2xl">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-slate-900">Ajukan Pengembalian</h3>
+              <h3 className="text-xl font-bold text-secondary-900">Ajukan Pengembalian</h3>
               <button
                 type="button"
                 onClick={() => {
                   setShowRequestReturnModal(false);
                   setSelectedBorrowing(null);
                 }}
-                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
               >
                 ✕
               </button>
@@ -444,7 +444,7 @@ export default function BorrowingsPage() {
                   setShowRequestReturnModal(false);
                   setSelectedBorrowing(null);
                 }}
-                className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-secondary-700 transition hover:bg-accent-50"
               >
                 Batal
               </button>
@@ -463,17 +463,17 @@ export default function BorrowingsPage() {
 
       {/* Modal Proses Pengembalian */}
       {showReturnModal && selectedBorrowing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-xs">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
           <div className="w-full max-w-3xl rounded-[28px] border border-white bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-slate-900">Form Pengembalian Barang</h3>
+              <h3 className="text-xl font-bold text-secondary-900">Form Pengembalian Barang</h3>
               <button
                 type="button"
                 onClick={() => {
                   setShowReturnModal(false);
                   setSelectedBorrowing(null);
                 }}
-                className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
               >
                 ✕
               </button>

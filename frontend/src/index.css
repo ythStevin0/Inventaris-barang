@@ -51,6 +51,24 @@
 
 * {
   box-sizing: border-box;
+  .border-b {
+    border-bottom-width: 1px;
+  }
+}
+
+@layer utilities {
+  @keyframes slide-in-right {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-slide-in-right {
+    animation: slide-in-right 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
 }
 
 html,

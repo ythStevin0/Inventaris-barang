@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/layout/PageHeader';
 import Alert from '../../components/ui/Alert';
+import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import MaintenanceTable from '../../components/maintenance/MaintenanceTable';
 import MaintenanceFormModal from '../../components/maintenance/MaintenanceFormModal';
 import { getMaintenanceLogs, createMaintenanceLog, updateMaintenanceLog, deleteMaintenanceLog } from '../../services/maintenanceService';
@@ -102,9 +103,7 @@ export default function MaintenancePage() {
     }
   };
 
-  if (loading) {
-    return <div className="grid min-h-screen place-items-center text-base text-slate-600">Memuat riwayat kerusakan...</div>;
-  }
+
 
   return (
     <div className="min-h-screen px-5 py-8">
@@ -172,6 +171,8 @@ export default function MaintenancePage() {
           items={items}
         />
       ) : null}
+      
+      <LoadingOverlay isLoading={loading} />
     </div>
   );
 }

@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  /* Primary: Burnt Terracotta #C34811 */
-  --color-primary-50: #fdf4f0;
-  --color-primary-100: #fbe5d9;
-  --color-primary-200: #f7caa8;
-  --color-primary-300: #f1a370;
-  --color-primary-400: #eb7b40; 
-  --color-primary-500: #c34811;
-  --color-primary-600: #ad370b;
-  --color-primary-700: #8b2609;
-  --color-primary-800: #6b1f09;
-  --color-primary-900: #541a0b;
+  /* Primary: Orange #F87B1B */
+  --color-primary-50: #fef5ed;
+  --color-primary-100: #fde8d4;
+  --color-primary-200: #facf9f;
+  --color-primary-300: #f7af60;
+  --color-primary-400: #f69335; 
+  --color-primary-500: #f87b1b;
+  --color-primary-600: #ea5e0d;
+  --color-primary-700: #c2430c;
+  --color-primary-800: #9a3512;
+  --color-primary-900: #7c2e12;
 
-  /* Secondary: Gallery Blue #0B369A */
-  --color-secondary-50: #eff3fd;
-  --color-secondary-100: #dbe5fa;
-  --color-secondary-200: #bed0f7;
-  --color-secondary-300: #90b0f2;
-  --color-secondary-400: #5c8aea;
-  --color-secondary-500: #3662de;
-  --color-secondary-600: #0b369a;
-  --color-secondary-700: #1d3283;
-  --color-secondary-800: #1c2a6b;
-  --color-secondary-900: #1b255a;
+  /* Secondary: Navy Blue #11224E */
+  --color-secondary-50: #f2f4fb;
+  --color-secondary-100: #e2e8f6;
+  --color-secondary-200: #cbd7ed;
+  --color-secondary-300: #a5bce1;
+  --color-secondary-400: #7899d1;
+  --color-secondary-500: #5578bf;
+  --color-secondary-600: #405ea3;
+  --color-secondary-700: #344c86;
+  --color-secondary-800: #2d406f;
+  --color-secondary-900: #11224e;
 
   /* Accent: Stone Linen #D9D1CA */
   --color-accent-50: #f8f6f5;
@@ -40,8 +40,8 @@
   font-weight: 400;
   color: #1f2937;
   background:
-    radial-gradient(circle at top left, rgba(195, 72, 17, 0.1), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(11, 54, 154, 0.08), transparent 28%),
+    radial-gradient(circle at top left, rgba(248, 123, 27, 0.1), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(17, 34, 78, 0.08), transparent 28%),
     #f8f6f5;
   font-synthesis: none;
   text-rendering: optimizeLegibility;

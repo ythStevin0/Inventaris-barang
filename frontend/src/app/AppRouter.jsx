@@ -5,6 +5,7 @@ import PrivateRoute from './PrivateRoute';
 const Login = lazy(() => import('../pages/Auth/Login'));
 const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
 const ItemsPage = lazy(() => import('../pages/Items/ItemsPage'));
+const ItemDetailPage = lazy(() => import('../pages/Items/ItemDetailPage'));
 const CategoriesPage = lazy(() => import('../pages/Categories/CategoriesPage'));
 const BorrowingsPage = lazy(() => import('../pages/Borrowings/BorrowingsPage'));
 const MaintenancePage = lazy(() => import('../pages/Maintenance/MaintenancePage'));
@@ -28,6 +29,14 @@ export default function AppRouter() {
           element={
             <PrivateRoute>
               <ItemsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/items/:id"
+          element={
+            <PrivateRoute>
+              <ItemDetailPage />
             </PrivateRoute>
           }
         />

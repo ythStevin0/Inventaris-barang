@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import PageHeader from '../../components/layout/PageHeader';
 import Alert from '../../components/ui/Alert';
+import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import BorrowingForm from '../../components/borrowings/BorrowingForm';
 import ReturnForm from '../../components/borrowings/ReturnForm';
 import BorrowingsTable from '../../components/borrowings/BorrowingsTable';
@@ -242,13 +243,6 @@ export default function BorrowingsPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="grid min-h-screen place-items-center text-base text-slate-600">
-        Memuat data peminjaman...
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen px-5 py-8">
@@ -497,6 +491,8 @@ export default function BorrowingsPage() {
         onClose={() => setShowScannerModal(false)}
         onScanSuccess={handleScanSuccess}
       />
+      
+      <LoadingOverlay isLoading={loading} />
     </div>
   );
 }

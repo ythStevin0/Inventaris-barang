@@ -8,6 +8,11 @@ export async function getItems(filters = {}) {
   return response.data;
 }
 
+export async function getItem(id) {
+  const response = await api.get(`/items/${id}`);
+  return response.data;
+}
+
 export async function createItem(payload) {
   let data = payload;
   let headers = {};

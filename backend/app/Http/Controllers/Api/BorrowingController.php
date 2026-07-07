@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\BorrowingStatusNotification;
 
 class BorrowingController extends Controller
 {
@@ -143,10 +144,12 @@ class BorrowingController extends Controller
             }
 
             return $borrowing->load([
-                'user:id,name,email,nim_nip',
+                'user:id,name,email,nim_nip,no_hp',
                 'borrowingItems.item:id,name,item_code,unit',
             ]);
         });
+
+        $borrowing->user->notify(new BorrowingStatusNotification($borrowing, 'created'));
 
         return response()->json([
             'status'  => 'success',
@@ -189,10 +192,12 @@ class BorrowingController extends Controller
         });
 
         $borrowing->load([
-            'user:id,name,email,nim_nip',
+            'user:id,name,email,nim_nip,no_hp',
             'approver:id,name',
             'borrowingItems.item:id,name,item_code,unit,stock_available',
         ]);
+
+        $borrowing->user->notify(new BorrowingStatusNotification($borrowing, 'approved'));
 
         return response()->json([
             'status'  => 'success',
@@ -220,10 +225,12 @@ class BorrowingController extends Controller
         ]);
 
         $borrowing->load([
-            'user:id,name,email,nim_nip',
+            'user:id,name,email,nim_nip,no_hp',
             'approver:id,name',
             'borrowingItems.item:id,name,item_code,unit',
         ]);
+
+        $borrowing->user->notify(new BorrowingStatusNotification($borrowing, 'rejected'));
 
         return response()->json([
             'status'  => 'success',
@@ -261,10 +268,12 @@ class BorrowingController extends Controller
         ]);
 
         $borrowing->load([
-            'user:id,name,email,nim_nip',
+            'user:id,name,email,nim_nip,no_hp',
             'approver:id,name',
             'borrowingItems.item:id,name,item_code,unit',
         ]);
+
+        $borrowing->user->notify(new BorrowingStatusNotification($borrowing, 'return_requested'));
 
         return response()->json([
             'status'  => 'success',
@@ -359,10 +368,12 @@ class BorrowingController extends Controller
         });
 
         $borrowing->load([
-            'user:id,name,email,nim_nip',
+            'user:id,name,email,nim_nip,no_hp',
             'approver:id,name',
             'borrowingItems.item:id,name,item_code,unit,stock_available,stock_damaged',
         ]);
+
+        $borrowing->user->notify(new BorrowingStatusNotification($borrowing, 'returned'));
 
         return response()->json([
             'status'  => 'success',

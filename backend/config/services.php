@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'fonnte' => [
+        'token' => env('WHATSAPP_API_TOKEN', ''),
+    ],
+
 ];

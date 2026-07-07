@@ -6,9 +6,9 @@ import { getDashboardStats } from '../../services/dashboardService';
 
 // Warna tema utama: Biru pekat sesuai referensi gambar
 const THEME = {
-    primary: '#2a3582',
-    primaryLight: '#2a3582',
-    primaryDark: '#2a3582',
+    primary: '#11224E',
+    primaryLight: '#11224E',
+    primaryDark: '#11224E',
     primaryBg: 'rgba(42, 53, 130, 0.10)',
     primaryBorder: 'rgba(42, 53, 130, 0.25)',
 };
@@ -111,7 +111,7 @@ export default function Dashboard() {
                             <h3 className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-1.5 text-[#ffffff]/60">
                                 DASHBOARD SIBOS
                             </h3>
-                            <h1 className="text-3xl md:text-5xl font-bold mb-2 tracking-tight text-[#ffffff]">
+                            <h1 className="text-3xl md:text-5xl font-bold mb-2 tracking-tight text-[#F87B1B]">
                                 Inventaris MAPALA
                             </h1>
                             <p className="text-[#ffffff]/70 text-sm md:text-base">
@@ -142,149 +142,147 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    {/* ---- 3/4 Menu Cards (di dalam area berwarna) ---- */}
-                    <div className="flex flex-wrap justify-center gap-3">
-                        {canManageInventory(user) ? (
-                            <>
+                    {/* ---- Menu Cards (di dalam area berwarna) ---- */}
+                    {canManageInventory(user) ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
                                 {/* Kelola Barang */}
-                                <div className="rounded-xl px-3 py-4 hover:brightness-110 transition-all group" style={{ backgroundColor: '#eb670e' }}>
+                                <div className="rounded-xl px-4 py-4 bg-linear-to-br from-[#ffffff] to-[#ffffff] hover:from-[#F87B1B] hover:to-orange-500 border border-gray-200 hover:border-transparent shadow-sm transition-all duration-500 ease-out group flex flex-col h-full">
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#ffffff]/20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#ffffff]">
+                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#F87B1B]/10 group-hover:bg-white/20 transition-colors duration-500 ease-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#F87B1B] group-hover:text-white transition-colors duration-500 ease-out">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <h2 className="text-[#ffffff] font-semibold text-sm mb-0.5">Kelola Barang</h2>
-                                            <p className="text-[#ffffff]/60 text-[11px] leading-relaxed line-clamp-2">Tambah, ubah, atau hapus data inventaris.</p>
+                                            <h2 className="text-gray-900 group-hover:text-white font-semibold text-sm mb-0.5 transition-colors duration-300">Kelola Barang</h2>
+                                            <p className="text-gray-500 group-hover:text-white/80 text-[11px] leading-relaxed line-clamp-2 transition-colors duration-300">Tambah, ubah, atau hapus data inventaris.</p>
                                         </div>
                                     </div>
-                                    <Link to="/items" className="text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-[#ffffff]/80 hover:text-[#ffffff]">
+                                    <Link to="/items" className="mt-auto text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-500 ease-out text-[#F87B1B] group-hover:text-white">
                                         Kelola sekarang →
                                     </Link>
                                 </div>
 
                                 {/* Kelola Kategori */}
-                                <div className="rounded-xl px-3 py-4 hover:brightness-110 transition-all group" style={{ backgroundColor: '#eb670e' }}>
+                                <div className="rounded-xl px-4 py-4 bg-linear-to-br from-[#ffffff] to-[#ffffff] hover:from-[#F87B1B] hover:to-orange-500 border border-gray-200 hover:border-transparent shadow-sm transition-all duration-500 ease-out group flex flex-col h-full">
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#ffffff]/20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#ffffff]">
+                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#F87B1B]/10 group-hover:bg-white/20 transition-colors duration-500 ease-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#F87B1B] group-hover:text-white transition-colors duration-500 ease-out">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <h2 className="text-[#ffffff] font-semibold text-sm mb-0.5">Kelola Kategori</h2>
-                                            <p className="text-[#ffffff]/60 text-[11px] leading-relaxed line-clamp-2">Klasifikasikan barang berdasarkan fungsinya.</p>
+                                            <h2 className="text-gray-900 group-hover:text-white font-semibold text-sm mb-0.5 transition-colors duration-300">Kelola Kategori</h2>
+                                            <p className="text-gray-500 group-hover:text-white/80 text-[11px] leading-relaxed line-clamp-2 transition-colors duration-300">Klasifikasikan barang berdasarkan fungsinya.</p>
                                         </div>
                                     </div>
-                                    <Link to="/categories" className="text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-[#ffffff]/80 hover:text-[#ffffff]">
+                                    <Link to="/categories" className="mt-auto text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-500 ease-out text-[#F87B1B] group-hover:text-white">
                                         Kelola sekarang →
                                     </Link>
                                 </div>
 
                                 {/* Peminjaman */}
-                                <div className="rounded-xl px-3 py-4 hover:brightness-110 transition-all group" style={{ backgroundColor: '#eb670e' }}>
+                                <div className="rounded-xl px-4 py-4 bg-linear-to-br from-[#ffffff] to-[#ffffff] hover:from-[#F87B1B] hover:to-orange-500 border border-gray-200 hover:border-transparent shadow-sm transition-all duration-500 ease-out group flex flex-col h-full">
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#ffffff]/20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#ffffff]">
+                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#F87B1B]/10 group-hover:bg-white/20 transition-colors duration-500 ease-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#F87B1B] group-hover:text-white transition-colors duration-500 ease-out">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0110.5 3h6a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0116.5 21h-6a2.25 2.25 0 01-2.25-2.25V15M12 9l3 3m0 0l-3 3m3-3H2.25" />
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <h2 className="text-[#ffffff] font-semibold text-sm mb-0.5">Kelola Peminjaman</h2>
-                                            <p className="text-[#ffffff]/60 text-[11px] leading-relaxed line-clamp-2">Pantau dan kelola persetujuan peminjaman.</p>
+                                            <h2 className="text-gray-900 group-hover:text-white font-semibold text-sm mb-0.5 transition-colors duration-300">Kelola Peminjaman</h2>
+                                            <p className="text-gray-500 group-hover:text-white/80 text-[11px] leading-relaxed line-clamp-2 transition-colors duration-300">Pantau dan kelola persetujuan peminjaman.</p>
                                         </div>
                                     </div>
-                                    <Link to="/borrowings" className="text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-[#ffffff]/80 hover:text-[#ffffff]">
+                                    <Link to="/borrowings" className="mt-auto text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-500 ease-out text-[#F87B1B] group-hover:text-white">
                                         Kelola sekarang →
                                     </Link>
                                 </div>
 
                                 {/* Riwayat Kerusakan (Admin) */}
-                                <div className="rounded-xl px-3 py-4 hover:brightness-110 transition-all group" style={{ backgroundColor: '#eb670e' }}>
+                                <div className="rounded-xl px-4 py-4 bg-linear-to-br from-[#ffffff] to-[#ffffff] hover:from-[#F87B1B] hover:to-orange-500 border border-gray-200 hover:border-transparent shadow-sm transition-all duration-500 ease-out group flex flex-col h-full">
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#ffffff]/20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#ffffff]">
+                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#F87B1B]/10 group-hover:bg-white/20 transition-colors duration-500 ease-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#F87B1B] group-hover:text-white transition-colors duration-500 ease-out">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <h2 className="text-[#ffffff] font-semibold text-sm mb-0.5">Kelola Kerusakan</h2>
-                                            <p className="text-[#ffffff]/60 text-[11px] leading-relaxed line-clamp-2">Catat riwayat perbaikan dan kerusakan.</p>
+                                            <h2 className="text-gray-900 group-hover:text-white font-semibold text-sm mb-0.5 transition-colors duration-300">Kelola Kerusakan</h2>
+                                            <p className="text-gray-500 group-hover:text-white/80 text-[11px] leading-relaxed line-clamp-2 transition-colors duration-300">Catat riwayat perbaikan dan kerusakan.</p>
                                         </div>
                                     </div>
-                                    <Link to="/maintenance" className="text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-[#ffffff]/80 hover:text-[#ffffff]">
+                                    <Link to="/maintenance" className="mt-auto text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-500 ease-out text-[#F87B1B] group-hover:text-white">
                                         Kelola sekarang →
                                     </Link>
                                 </div>
-                            </>
-                        ) : (
-                            <>
-                                {/* Daftar Barang (Anggota) */}
-                                <div className="rounded-xl px-3 py-4 hover:brightness-110 transition-all group" style={{ backgroundColor: '#eb670e' }}>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 w-full">
+                            {/* Daftar Barang (Anggota) */}
+                            <div className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] rounded-xl px-4 py-4 bg-linear-to-br from-[#ffffff] to-[#ffffff] hover:from-[#F87B1B] hover:to-orange-500 border border-gray-200 hover:border-transparent shadow-sm transition-all duration-500 ease-out group flex flex-col h-full">
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#ffffff]/20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#ffffff]">
+                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#F87B1B]/10 group-hover:bg-white/20 transition-colors duration-500 ease-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#F87B1B] group-hover:text-white transition-colors duration-500 ease-out">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <h2 className="text-[#ffffff] font-semibold text-sm mb-0.5">Daftar Barang</h2>
-                                            <p className="text-[#ffffff]/60 text-[11px] leading-relaxed line-clamp-2">Lihat ketersediaan dan spesifikasi alat.</p>
+                                            <h2 className="text-gray-900 group-hover:text-white font-semibold text-sm mb-0.5 transition-colors duration-300">Daftar Barang</h2>
+                                            <p className="text-gray-500 group-hover:text-white/80 text-[11px] leading-relaxed line-clamp-2 transition-colors duration-300">Lihat ketersediaan dan spesifikasi alat.</p>
                                         </div>
                                     </div>
-                                    <Link to="/items" className="text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-[#ffffff]/80 hover:text-[#ffffff]">
-                                        Lihat sekarang →
+                                    <Link to="/items" className="mt-auto text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-500 ease-out text-[#F87B1B] group-hover:text-white">
+                                        Lihat daftar barang →
                                     </Link>
                                 </div>
 
-                                {/* Riwayat Peminjaman (Anggota) */}
-                                <div className="rounded-xl px-3 py-4 hover:brightness-110 transition-all group" style={{ backgroundColor: '#eb670e' }}>
+                            {/* Riwayat Peminjaman (Anggota) */}
+                            <div className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] rounded-xl px-4 py-4 bg-linear-to-br from-[#ffffff] to-[#ffffff] hover:from-[#F87B1B] hover:to-orange-500 border border-gray-200 hover:border-transparent shadow-sm transition-all duration-500 ease-out group flex flex-col h-full">
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#ffffff]/20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#ffffff]">
+                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#F87B1B]/10 group-hover:bg-white/20 transition-colors duration-500 ease-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#F87B1B] group-hover:text-white transition-colors duration-500 ease-out">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <h2 className="text-[#ffffff] font-semibold text-sm mb-0.5">Riwayat Peminjaman</h2>
-                                            <p className="text-[#ffffff]/60 text-[11px] leading-relaxed line-clamp-2">Ajukan dan pantau status peminjaman.</p>
+                                            <h2 className="text-gray-900 group-hover:text-white font-semibold text-sm mb-0.5 transition-colors duration-300">Riwayat Peminjaman</h2>
+                                            <p className="text-gray-500 group-hover:text-white/80 text-[11px] leading-relaxed line-clamp-2 transition-colors duration-300">Ajukan dan pantau status peminjaman.</p>
                                         </div>
                                     </div>
-                                    <Link to="/borrowings" className="text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-[#ffffff]/80 hover:text-[#ffffff]">
-                                        Lihat sekarang →
+                                    <Link to="/borrowings" className="mt-auto text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-500 ease-out text-[#F87B1B] group-hover:text-white">
+                                        Pantau peminjaman →
                                     </Link>
                                 </div>
 
-                                {/* Riwayat Kerusakan (Anggota) */}
-                                <div className="rounded-xl px-3 py-4 hover:brightness-110 transition-all group" style={{ backgroundColor: '#eb670e' }}>
+                            {/* Riwayat Kerusakan (Anggota) */}
+                            <div className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] rounded-xl px-4 py-4 bg-linear-to-br from-[#ffffff] to-[#ffffff] hover:from-[#F87B1B] hover:to-orange-500 border border-gray-200 hover:border-transparent shadow-sm transition-all duration-500 ease-out group flex flex-col h-full">
                                     <div className="flex items-start gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#ffffff]/20">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#ffffff]">
+                                        <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-[#F87B1B]/10 group-hover:bg-white/20 transition-colors duration-500 ease-out">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#F87B1B] group-hover:text-white transition-colors duration-500 ease-out">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
                                             </svg>
                                         </div>
                                         <div className="min-w-0">
-                                            <h2 className="text-[#ffffff] font-semibold text-sm mb-0.5">Riwayat Kerusakan</h2>
-                                            <p className="text-[#ffffff]/60 text-[11px] leading-relaxed line-clamp-2">Lihat catatan kerusakan dan perbaikan.</p>
+                                            <h2 className="text-gray-900 group-hover:text-white font-semibold text-sm mb-0.5 transition-colors duration-300">Riwayat Kerusakan</h2>
+                                            <p className="text-gray-500 group-hover:text-white/80 text-[11px] leading-relaxed line-clamp-2 transition-colors duration-300">Lihat catatan kerusakan dan perbaikan.</p>
                                         </div>
                                     </div>
-                                    <Link to="/maintenance" className="text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all text-[#ffffff]/80 hover:text-[#ffffff]">
+                                    <Link to="/maintenance" className="mt-auto text-[11px] font-semibold flex items-center gap-1 group-hover:gap-2 transition-all duration-500 ease-out text-[#F87B1B] group-hover:text-white">
                                         Lihat sekarang →
                                     </Link>
                                 </div>
-                            </>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
             {/* ============ STAT CARDS (Overlapping the boundary) ============ */}
             <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-10 -mt-14 relative z-20">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+                <div className="flex flex-wrap justify-center gap-4 mb-8">
                     {/* Total Barang */}
-                    <div className="bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
+                    <div className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: THEME.primaryBg, color: THEME.primary }}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
@@ -297,7 +295,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Total Kategori */}
-                    <div className="bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
+                    <div className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: THEME.primaryBg, color: THEME.primary }}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
@@ -310,7 +308,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Barang Dipinjam */}
-                    <div className="bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
+                    <div className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-amber-50 text-amber-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
@@ -323,7 +321,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Peminjaman Aktif */}
-                    <div className="bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
+                    <div className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: THEME.primaryBg, color: THEME.primary }}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -336,7 +334,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Barang Rusak */}
-                    <div className="bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
+                    <div className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] bg-[#ffffff] border border-gray-200 rounded-2xl p-4 flex items-center gap-3 shadow-lg shadow-black/5">
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-red-50 text-red-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />

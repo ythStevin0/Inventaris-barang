@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/layout/PageHeader';
 import Alert from '../../components/ui/Alert';
+import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import {
   getCategories,
   createCategory,
@@ -133,13 +134,6 @@ export default function CategoriesPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="grid min-h-screen place-items-center text-base text-slate-600">
-        Memuat data kategori...
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen px-5 py-8">
@@ -329,6 +323,7 @@ export default function CategoriesPage() {
           )}
         </div>
       </section>
+      <LoadingOverlay isLoading={loading} />
     </div>
   );
 }

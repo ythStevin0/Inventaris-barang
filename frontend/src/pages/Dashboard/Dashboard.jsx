@@ -74,6 +74,8 @@ export default function Dashboard() {
     });
     const [recentBorrowings, setRecentBorrowings] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+    const [showNotifications, setShowNotifications] = useState(false);
 
     useEffect(() => {
         const loadDashboard = async () => {
@@ -84,6 +86,7 @@ export default function Dashboard() {
                 setStats(data.stats);
                 setRecentBorrowings(data.recentBorrowings);
                 setCategories(data.categories);
+                setNotifications(data.notifications || []);
             } catch (error) {
                 console.error("Gagal memuat data dashboard:", error);
             }
@@ -99,7 +102,18 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-100 relative overflow-hidden">
+        <div className="min-h-screen flex flex-col bg-gray-100 relative overflow-hidden z-0">
+            {/* Global Dashboard Background Illustration */}
+            <div 
+                className="absolute inset-0 z-[-1] opacity-100 pointer-events-none"
+                style={{
+                    backgroundImage: "url('https://i.pinimg.com/originals/00/70/51/007051685f86f5dcc3fb6afab66dc8f1.jpg')",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundAttachment: 'fixed',
+                    mixBlendMode: 'multiply'
+                }}
+            ></div>
 
             {/* ============ COLORED HEADER SECTION ============ */}
             <div style={{ backgroundColor: THEME.primary }}>
@@ -131,14 +145,60 @@ export default function Dashboard() {
                                     {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                                 </span>
                             </div>
-                            <button className="relative p-1.5 hover:bg-[#ffffff]/10 rounded-full transition-colors">
-                                {/* Ikon Lonceng */}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#ffffff]/70">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                                </svg>
-                                {/* Titik Notifikasi Aktif */}
-                                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-yellow-400 rounded-full animate-pulse border border-[#ffffff]"></span>
-                            </button>
+                            
+                            {/* Notifikasi Lonceng */}
+                            <div className="relative">
+                                <button 
+                                    onClick={() => setShowNotifications(!showNotifications)}
+                                    className="relative p-1.5 hover:bg-[#ffffff]/10 rounded-full transition-colors z-20"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#ffffff]/70">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                    </svg>
+                                    {notifications.length > 0 && (
+                                        <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-yellow-400 rounded-full animate-pulse border border-[#ffffff]"></span>
+                                    )}
+                                </button>
+                                
+                                {/* Dropdown Notifikasi */}
+                                {showNotifications && (
+                                    <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-[#F87B1B] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-[#F87B1B] overflow-hidden z-50">
+                                        <div className="p-3 border-b border-white/20 flex justify-between items-center bg-white/10">
+                                            <h3 className="text-white font-bold text-xs tracking-wider">NOTIFIKASI</h3>
+                                            <span className="text-[10px] font-bold bg-white text-[#F87B1B] px-2 py-0.5 rounded-full">
+                                                {notifications.length} Baru
+                                            </span>
+                                        </div>
+                                        <div className="max-h-[320px] overflow-y-auto custom-scrollbar">
+                                            {notifications.length === 0 ? (
+                                                <div className="py-8 px-4 text-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-10 h-10 mx-auto text-white/50 mb-2"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+                                                    <p className="text-white/70 text-xs">Belum ada notifikasi baru.</p>
+                                                </div>
+                                            ) : (
+                                                notifications.map((notif) => (
+                                                    <Link key={notif.id} to={notif.link} className="flex gap-3 p-3 border-b border-white/10 hover:bg-white/10 transition-colors last:border-0 block">
+                                                        <div className="w-8 h-8 rounded-full flex shrink-0 items-center justify-center bg-white/20 text-white">
+                                                            {notif.type === 'pending' ? (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                            ) : notif.type === 'overdue' ? (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                                            ) : (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15z" /></svg>
+                                                            )}
+                                                        </div>
+                                                        <div className="min-w-0 flex-1">
+                                                            <p className="text-white font-semibold text-xs mb-0.5">{notif.title}</p>
+                                                            <p className="text-white/80 text-[10px] line-clamp-2 leading-relaxed">{notif.message}</p>
+                                                            <p className="text-white/60 text-[9px] font-medium mt-1.5">{notif.time}</p>
+                                                        </div>
+                                                    </Link>
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -355,7 +415,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-8">
                     
                     {/* Riwayat Peminjaman Terbaru (3/5 width) */}
-                    <div className="lg:col-span-3 bg-[#ffffff] border border-gray-200 rounded-2xl p-5 shadow-sm">
+                    <div className="lg:col-span-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-5 shadow-sm">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="text-gray-900 font-semibold text-sm">Riwayat Peminjaman Terbaru</h3>
                             <Link to="/borrowings" className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: THEME.primary }}>
@@ -415,7 +475,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Kategori Barang - Donut Chart (2/5 width) */}
-                    <div className="lg:col-span-2 bg-[#ffffff] border border-gray-200 rounded-2xl p-5 shadow-sm">
+                    <div className="lg:col-span-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-5 shadow-sm flex flex-col">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="text-gray-900 font-semibold text-sm">Kategori Barang</h3>
                             <Link to="/categories" className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: THEME.primary }}>
@@ -458,7 +518,7 @@ export default function Dashboard() {
             </main>
 
             {/* ============ FOOTER ============ */}
-            <footer className="relative z-10 border-t border-gray-200 bg-[#ffffff]">
+            <footer className="relative z-10 border-t border-white/30 bg-white/20 backdrop-blur-md">
                 <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <p className="text-gray-400 text-[10px] text-center sm:text-left">
                         © 2025 SIBOS & Inventaris MAPALA. All Rights Reserved.
@@ -480,9 +540,15 @@ export default function Dashboard() {
                 </div>
             </footer>
 
-            {/* Click outside to close user menu */}
-            {showUserMenu && (
-                <div className="fixed inset-0 z-10" onClick={() => setShowUserMenu(false)}></div>
+            {/* Click outside to close user menu or notifications */}
+            {(showUserMenu || showNotifications) && (
+                <div 
+                    className="fixed inset-0 z-40" 
+                    onClick={() => {
+                        setShowUserMenu(false);
+                        setShowNotifications(false);
+                    }}
+                ></div>
             )}
         </div>
     );

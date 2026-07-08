@@ -109,10 +109,76 @@ class DashboardController extends Controller
             })->values()->toArray();
         });
 
+        // Notifications
+        $notifications = [];
+
+        // 1. Pending Borrowings
+        $pendingQuery = Borrowing::where('status', 'pending')->with('user');
+        if (!$isAdmin) {
+            $pendingQuery->where('user_id', $user->id);
+        }
+        $pendingBorrowings = $pendingQuery->get();
+
+        foreach ($pendingBorrowings as $borrowing) {
+            $name = $borrowing->user ? $borrowing->user->name : $borrowing->borrower_name;
+            $notifications[] = [
+                'id' => 'p_' . $borrowing->id,
+                'type' => 'pending',
+                'title' => 'Peminjaman Menunggu',
+                'message' => $isAdmin 
+                    ? "Ada permintaan peminjaman dari {$name}." 
+                    : "Permintaan peminjaman Anda sedang menunggu persetujuan.",
+                'time' => $borrowing->created_at->diffForHumans(),
+                'link' => '/borrowings'
+            ];
+        }
+
+        // 2. Active Borrowings (Return Date Reminders)
+        $activeQuery = Borrowing::where('status', 'borrowed')->with('user');
+        if (!$isAdmin) {
+            $activeQuery->where('user_id', $user->id);
+        }
+        $activeBorrowings = $activeQuery->get();
+
+        foreach ($activeBorrowings as $borrowing) {
+            if ($borrowing->due_date) {
+                $dueDate = Carbon::parse($borrowing->due_date);
+                $now = Carbon::now();
+                $daysLeft = $now->copy()->startOfDay()->diffInDays($dueDate->copy()->startOfDay(), false);
+                
+                $name = $borrowing->user ? $borrowing->user->name : $borrowing->borrower_name;
+                
+                if ($daysLeft < 0) {
+                    $notifications[] = [
+                        'id' => 'o_' . $borrowing->id,
+                        'type' => 'overdue',
+                        'title' => 'Terlambat Dikembalikan',
+                        'message' => $isAdmin
+                            ? "Peminjaman {$name} melewati batas waktu!"
+                            : "Barang pinjaman Anda telah melewati batas waktu!",
+                        'time' => $dueDate->diffForHumans(),
+                        'link' => '/borrowings'
+                    ];
+                } else if ($daysLeft <= 3) {
+                    $notifications[] = [
+                        'id' => 'u_' . $borrowing->id,
+                        'type' => 'upcoming',
+                        'title' => 'Pengembalian Segera',
+                        'message' => $isAdmin
+                            ? "Peminjaman {$name} jatuh tempo dalam {$daysLeft} hari."
+                            : "Waktu pengembalian barang Anda tersisa {$daysLeft} hari lagi.",
+                        'time' => $dueDate->diffForHumans(),
+                        'link' => '/borrowings'
+                    ];
+                }
+            }
+        }
+
         return response()->json([
             'stats' => $stats,
             'recentBorrowings' => $recentBorrowings,
-            'categories' => $categoryStats
+            'categories' => $categoryStats,
+            'notifications' => $notifications
         ]);
     }
 }

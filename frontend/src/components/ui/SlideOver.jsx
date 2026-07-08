@@ -28,7 +28,7 @@ export default function SlideOver({ isOpen, onClose, title, children, width = 'm
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
         {/* Slide-over panel */}
         <div className={`w-screen ${width} transform transition ease-in-out duration-300 animate-slide-in-right`}>
-          <div className="flex h-full flex-col bg-white shadow-2xl">
+          <div className="flex h-full flex-col bg-white shadow-2xl rounded-l-[40px] overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
               <h2 className="text-xl font-bold text-secondary-900" id="slide-over-title">

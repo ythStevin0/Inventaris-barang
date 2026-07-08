@@ -248,56 +248,77 @@ export default function CategoriesPage() {
                 )}
               </div>
             ) : (
-              categories.map((category) => (
-                <div
-                  key={category.id}
-                  className="group relative flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 transition-all hover:border-[#11224E] hover:shadow-sm"
-                >
-                  <div>
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-sm font-bold text-slate-700 group-hover:bg-[#11224E] group-hover:text-white transition-colors">
+              categories.map((category) => {
+                const themes = [
+                  { card: 'bg-teal-50/60 border-teal-100', avatar: 'bg-teal-100 text-teal-700' },
+                  { card: 'bg-rose-50/60 border-rose-100', avatar: 'bg-rose-100 text-rose-700' },
+                  { card: 'bg-sky-50/60 border-sky-100', avatar: 'bg-sky-100 text-sky-700' },
+                  { card: 'bg-amber-50/60 border-amber-100', avatar: 'bg-amber-100 text-amber-700' },
+                  { card: 'bg-indigo-50/60 border-indigo-100', avatar: 'bg-indigo-100 text-indigo-700' },
+                  { card: 'bg-fuchsia-50/60 border-fuchsia-100', avatar: 'bg-fuchsia-100 text-fuchsia-700' },
+                ];
+                const theme = themes[category.id % themes.length];
+                
+                return (
+                  <div
+                    key={category.id}
+                    className={`group relative flex flex-col justify-between rounded-[24px] border ${theme.card} p-4 transition-all hover:-translate-y-1 hover:shadow-md`}
+                  >
+                    <div>
+                      {/* Top Header: Avatar + Title */}
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${theme.avatar} shadow-sm font-bold text-lg`}>
                           {category.name.charAt(0).toUpperCase()}
                         </div>
-                        <h3 className="text-base font-semibold text-slate-900 line-clamp-2 leading-tight">{category.name}</h3>
-                      </div>
-                      
-                      {canManage && (
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-2 shrink-0">
-                          <button
-                            type="button"
-                            onClick={() => handleEdit(category)}
-                            className="flex h-7 w-7 items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors"
-                            title="Edit"
-                          >
-                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(category.id)}
-                            className="flex h-7 w-7 items-center justify-center rounded text-slate-400 hover:bg-red-50 hover:text-red-600 transition-colors"
-                            title="Hapus"
-                          >
-                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                          </button>
+                        <div className="flex-1 overflow-hidden">
+                          <h3 className="text-sm font-bold text-slate-800 truncate">{category.name}</h3>
+                          <div className="flex items-center gap-1 mt-0.5 text-[11px] font-semibold text-slate-500">
+                            <span className="font-bold">ID</span>
+                            <span>{category.id.toString().padStart(3, '0')}</span>
+                          </div>
                         </div>
-                      )}
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed h-8">
+                        {category.description || 'Tidak ada deskripsi.'}
+                      </p>
                     </div>
-                    <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">
-                      {category.description || 'Tidak ada deskripsi spesifik untuk kategori ini.'}
-                    </p>
+
+                    <div className="mt-3">
+                      <hr className="border-t border-dashed border-slate-200/80 mb-3" />
+                      
+                      {/* Footer: Actions */}
+                      <div className="flex items-center justify-between">
+                        <span className="inline-flex items-center rounded-full bg-white/60 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-slate-500">
+                          Kategori
+                        </span>
+                        
+                        {canManage && (
+                          <div className="flex items-center gap-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                            <button
+                              type="button"
+                              onClick={() => handleEdit(category)}
+                              className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-slate-500 hover:bg-slate-100 hover:text-slate-700 shadow-sm transition-colors"
+                              title="Edit"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(category.id)}
+                              className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-slate-500 hover:bg-red-50 hover:text-red-600 shadow-sm transition-colors"
+                              title="Hapus"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  
-                  <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-xs font-medium text-slate-400">
-                      ID: {category.id.toString().padStart(3, '0')}
-                    </span>
-                    <span className="text-[10px] uppercase tracking-wider font-bold text-[#F87B1B] bg-orange-50 px-2 py-1 rounded">
-                      Kategori
-                    </span>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
@@ -311,16 +332,6 @@ export default function CategoriesPage() {
           onClose={handleCancelEdit}
         >
           <div className="p-1">
-            <p className="mb-5 text-sm text-slate-500">
-              Form ini akan mengirim request ke backend melalui{' '}
-              <code className="bg-slate-100 px-1 rounded">
-                {editingId
-                  ? `PUT /api/categories/${editingId}`
-                  : 'POST /api/categories'}
-              </code>
-              .
-            </p>
-
             {!canManage ? (
               <Alert tone="warning">
                 Role kamu saat ini tidak memiliki izin untuk mengelola kategori.
@@ -328,21 +339,21 @@ export default function CategoriesPage() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-bold text-[#11224E]">
+                  <span className={`text-sm font-bold ${editingId ? 'text-indigo-900' : 'text-[#11224E]'}`}>
                     Nama Kategori
                   </span>
                   <input
                     name="name"
                     value={form.name}
                     onChange={handleChange}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:border-[#F87B1B] focus:bg-white focus:ring-4 focus:ring-orange-50"
+                    className={`w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${editingId ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-[#F87B1B] focus:ring-orange-50'}`}
                     placeholder="Contoh: Elektronik"
                     required
                   />
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className="text-sm font-bold text-[#11224E]">
+                  <span className={`text-sm font-bold ${editingId ? 'text-indigo-900' : 'text-[#11224E]'}`}>
                     Deskripsi <span className="font-normal text-slate-400">(opsional)</span>
                   </span>
                   <textarea
@@ -350,7 +361,7 @@ export default function CategoriesPage() {
                     value={form.description}
                     onChange={handleChange}
                     rows="4"
-                    className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:border-[#F87B1B] focus:bg-white focus:ring-4 focus:ring-orange-50"
+                    className={`w-full resize-y rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${editingId ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-[#F87B1B] focus:ring-orange-50'}`}
                     placeholder="Deskripsi singkat kategori"
                   />
                 </label>
@@ -360,7 +371,7 @@ export default function CategoriesPage() {
                     <button
                       type="button"
                       onClick={handleCancelEdit}
-                      className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                      className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto shadow-sm"
                       disabled={submitting}
                     >
                       Batal Edit
@@ -368,14 +379,22 @@ export default function CategoriesPage() {
                   )}
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center rounded-xl bg-[#F87B1B] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#F87B1B]/90 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                    className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${editingId ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-[#F87B1B] hover:bg-[#F87B1B]/90'}`}
                     disabled={submitting}
                   >
-                    {submitting
-                      ? 'Menyimpan...'
-                      : editingId
-                        ? 'Simpan Perubahan'
-                        : 'Simpan Kategori'}
+                    {submitting ? (
+                      <span className="animate-pulse">Menyimpan...</span>
+                    ) : editingId ? (
+                      <>
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                        Simpan Perubahan
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                        Simpan Kategori Baru
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

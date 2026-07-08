@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import PageHeader from '../../components/layout/PageHeader';
 import Alert from '../../components/ui/Alert';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import BorrowingForm from '../../components/borrowings/BorrowingForm';
@@ -245,63 +244,95 @@ export default function BorrowingsPage() {
 
 
   return (
-    <div className="min-h-screen px-5 py-8">
-      <PageHeader
-        eyebrow="Peminjaman Barang"
-        title="Daftar & Pengajuan Peminjaman"
-        description={`Login sebagai ${user?.name ?? 'Pengguna'}${user?.role ? ` (${user.role})` : ''}.`}
-        actions={
-          <>
+    <div className="min-h-screen relative bg-slate-50 overflow-hidden pb-10">
+      {/* Background Decorations (Natural Waves / Semangat) */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-end">
+        {/* Layered Fluid Waves */}
+        <svg className="w-full absolute bottom-0 left-0" viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ height: '45vh', minHeight: '350px' }}>
+          {/* Orange Wave Background */}
+          <path fill="#F87B1B" fillOpacity="0.9" d="M0,192L48,208C96,224,192,256,288,245.3C384,235,480,181,576,170.7C672,160,768,192,864,208C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,85.3L1440,53L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          {/* Blue Wave Foreground */}
+          <path fill="#11224E" fillOpacity="1" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,202.7C672,224,768,256,864,250.7C960,245,1056,203,1152,181.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+      </div>
+
+      <div className="relative z-10 px-5 pt-8">
+        <header className="mx-auto flex w-full max-w-7xl flex-wrap items-start justify-between gap-5 mb-8">
+          <div className="space-y-1">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#F87B1B]">
+              PEMINJAMAN BARANG
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-[#11224E] sm:text-4xl">
+              Daftar & Pengajuan Peminjaman
+            </h1>
+            <p className="text-sm text-slate-500">
+              Login sebagai <span className="font-medium">{user?.name ?? 'Pengguna'}</span>{user?.role ? ` (${user.role})` : ''}.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 gap-2 shadow-sm"
             >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
               Kembali ke Dashboard
             </Link>
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
+              className="inline-flex items-center justify-center rounded-xl bg-[#11224E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#11224E]/90 gap-2 shadow-sm"
             >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+              </svg>
               Logout
             </button>
-          </>
-        }
-      />
+          </div>
+        </header>
 
-      <div className="mx-auto mt-6 flex w-full max-w-7xl flex-col gap-4">
-        {error ? <Alert tone="error">{error}</Alert> : null}
-        {success ? <Alert tone="success">{success}</Alert> : null}
-      </div>
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4">
+          {error ? <Alert tone="error">{error}</Alert> : null}
+          {success ? <Alert tone="success">{success}</Alert> : null}
+        </div>
 
-      <div className="mx-auto mt-6 w-full max-w-7xl">
-        <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight text-secondary-900">Riwayat Peminjaman</h2>
-              <p className="text-sm text-slate-500">
-                {isStaff ? 'Daftar semua pengajuan peminjaman barang oleh anggota.' : 'Daftar pengajuan peminjaman barang Anda.'}
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-3">
+        <section className="mx-auto mt-6 w-full max-w-7xl">
+          <div className="rounded-[28px] border border-white/60 bg-white/85 p-4 sm:p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+            <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#11224E]/10 text-[#11224E] shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="mb-1 text-2xl font-bold tracking-tight text-[#11224E]">Riwayat Peminjaman</h2>
+                  <p className="text-sm text-slate-500 font-medium">
+                    Dashboard / <span className="text-[#F87B1B]">Peminjaman</span>
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
               {isStaff && (
                 <>
                   <button
                     type="button"
                     onClick={handleExportPdf}
                     disabled={exportingPdf}
-                    className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 disabled:opacity-50"
+                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-red-600 transition-colors disabled:opacity-50"
                   >
-                    {exportingPdf ? 'Mencetak...' : 'Cetak PDF'}
+                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    {exportingPdf ? 'Mengekspor...' : 'PDF'}
                   </button>
                   <button
                     type="button"
                     onClick={handleExportExcel}
                     disabled={exportingExcel}
-                    className="inline-flex items-center justify-center rounded-2xl bg-green-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 disabled:opacity-50"
+                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-green-600 transition-colors disabled:opacity-50"
                   >
-                    {exportingExcel ? 'Mengekspor...' : 'Ekspor Excel'}
+                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    {exportingExcel ? 'Mengekspor...' : 'Excel'}
                   </button>
                 </>
               )}
@@ -312,9 +343,10 @@ export default function BorrowingsPage() {
                   <button
                     type="button"
                     onClick={() => setShowScannerModal(true)}
-                    className="inline-flex items-center justify-center rounded-2xl bg-secondary-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                   >
-                    📷 Scan QR Code
+                    <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                    Scan QR
                   </button>
                   <button
                     type="button"
@@ -322,9 +354,9 @@ export default function BorrowingsPage() {
                       setScannedItemId('');
                       setShowBorrowModal(true);
                     }}
-                    className="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-sky-600 to-teal-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+                    className="inline-flex items-center justify-center rounded-lg bg-[#F87B1B] px-4 py-2 text-sm font-medium text-white hover:bg-[#e06912] transition-colors shadow-sm"
                   >
-                    Ajukan Peminjaman
+                    + Ajukan Peminjaman
                   </button>
                 </div>
               )}
@@ -355,12 +387,12 @@ export default function BorrowingsPage() {
             }}
           />
         </div>
-      </div>
+      </section>
 
       {/* Modal Ajukan Peminjaman */}
       {showBorrowModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-3xl rounded-[28px] border border-white bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-xl font-bold text-secondary-900">Form Pengajuan Peminjaman</h3>
               <button
@@ -458,7 +490,7 @@ export default function BorrowingsPage() {
       {/* Modal Proses Pengembalian */}
       {showReturnModal && selectedBorrowing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-3xl rounded-[28px] border border-white bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-xl font-bold text-secondary-900">Form Pengembalian Barang</h3>
               <button
@@ -493,6 +525,7 @@ export default function BorrowingsPage() {
       />
       
       <LoadingOverlay isLoading={loading} />
+    </div>
     </div>
   );
 }

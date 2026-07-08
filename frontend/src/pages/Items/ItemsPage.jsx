@@ -489,13 +489,9 @@ export default function ItemsPage() {
             handleCancelEdit();
           }} 
           title={editingItemId ? 'Edit Barang' : 'Tambah Barang Baru'}
-          width="max-w-xl"
+          width="max-w-2xl"
         >
-          <div className="mb-4">
-            <p className="text-sm text-slate-500 bg-slate-50 p-3 rounded-lg border border-slate-100">
-              Form ini akan mengirim request ke backend melalui <code>{editingItemId ? `PUT /api/items/${editingItemId}` : 'POST /api/items'}</code>.
-            </p>
-          </div>
+
           <ItemForm
             categories={categories}
             clientError={clientError}

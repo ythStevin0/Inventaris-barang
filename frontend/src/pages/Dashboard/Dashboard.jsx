@@ -102,25 +102,24 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-100 relative overflow-hidden z-0">
-            {/* Global Dashboard Background Illustration */}
-            <div 
-                className="absolute inset-0 z-[-1] opacity-100 pointer-events-none"
-                style={{
-                    backgroundImage: "url('https://i.pinimg.com/originals/00/70/51/007051685f86f5dcc3fb6afab66dc8f1.jpg')",
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundAttachment: 'fixed',
-                    mixBlendMode: 'multiply'
-                }}
-            ></div>
-
+        <div className="min-h-screen flex flex-col bg-gray-100 relative overflow-x-hidden z-0">
             {/* ============ COLORED HEADER SECTION ============ */}
-            <div style={{ backgroundColor: THEME.primary }}>
-                <div className="w-full max-w-[1400px] mx-auto px-6 lg:px-10 pt-8 md:pt-10 pb-24 md:pb-28">
+            <div className="relative" style={{ backgroundColor: THEME.primary }}>
+                {/* Header Batik Background */}
+                <div 
+                    className="absolute inset-0 opacity-100 pointer-events-none"
+                    style={{
+                        backgroundImage: "url('https://i.pinimg.com/originals/00/70/51/007051685f86f5dcc3fb6afab66dc8f1.jpg')",
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        mixBlendMode: 'multiply'
+                    }}
+                ></div>
+
+                <div className="relative w-full max-w-[1400px] mx-auto px-6 lg:px-10 pt-8 md:pt-10 pb-24 md:pb-28">
                     
                     {/* ---- Hero / Welcome Section ---- */}
-                    <div className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-4">
+                    <div className="relative z-50 mb-8 flex flex-col md:flex-row md:items-start justify-between gap-4">
                         <div>
                             <h3 className="text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase mb-1.5 text-[#ffffff]/60">
                                 DASHBOARD SIBOS
@@ -161,8 +160,7 @@ export default function Dashboard() {
                                 </button>
                                 
                                 {/* Dropdown Notifikasi */}
-                                {showNotifications && (
-                                    <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-[#F87B1B] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-[#F87B1B] overflow-hidden z-50">
+                                <div className={`absolute right-0 mt-2 w-72 sm:w-80 bg-[#F87B1B] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-[#F87B1B] overflow-hidden z-50 transform origin-top-right transition-all duration-200 ease-out ${showNotifications ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
                                         <div className="p-3 border-b border-white/20 flex justify-between items-center bg-white/10">
                                             <h3 className="text-white font-bold text-xs tracking-wider">NOTIFIKASI</h3>
                                             <span className="text-[10px] font-bold bg-white text-[#F87B1B] px-2 py-0.5 rounded-full">
@@ -177,7 +175,7 @@ export default function Dashboard() {
                                                 </div>
                                             ) : (
                                                 notifications.map((notif) => (
-                                                    <Link key={notif.id} to={notif.link} className="flex gap-3 p-3 border-b border-white/10 hover:bg-white/10 transition-colors last:border-0 block">
+                                                    <Link key={notif.id} to={notif.link} className="flex gap-3 p-3 border-b border-white/10 hover:bg-white/10 transition-colors last:border-0">
                                                         <div className="w-8 h-8 rounded-full flex shrink-0 items-center justify-center bg-white/20 text-white">
                                                             {notif.type === 'pending' ? (
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -197,7 +195,6 @@ export default function Dashboard() {
                                             )}
                                         </div>
                                     </div>
-                                )}
                             </div>
                         </div>
                     </div>
@@ -415,7 +412,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-8">
                     
                     {/* Riwayat Peminjaman Terbaru (3/5 width) */}
-                    <div className="lg:col-span-3 bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-5 shadow-sm">
+                    <div className="lg:col-span-3 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="text-gray-900 font-semibold text-sm">Riwayat Peminjaman Terbaru</h3>
                             <Link to="/borrowings" className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: THEME.primary }}>
@@ -475,7 +472,7 @@ export default function Dashboard() {
                     </div>
 
                     {/* Kategori Barang - Donut Chart (2/5 width) */}
-                    <div className="lg:col-span-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl p-5 shadow-sm flex flex-col">
+                    <div className="lg:col-span-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm flex flex-col">
                         <div className="flex items-center justify-between mb-5">
                             <h3 className="text-gray-900 font-semibold text-sm">Kategori Barang</h3>
                             <Link to="/categories" className="text-xs font-semibold flex items-center gap-1 hover:gap-2 transition-all" style={{ color: THEME.primary }}>
@@ -518,7 +515,7 @@ export default function Dashboard() {
             </main>
 
             {/* ============ FOOTER ============ */}
-            <footer className="relative z-10 border-t border-white/30 bg-white/20 backdrop-blur-md">
+            <footer className="relative z-10 border-t border-gray-200 bg-white">
                 <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <p className="text-gray-400 text-[10px] text-center sm:text-left">
                         © 2025 SIBOS & Inventaris MAPALA. All Rights Reserved.

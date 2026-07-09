@@ -112,11 +112,14 @@ export default function CategoriesPage() {
   };
 
   const handleCancelEdit = () => {
-    setEditingId(null);
-    setForm(initialForm);
+    setShowForm(false);
     setError('');
     setSuccess('');
-    setShowForm(false);
+    // Delay clearing the form so it doesn't look empty during the exit animation
+    setTimeout(() => {
+      setEditingId(null);
+      setForm(initialForm);
+    }, 300);
   };
 
   const handleDelete = async (id) => {
@@ -325,8 +328,7 @@ export default function CategoriesPage() {
       </section>
 
       {/* SlideOver Form */}
-      {showForm && (
-        <SlideOver
+      <SlideOver
           isOpen={showForm}
           title={editingId ? 'Edit Kategori' : 'Tambah Kategori Baru'}
           onClose={handleCancelEdit}
@@ -367,16 +369,14 @@ export default function CategoriesPage() {
                 </label>
 
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-end">
-                  {editingId && (
-                    <button
-                      type="button"
-                      onClick={handleCancelEdit}
-                      className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto shadow-sm"
-                      disabled={submitting}
-                    >
-                      Batal Edit
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto shadow-sm"
+                    disabled={submitting}
+                  >
+                    Batal
+                  </button>
                   <button
                     type="submit"
                     className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${editingId ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-[#F87B1B] hover:bg-[#F87B1B]/90'}`}
@@ -401,7 +401,6 @@ export default function CategoriesPage() {
             )}
           </div>
         </SlideOver>
-      )}
 
       <LoadingOverlay isLoading={loading} />
       </div>

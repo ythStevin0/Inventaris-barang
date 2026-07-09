@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import PageHeader from '../../components/layout/PageHeader';
 import Alert from '../../components/ui/Alert';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import MaintenanceTable from '../../components/maintenance/MaintenanceTable';
@@ -106,52 +105,91 @@ export default function MaintenancePage() {
 
 
   return (
-    <div className="min-h-screen px-5 py-8">
-      <PageHeader
-        eyebrow="Riwayat Kerusakan"
-        title={canManage ? "Kelola Riwayat Kerusakan & Perbaikan" : "Daftar Kerusakan Barang"}
-        description={`Login sebagai ${user?.name || 'Pengguna'}${user?.role ? ` (${user.role})` : ''}.`}
-        actions={
-          <>
+    <div className="min-h-screen relative bg-slate-50 overflow-hidden pb-10">
+      {/* Background Decorations (Natural Waves / Semangat) */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-end">
+        {/* Layered Fluid Waves */}
+        <svg className="w-full absolute bottom-0 left-0" viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ height: '45vh', minHeight: '350px' }}>
+          {/* Orange Wave Background */}
+          <path fill="#F87B1B" fillOpacity="0.9" d="M0,192L48,208C96,224,192,256,288,245.3C384,235,480,181,576,170.7C672,160,768,192,864,208C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,85.3L1440,53L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          {/* Blue Wave Foreground */}
+          <path fill="#11224E" fillOpacity="1" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,202.7C672,224,768,256,864,250.7C960,245,1056,203,1152,181.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+      </div>
+
+      <div className="relative z-10 px-5 pt-8">
+        <header className="mx-auto flex w-full max-w-7xl flex-wrap items-start justify-between gap-5 mb-8">
+          <div className="space-y-1">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#F87B1B]">
+              INVENTARIS BARANG
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight text-[#11224E] sm:text-4xl">
+              {canManage ? "Kelola Riwayat Kerusakan & Perbaikan" : "Daftar Kerusakan Barang"}
+            </h1>
+            <p className="text-sm text-slate-500">
+              Login sebagai <span className="font-medium">{user?.name ?? 'Pengguna'}</span>{user?.role ? ` (${user.role})` : ''}.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
+              className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 gap-2 shadow-sm"
             >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
               Kembali ke Dashboard
             </Link>
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-secondary-800 transition hover:bg-accent-50"
+              className="inline-flex items-center justify-center rounded-xl bg-[#11224E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#11224E]/90 gap-2 shadow-sm"
             >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+              </svg>
               Logout
             </button>
-          </>
-        }
-      />
-
-      <div className="mx-auto mt-6 flex w-full max-w-7xl flex-col gap-4">
-        {error ? <Alert tone="error">{error}</Alert> : null}
-        {success ? <Alert tone="success">{success}</Alert> : null}
-      </div>
-
-      <section className="mx-auto mt-6 grid w-full max-w-7xl gap-6">
-        <div className="rounded-[28px] border border-white/60 bg-white/85 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight text-secondary-900">Data Riwayat</h2>
-              <p className="text-sm text-slate-500">Semua laporan kerusakan, perbaikan, dan kehilangan barang.</p>
-            </div>
-            {canManage && (
-              <button
-                type="button"
-                onClick={handleAdd}
-                className="rounded-xl bg-secondary-900 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-secondary-800"
-              >
-                + Tambah Laporan
-              </button>
-            )}
           </div>
+        </header>
+
+        <div className="mx-auto mt-6 flex w-full max-w-7xl flex-col gap-4">
+          {error ? <Alert tone="error">{error}</Alert> : null}
+          {success ? <Alert tone="success">{success}</Alert> : null}
+        </div>
+
+        <section className="mx-auto mt-6 w-full max-w-7xl">
+          <div className="rounded-[28px] border border-white/60 bg-white/85 p-4 sm:p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
+            <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#11224E]/10 text-[#11224E] shrink-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="mb-1 text-2xl font-bold tracking-tight text-[#11224E]">Riwayat Kerusakan</h2>
+                  <p className="text-sm text-slate-500 font-medium">
+                    Dashboard / <span className="text-[#F87B1B]">Riwayat</span>
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto mt-2 sm:mt-0">
+                <span className="rounded-full bg-sky-100 px-3 py-2 text-xs font-bold text-sky-800 whitespace-nowrap">
+                  {logs.length} riwayat
+                </span>
+                {canManage && (
+                  <button
+                    type="button"
+                    onClick={handleAdd}
+                    className="rounded-xl bg-[#F87B1B] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#F87B1B]/90 transition flex items-center gap-2 whitespace-nowrap"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    Tambah Riwayat
+                  </button>
+                )}
+              </div>
+            </div>
 
           <MaintenanceTable
             logs={logs}
@@ -161,16 +199,15 @@ export default function MaintenancePage() {
           />
         </div>
       </section>
+      </div>
 
-      {isModalOpen ? (
-        <MaintenanceFormModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onSubmit={handleSubmitForm}
-          initialData={selectedLog}
-          items={items}
-        />
-      ) : null}
+      <MaintenanceFormModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmitForm}
+        initialData={selectedLog}
+        items={items}
+      />
       
       <LoadingOverlay isLoading={loading} />
     </div>

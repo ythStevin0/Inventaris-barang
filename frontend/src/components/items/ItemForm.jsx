@@ -174,16 +174,14 @@ const ItemForm = memo(function ItemForm({
       </FormField>
 
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:justify-end">
-        {isEditing && (
-          <button
-            type="button"
-            onClick={onCancelEdit}
-            className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto shadow-sm"
-            disabled={submitting}
-          >
-            Batal Edit
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={onCancelEdit}
+          className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto shadow-sm"
+          disabled={submitting}
+        >
+          Batal
+        </button>
         <button
           type="submit"
           className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${isEditing ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-[#F87B1B] hover:bg-[#F87B1B]/90'}`}

@@ -1,30 +1,26 @@
 import { getStatusBadge, formatCurrency } from '../../utils/borrowingHelpers';
+import SlideOver from '../ui/SlideOver';
 
 export default function BorrowingDetailModal({
+  isOpen,
   borrowing,
   onClose,
 }) {
-  if (!borrowing) return null;
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '-';
+    return new Date(dateString).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
-      <div className="w-full max-w-2xl rounded-[28px] border border-white bg-white p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-xl font-bold text-secondary-900">Detail Peminjaman</h3>
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
-          >
-            ✕
-          </button>
-        </div>
-
+    <SlideOver isOpen={isOpen} onClose={onClose} title="Detail Peminjaman" width="max-w-xl">
+      {borrowing && (
+        <>
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4 rounded-2xl bg-accent-50 p-4 text-sm">
+          <div className="grid grid-cols-2 gap-4 rounded-2xl bg-slate-50 border border-slate-100 p-5 text-sm">
             <div>
               <span className="block text-xs text-slate-500">Nama Peminjam</span>
-              <span className="font-semibold text-secondary-800">{borrowing.borrower_name}</span>
+              <span className="font-semibold text-[#11224E]">{borrowing.borrower_name}</span>
             </div>
             <div>
               <span className="block text-xs text-slate-500">Status</span>
@@ -32,16 +28,16 @@ export default function BorrowingDetailModal({
             </div>
             <div>
               <span className="block text-xs text-slate-500">Tanggal Pinjam</span>
-              <span className="font-medium text-secondary-800">{borrowing.borrow_date}</span>
+              <span className="font-medium text-[#11224E]">{formatDate(borrowing.borrow_date)}</span>
             </div>
             <div>
               <span className="block text-xs text-slate-500">Tenggat Kembali</span>
-              <span className="font-medium text-secondary-800">{borrowing.due_date}</span>
+              <span className="font-medium text-[#11224E]">{formatDate(borrowing.due_date)}</span>
             </div>
             {borrowing.return_date && (
               <div>
                 <span className="block text-xs text-slate-500">Tanggal Pengembalian</span>
-                <span className="font-medium text-secondary-800">{borrowing.return_date}</span>
+                <span className="font-medium text-[#11224E]">{formatDate(borrowing.return_date)}</span>
               </div>
             )}
             {borrowing.total_fine > 0 && (
@@ -54,7 +50,7 @@ export default function BorrowingDetailModal({
 
           <div>
             <span className="block text-xs text-slate-500 mb-1">Tujuan Peminjaman</span>
-            <p className="rounded-2xl border border-slate-100 p-3 text-sm text-secondary-700 bg-white shadow-xs">
+            <p className="rounded-2xl bg-slate-50 p-4 text-sm text-[#11224E]">
               {borrowing.purpose}
             </p>
           </div>
@@ -64,24 +60,24 @@ export default function BorrowingDetailModal({
               <span className="block text-xs text-slate-500 mb-1">
                 {borrowing.status === 'rejected' ? 'Catatan Penolakan' : 'Catatan Peminjaman'}
               </span>
-              <p className="rounded-2xl border border-slate-100 p-3 text-sm text-secondary-700 bg-white shadow-xs">
+              <p className="rounded-2xl bg-slate-50 p-4 text-sm text-[#11224E]">
                 {borrowing.notes}
               </p>
             </div>
           )}
 
           <div>
-            <span className="block text-sm font-bold text-secondary-800 mb-2">Daftar Barang</span>
+            <span className="block text-sm font-bold text-[#11224E] mb-2">Daftar Barang</span>
             <div className="space-y-2">
               {(borrowing.borrowingItems ?? borrowing.borrowing_items ?? []).map((bi) => (
-                <div key={bi.id} className="flex flex-col rounded-xl border border-slate-100 p-3 text-sm">
+                <div key={bi.id} className="flex flex-col rounded-xl border border-slate-100 bg-slate-50 p-4 text-sm">
                   <div className="flex justify-between items-center">
                     <div>
-                      <span className="font-semibold text-secondary-800">{bi.item?.name ?? 'Barang'}</span>
+                      <span className="font-semibold text-[#11224E]">{bi.item?.name ?? 'Barang'}</span>
                       <span className="block text-xs text-slate-500">{bi.item?.item_code}</span>
                     </div>
                     <div className="text-right">
-                      <span className="font-medium text-secondary-800">{bi.quantity} unit</span>
+                      <span className="font-medium text-[#11224E]">{bi.quantity} unit</span>
                       {bi.condition_after && (
                         <span className="block text-xs text-slate-500">
                           Kondisi akhir: <span className="font-semibold capitalize">{bi.condition_after}</span>
@@ -102,8 +98,8 @@ export default function BorrowingDetailModal({
 
           {borrowing.return_proof_image && (
             <div>
-              <span className="block text-sm font-bold text-secondary-800 mb-2">Foto Bukti Pengembalian</span>
-              <div className="rounded-xl border border-slate-100 overflow-hidden bg-accent-50 flex justify-center p-2">
+              <span className="block text-sm font-bold text-[#11224E] mb-2">Foto Bukti Pengembalian</span>
+              <div className="rounded-xl border border-slate-100 overflow-hidden bg-slate-50 flex justify-center p-2">
                 <img 
                   src={borrowing.return_proof_image} 
                   alt="Bukti Pengembalian" 
@@ -118,12 +114,13 @@ export default function BorrowingDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-secondary-700 transition hover:bg-accent-50"
+            className="rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-[#11224E] transition hover:bg-slate-100"
           >
             Tutup
           </button>
         </div>
-      </div>
-    </div>
+        </>
+      )}
+    </SlideOver>
   );
 }

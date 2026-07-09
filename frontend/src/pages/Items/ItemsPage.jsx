@@ -224,10 +224,12 @@ export default function ItemsPage() {
   }, []);
 
   const handleCancelEdit = useCallback(() => {
-    setEditingItemId(null);
-    setForm(initialItemForm);
     setError('');
     setSuccess('');
+    setTimeout(() => {
+      setEditingItemId(null);
+      setForm(initialItemForm);
+    }, 300);
   }, []);
 
   const handleDelete = useCallback(async (id) => {

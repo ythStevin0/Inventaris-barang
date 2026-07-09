@@ -76,6 +76,20 @@ export default function Dashboard() {
     const [categories, setCategories] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
+    const [showCalendar, setShowCalendar] = useState(false);
+
+    // Calendar logic
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+    
+    const calendarDays = Array.from({ length: firstDay }).fill(null).concat(
+        Array.from({ length: daysInMonth }, (_, i) => i + 1)
+    );
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
 
     useEffect(() => {
         const loadDashboard = async () => {
@@ -135,20 +149,61 @@ export default function Dashboard() {
 
                         {/* Tanggal & Pengingat */}
                         <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-2">
-                                {/* Ikon Kalender */}
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#ffffff]/50">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                                </svg>
-                                <span className="text-sm font-medium text-[#ffffff]/80">
-                                    {new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                                </span>
+                            <div className="relative">
+                                <button 
+                                    onClick={() => {
+                                        setShowCalendar(!showCalendar);
+                                        if (!showCalendar) setShowNotifications(false);
+                                    }}
+                                    className="flex items-center gap-2 hover:bg-white/10 p-1.5 -ml-1.5 rounded-xl transition-colors z-20 relative cursor-pointer"
+                                >
+                                    {/* Ikon Kalender */}
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#ffffff]/50">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                                    </svg>
+                                    <span className="text-sm font-medium text-[#ffffff]/80">
+                                        {today.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                                    </span>
+                                </button>
+
+                                {/* Dropdown Kalender */}
+                                <div className={`absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-100 overflow-hidden z-50 transform origin-top-left transition-all duration-200 ease-out ${showCalendar ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
+                                    <div className="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                                        <h3 className="text-[#11224E] font-bold text-sm">{monthNames[currentMonth]} {currentYear}</h3>
+                                    </div>
+                                    <div className="p-3">
+                                        <div className="grid grid-cols-7 gap-1 text-center mb-2">
+                                            {['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'].map(day => (
+                                                <div key={day} className="text-[10px] font-bold text-gray-400">{day}</div>
+                                            ))}
+                                        </div>
+                                        <div className="grid grid-cols-7 gap-1 text-center">
+                                            {calendarDays.map((day, index) => (
+                                                <div 
+                                                    key={index} 
+                                                    className={`h-7 w-7 mx-auto flex items-center justify-center rounded-full text-xs font-medium ${
+                                                        day === today.getDate() 
+                                                            ? 'bg-[#F87B1B] text-white shadow-md shadow-orange-500/20' 
+                                                            : day 
+                                                                ? 'text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors' 
+                                                                : 'text-transparent'
+                                                    }`}
+                                                >
+                                                    {day || ''}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             {/* Notifikasi Lonceng */}
                             <div className="relative">
                                 <button 
-                                    onClick={() => setShowNotifications(!showNotifications)}
+                                    onClick={() => {
+                                        setShowNotifications(!showNotifications);
+                                        if (!showNotifications) setShowCalendar(false);
+                                    }}
                                     className="relative p-1.5 hover:bg-[#ffffff]/10 rounded-full transition-colors z-20"
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#ffffff]/70">
@@ -160,7 +215,7 @@ export default function Dashboard() {
                                 </button>
                                 
                                 {/* Dropdown Notifikasi */}
-                                <div className={`absolute right-0 mt-2 w-72 sm:w-80 bg-[#F87B1B] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-[#F87B1B] overflow-hidden z-50 transform origin-top-right transition-all duration-200 ease-out ${showNotifications ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
+                                <div className={`absolute left-[-150px] sm:left-auto sm:right-0 mt-2 w-72 sm:w-80 bg-[#F87B1B] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-[#F87B1B] overflow-hidden z-50 transform origin-top sm:origin-top-right transition-all duration-200 ease-out ${showNotifications ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
                                         <div className="p-3 border-b border-white/20 flex justify-between items-center bg-white/10">
                                             <h3 className="text-white font-bold text-xs tracking-wider">NOTIFIKASI</h3>
                                             <span className="text-[10px] font-bold bg-white text-[#F87B1B] px-2 py-0.5 rounded-full">

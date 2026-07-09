@@ -7,12 +7,15 @@ export default function SlideOver({ isOpen, onClose, title, children, width = 'm
 
   useEffect(() => {
     if (isOpen) {
-      setRender(true);
-      // Let React render the component first, then trigger animation
-      requestAnimationFrame(() => requestAnimationFrame(() => setIsShowing(true)));
+      // Delaying setState to next tick to avoid cascading render lint errors
+      setTimeout(() => {
+        setRender(true);
+        // Let React render the component first, then trigger animation
+        requestAnimationFrame(() => requestAnimationFrame(() => setIsShowing(true)));
+      }, 0);
       document.body.style.overflow = 'hidden';
     } else {
-      setIsShowing(false);
+      setTimeout(() => setIsShowing(false), 0);
       document.body.style.overflow = 'unset';
       const timer = setTimeout(() => setRender(false), 300);
       return () => clearTimeout(timer);

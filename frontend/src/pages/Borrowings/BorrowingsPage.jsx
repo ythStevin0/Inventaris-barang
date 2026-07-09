@@ -415,15 +415,15 @@ export default function BorrowingsPage() {
       )}
 
       {/* Modal Detail Peminjaman */}
-      {showDetailModal && selectedBorrowing && (
-        <BorrowingDetailModal
-          borrowing={selectedBorrowing}
-          onClose={() => {
-            setShowDetailModal(false);
-            setSelectedBorrowing(null);
-          }}
-        />
-      )}
+      <BorrowingDetailModal
+        isOpen={showDetailModal}
+        borrowing={selectedBorrowing}
+        onClose={() => {
+          setShowDetailModal(false);
+          // Don't set selectedBorrowing to null immediately so the data is still there during exit animation
+          setTimeout(() => setSelectedBorrowing(null), 300);
+        }}
+      />
 
       {/* Modal Tolak Peminjaman */}
       {showRejectModal && selectedBorrowing && (

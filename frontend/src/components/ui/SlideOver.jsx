@@ -1,37 +1,45 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 export default function SlideOver({ isOpen, onClose, title, children, width = 'max-w-md' }) {
-  // Prevent body scroll when open
+  const [render, setRender] = useState(isOpen);
+  const [isShowing, setIsShowing] = useState(false);
+
   useEffect(() => {
     if (isOpen) {
+      setRender(true);
+      // Let React render the component first, then trigger animation
+      requestAnimationFrame(() => requestAnimationFrame(() => setIsShowing(true)));
       document.body.style.overflow = 'hidden';
     } else {
+      setIsShowing(false);
       document.body.style.overflow = 'unset';
+      const timer = setTimeout(() => setRender(false), 300);
+      return () => clearTimeout(timer);
     }
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!render) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-50 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-slate-900/60 transition-opacity backdrop-blur-sm" 
+        className={`absolute inset-0 bg-[#11224E]/50 transition-opacity duration-300 backdrop-blur-sm ${isShowing ? 'opacity-100' : 'opacity-0'}`} 
         onClick={onClose}
         aria-hidden="true"
       />
 
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
         {/* Slide-over panel */}
-        <div className={`w-screen ${width} transform transition ease-in-out duration-300 animate-slide-in-right`}>
+        <div className={`w-screen ${width} transform transition-transform ease-in-out duration-300 ${isShowing ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="flex h-full flex-col bg-white shadow-2xl rounded-l-[40px] overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
-              <h2 className="text-xl font-bold text-secondary-900" id="slide-over-title">
+              <h2 className="text-xl font-bold text-[#11224E]" id="slide-over-title">
                 {title}
               </h2>
               <button

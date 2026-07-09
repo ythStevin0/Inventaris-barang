@@ -32,19 +32,19 @@ export default function MaintenanceTable({ logs, canManage, onEdit, onDelete }) 
 
   return (
     <>
-      <div className="overflow-x-auto rounded-2xl border border-slate-200">
+      <div className="overflow-x-auto">
         <table className="w-full text-left text-sm text-slate-600">
-          <thead className="border-b border-slate-200 bg-accent-50/50 text-xs font-semibold text-secondary-800">
+          <thead className="border-b border-slate-200 text-[10px] font-bold tracking-wider text-[#11224E] uppercase">
             <tr>
-              <th className="px-4 py-3">ID / Tgl Lapor</th>
-              <th className="px-4 py-3">Barang</th>
-              <th className="px-4 py-3">Pelapor</th>
-              <th className="px-4 py-3">Jenis</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3 text-right">Aksi</th>
+              <th className="px-4 py-4">ID / Tgl Lapor</th>
+              <th className="px-4 py-4">Barang</th>
+              <th className="px-4 py-4">Pelapor</th>
+              <th className="px-4 py-4">Jenis</th>
+              <th className="px-4 py-4">Status</th>
+              <th className="px-4 py-4 text-right">Aksi</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200 bg-white">
+          <tbody className="bg-white">
             {logs.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-4 py-8 text-center text-slate-500">
@@ -53,10 +53,10 @@ export default function MaintenanceTable({ logs, canManage, onEdit, onDelete }) 
               </tr>
             ) : (
               logs.map((log) => (
-                <tr key={log.id} className="transition-colors hover:bg-accent-50/50">
-                  <td className="px-4 py-3">
-                    <div className="font-medium text-secondary-900">#{log.id}</div>
-                    <div className="text-xs text-slate-500">{new Date(log.created_at).toLocaleDateString('id-ID')}</div>
+                <tr key={log.id} className="border-b border-slate-100 last:border-0 border-l-4 border-l-[#F87B1B] bg-white hover:bg-slate-50 transition-colors">
+                  <td className="px-4 py-4">
+                    <div className="font-bold text-[#11224E]">#{log.id}</div>
+                    <div className="text-xs text-slate-500 font-medium mt-0.5">{new Date(log.created_at).toLocaleDateString('id-ID')}</div>
                   </td>
                   <td className="px-4 py-3">
                     <div className="font-medium text-secondary-900">{log.item?.name}</div>

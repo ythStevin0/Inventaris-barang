@@ -1,6 +1,6 @@
 import useAuthStore from '../../store/authStore';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { canManageInventory } from '../../utils/permissions';
 import { getDashboardStats } from '../../services/dashboardService';
 
@@ -77,11 +77,34 @@ export default function Dashboard() {
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
     const [showCalendar, setShowCalendar] = useState(false);
+    const [calendarEvents, setCalendarEvents] = useState([]);
+    
+    // Refs for clicking outside
+    const calendarRef = useRef(null);
+    const notificationRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+                setShowCalendar(false);
+            }
+            if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+                setShowNotifications(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     // Calendar logic
     const today = new Date();
-    const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth();
+    const [currentMonth, setCurrentMonth] = useState(today.getMonth());
+    const [currentYear, setCurrentYear] = useState(today.getFullYear());
+    const [selectedDate, setSelectedDate] = useState(null);
+
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     
@@ -89,6 +112,47 @@ export default function Dashboard() {
         Array.from({ length: daysInMonth }, (_, i) => i + 1)
     );
     const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    const handlePrevMonth = (e) => {
+        e.stopPropagation();
+        if (currentMonth === 0) {
+            setCurrentMonth(11);
+            setCurrentYear(currentYear - 1);
+        } else {
+            setCurrentMonth(currentMonth - 1);
+        }
+        setSelectedDate(null);
+    };
+
+    const handleNextMonth = (e) => {
+        e.stopPropagation();
+        if (currentMonth === 11) {
+            setCurrentMonth(0);
+            setCurrentYear(currentYear + 1);
+        } else {
+            setCurrentMonth(currentMonth + 1);
+        }
+        setSelectedDate(null);
+    };
+
+    // Helper to check if a date has events
+    const getEventsForDate = (day) => {
+        if (!day) return [];
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        return calendarEvents.filter(event => {
+            const borrowDate = event.borrow_date ? event.borrow_date.split('T')[0] : null;
+            const dueDate = event.due_date ? event.due_date.split('T')[0] : null;
+            const returnDate = event.return_date ? event.return_date.split('T')[0] : null;
+            const endDate = returnDate || dueDate;
+
+            if (borrowDate && endDate) {
+                return dateStr >= borrowDate && dateStr <= endDate;
+            } else if (borrowDate) {
+                return dateStr === borrowDate;
+            }
+            return false;
+        });
+    };
 
 
     useEffect(() => {
@@ -101,6 +165,7 @@ export default function Dashboard() {
                 setRecentBorrowings(data.recentBorrowings);
                 setCategories(data.categories);
                 setNotifications(data.notifications || []);
+                setCalendarEvents(data.calendarEvents || []);
             } catch (error) {
                 console.error("Gagal memuat data dashboard:", error);
             }
@@ -149,7 +214,7 @@ export default function Dashboard() {
 
                         {/* Tanggal & Pengingat */}
                         <div className="flex items-center gap-3">
-                            <div className="relative">
+                            <div className="relative" ref={calendarRef}>
                                 <button 
                                     onClick={() => {
                                         setShowCalendar(!showCalendar);
@@ -167,9 +232,20 @@ export default function Dashboard() {
                                 </button>
 
                                 {/* Dropdown Kalender */}
-                                <div className={`absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-100 overflow-hidden z-50 transform origin-top-left transition-all duration-200 ease-out ${showCalendar ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
-                                    <div className="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                                        <h3 className="text-[#11224E] font-bold text-sm">{monthNames[currentMonth]} {currentYear}</h3>
+                                <div className={`absolute right-[-50px] sm:right-0 sm:left-auto mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-100 overflow-hidden z-50 transform origin-top-right transition-all duration-200 ease-out ${showCalendar ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
+                                    <div className="p-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                                        <div className="flex items-center gap-2">
+                                            <button onClick={handlePrevMonth} className="p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-500 hover:text-gray-700 cursor-pointer z-10">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                                            </button>
+                                            <h3 className="text-[#11224E] font-bold text-sm text-center min-w-[100px]">{monthNames[currentMonth]} {currentYear}</h3>
+                                            <button onClick={handleNextMonth} className="p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-500 hover:text-gray-700 cursor-pointer z-10">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                                            </button>
+                                        </div>
+                                        <button onClick={() => setShowCalendar(false)} className="p-1 bg-transparent hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600 z-10">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                        </button>
                                     </div>
                                     <div className="p-3">
                                         <div className="grid grid-cols-7 gap-1 text-center mb-2">
@@ -178,27 +254,76 @@ export default function Dashboard() {
                                             ))}
                                         </div>
                                         <div className="grid grid-cols-7 gap-1 text-center">
-                                            {calendarDays.map((day, index) => (
-                                                <div 
-                                                    key={index} 
-                                                    className={`h-7 w-7 mx-auto flex items-center justify-center rounded-full text-xs font-medium ${
-                                                        day === today.getDate() 
-                                                            ? 'bg-[#F87B1B] text-white shadow-md shadow-orange-500/20' 
-                                                            : day 
-                                                                ? 'text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors' 
-                                                                : 'text-transparent'
-                                                    }`}
-                                                >
-                                                    {day || ''}
-                                                </div>
-                                            ))}
+                                            {calendarDays.map((day, index) => {
+                                                const dayEvents = getEventsForDate(day);
+                                                const hasEvents = dayEvents.length > 0;
+                                                const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
+                                                const isSelected = day !== null && selectedDate === day;
+
+                                                return (
+                                                    <div 
+                                                        key={index} 
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            if (day) setSelectedDate(isSelected ? null : day);
+                                                        }}
+                                                        className={`relative h-8 w-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium ${
+                                                            isToday
+                                                                ? 'bg-[#F87B1B] text-white shadow-md shadow-orange-500/20' 
+                                                                : isSelected
+                                                                    ? 'bg-blue-100 text-blue-700 ring-2 ring-blue-500'
+                                                                    : day 
+                                                                        ? 'text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors' 
+                                                                        : 'text-transparent cursor-default'
+                                                        }`}
+                                                    >
+                                                        {day || ''}
+                                                        {day && hasEvents && !isToday && (
+                                                            <span className="absolute bottom-1 w-1 h-1 bg-red-500 rounded-full"></span>
+                                                        )}
+                                                        {day && hasEvents && isToday && (
+                                                            <span className="absolute bottom-1 w-1 h-1 bg-white rounded-full"></span>
+                                                        )}
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
+                                        
+                                        {/* Tampilan Detail / List */}
+                                        {selectedDate && (
+                                            <div className="mt-3 pt-3 border-t border-gray-100 animate-fadeIn" onClick={(e) => e.stopPropagation()}>
+                                                <h4 className="text-xs font-bold text-gray-700 mb-2">
+                                                    Keterangan {selectedDate} {monthNames[currentMonth]} {currentYear}:
+                                                </h4>
+                                                {getEventsForDate(selectedDate).length === 0 ? (
+                                                    <p className="text-xs text-gray-500 italic">Tidak ada jadwal.</p>
+                                                ) : (
+                                                    <ul className="space-y-2 max-h-40 overflow-y-auto custom-scrollbar pr-1">
+                                                        {getEventsForDate(selectedDate).map(ev => {
+                                                            const bDateStr = ev.borrow_date ? new Date(ev.borrow_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'}) : '-';
+                                                            const rDateStr = ev.return_date ? new Date(ev.return_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'}) : (ev.due_date ? new Date(ev.due_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'}) : '-');
+                                                            return (
+                                                                <li key={ev.id} className="text-[11px] bg-gray-50 p-2 rounded-lg border border-gray-100">
+                                                                    <div className="font-semibold text-[#11224E]">{ev.name}</div>
+                                                                    <div className="text-gray-500 mt-0.5">
+                                                                        {bDateStr} - {rDateStr}
+                                                                        <span className={`ml-2 px-1.5 py-0.5 rounded text-[9px] font-bold ${ev.status === 'borrowed' ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'}`}>
+                                                                            {ev.status === 'borrowed' ? 'Dipinjam' : 'Disetujui'}
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                            )
+                                                        })}
+                                                    </ul>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                             
                             {/* Notifikasi Lonceng */}
-                            <div className="relative">
+                            <div className="relative" ref={notificationRef}>
                                 <button 
                                     onClick={() => {
                                         setShowNotifications(!showNotifications);
@@ -216,11 +341,16 @@ export default function Dashboard() {
                                 
                                 {/* Dropdown Notifikasi */}
                                 <div className={`absolute left-[-150px] sm:left-auto sm:right-0 mt-2 w-72 sm:w-80 bg-[#F87B1B] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-[#F87B1B] overflow-hidden z-50 transform origin-top sm:origin-top-right transition-all duration-200 ease-out ${showNotifications ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
-                                        <div className="p-3 border-b border-white/20 flex justify-between items-center bg-white/10">
-                                            <h3 className="text-white font-bold text-xs tracking-wider">NOTIFIKASI</h3>
-                                            <span className="text-[10px] font-bold bg-white text-[#F87B1B] px-2 py-0.5 rounded-full">
-                                                {notifications.length} Baru
-                                            </span>
+                                        <div className="p-3 border-b border-white/20 flex justify-between items-center bg-white/10 relative">
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="text-white font-bold text-xs tracking-wider">NOTIFIKASI</h3>
+                                                <span className="text-[10px] font-bold bg-white text-[#F87B1B] px-2 py-0.5 rounded-full">
+                                                    {notifications.length} Baru
+                                                </span>
+                                            </div>
+                                            <button onClick={() => setShowNotifications(false)} className="p-1 bg-transparent hover:bg-white/20 rounded-full transition-colors text-white/70 hover:text-white cursor-pointer z-10">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                            </button>
                                         </div>
                                         <div className="max-h-[320px] overflow-y-auto custom-scrollbar">
                                             {notifications.length === 0 ? (

@@ -174,11 +174,30 @@ class DashboardController extends Controller
             }
         }
 
+        // 3. Calendar Events
+        $calendarQuery = Borrowing::whereIn('status', ['approved', 'borrowed'])->with('user');
+        if (!$isAdmin) {
+            $calendarQuery->where('user_id', $user->id);
+        }
+        $calendarBorrowings = $calendarQuery->get();
+
+        $calendarEvents = $calendarBorrowings->map(function ($borrowing) {
+            return [
+                'id' => $borrowing->id,
+                'name' => $borrowing->user ? $borrowing->user->name : $borrowing->borrower_name,
+                'borrow_date' => $borrowing->borrow_date,
+                'due_date' => $borrowing->due_date,
+                'return_date' => $borrowing->return_date,
+                'status' => $borrowing->status,
+            ];
+        });
+
         return response()->json([
             'stats' => $stats,
             'recentBorrowings' => $recentBorrowings,
             'categories' => $categoryStats,
-            'notifications' => $notifications
+            'notifications' => $notifications,
+            'calendarEvents' => $calendarEvents
         ]);
     }
 }

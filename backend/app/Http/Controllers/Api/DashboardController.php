@@ -26,30 +26,28 @@ class DashboardController extends Controller
         $categoriesQuery = Category::query();
 
         // Stats
-        $stats = Cache::remember("dashboard_stats", 300, function () {
-            $totalBarang = Item::sum('stock_total');
-            $totalKategori = Category::count();
+        $totalBarang = Item::sum('stock_total');
+        $totalKategori = Category::count();
 
-            // Barang Dipinjam (Quantity of items currently borrowed)
-            $barangDipinjam = DB::table('borrowing_items')
-                ->join('borrowings', 'borrowing_items.borrowing_id', '=', 'borrowings.id')
-                ->where('borrowings.status', 'borrowed')
-                ->sum('borrowing_items.quantity');
+        // Barang Dipinjam (Quantity of items currently borrowed or approved)
+        $barangDipinjam = DB::table('borrowing_items')
+            ->join('borrowings', 'borrowing_items.borrowing_id', '=', 'borrowings.id')
+            ->whereIn('borrowings.status', ['approved', 'borrowed'])
+            ->sum('borrowing_items.quantity');
 
-            // Peminjaman Aktif (Number of active borrowing requests)
-            $peminjamanAktif = Borrowing::active()->count();
+        // Peminjaman Aktif (Number of active borrowing requests)
+        $peminjamanAktif = Borrowing::whereIn('status', ['pending', 'approved', 'borrowed'])->count();
 
-            // Barang Rusak (Total damaged stock across all items)
-            $barangRusak = Item::sum('stock_damaged');
+        // Barang Rusak (Total damaged stock across all items)
+        $barangRusak = Item::sum('stock_damaged');
 
-            return [
-                'totalBarang' => (int) $totalBarang,
-                'totalKategori' => $totalKategori,
-                'barangDipinjam' => (int) $barangDipinjam,
-                'peminjamanAktif' => $peminjamanAktif,
-                'barangRusak' => $barangRusak,
-            ];
-        });
+        $stats = [
+            'totalBarang' => (int) $totalBarang,
+            'totalKategori' => $totalKategori,
+            'barangDipinjam' => (int) $barangDipinjam,
+            'peminjamanAktif' => $peminjamanAktif,
+            'barangRusak' => $barangRusak,
+        ];
 
         // Recent Borrowings
         $recentBorrowingsQuery = Borrowing::with(['user', 'borrowingItems.item'])

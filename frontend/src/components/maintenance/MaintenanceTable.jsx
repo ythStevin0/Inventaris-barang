@@ -34,7 +34,7 @@ export default function MaintenanceTable({ logs, canManage, onEdit, onDelete }) 
     <>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm text-slate-600">
-          <thead className="border-b border-slate-200 text-[10px] font-bold tracking-wider text-[#11224E] uppercase">
+          <thead className="border-b border-slate-200 text-[10px] font-bold tracking-wider text-emerald-900 uppercase">
             <tr>
               <th className="px-4 py-4">ID / Tgl Lapor</th>
               <th className="px-4 py-4">Barang</th>
@@ -55,7 +55,7 @@ export default function MaintenanceTable({ logs, canManage, onEdit, onDelete }) 
               logs.map((log) => (
                 <tr key={log.id} className="border-b border-slate-100 last:border-0 border-l-4 border-l-[#F87B1B] bg-white hover:bg-slate-50 transition-colors">
                   <td className="px-4 py-4">
-                    <div className="font-bold text-[#11224E]">#{log.id}</div>
+                    <div className="font-bold text-emerald-900">#{log.id}</div>
                     <div className="text-xs text-slate-500 font-medium mt-0.5">{new Date(log.created_at).toLocaleDateString('id-ID')}</div>
                   </td>
                   <td className="px-4 py-3">

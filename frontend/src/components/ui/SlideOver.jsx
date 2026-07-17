@@ -31,7 +31,7 @@ export default function SlideOver({ isOpen, onClose, title, children, width = 'm
     <div className="fixed inset-0 z-50 overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
       {/* Backdrop */}
       <div 
-        className={`absolute inset-0 bg-[#11224E]/50 transition-opacity duration-300 backdrop-blur-sm ${isShowing ? 'opacity-100' : 'opacity-0'}`} 
+        className={`absolute inset-0 bg-emerald-700/50 transition-opacity duration-300 backdrop-blur-sm ${isShowing ? 'opacity-100' : 'opacity-0'}`} 
         onClick={onClose}
         aria-hidden="true"
       />
@@ -42,7 +42,7 @@ export default function SlideOver({ isOpen, onClose, title, children, width = 'm
           <div className="flex h-full flex-col bg-white shadow-2xl rounded-l-[40px] overflow-hidden">
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
-              <h2 className="text-xl font-bold text-[#11224E]" id="slide-over-title">
+              <h2 className="text-xl font-bold text-emerald-900" id="slide-over-title">
                 {title}
               </h2>
               <button

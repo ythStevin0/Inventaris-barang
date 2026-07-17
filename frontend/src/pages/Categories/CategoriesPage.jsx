@@ -142,25 +142,15 @@ export default function CategoriesPage() {
   };
 
   return (
-    <div className="min-h-screen relative bg-slate-50 overflow-hidden pb-10">
-      {/* Background Decorations (Natural Waves / Semangat) */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-end">
-        {/* Layered Fluid Waves */}
-        <svg className="w-full absolute bottom-0 left-0" viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ height: '45vh', minHeight: '350px' }}>
-          {/* Orange Wave Background */}
-          <path fill="#F87B1B" fillOpacity="0.9" d="M0,192L48,208C96,224,192,256,288,245.3C384,235,480,181,576,170.7C672,160,768,192,864,208C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,85.3L1440,53L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          {/* Blue Wave Foreground */}
-          <path fill="#11224E" fillOpacity="1" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,202.7C672,224,768,256,864,250.7C960,245,1056,203,1152,181.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-      </div>
+    <div className="min-h-screen relative bg-transparent overflow-hidden pb-10">
 
       <div className="relative z-10 px-5 pt-8">
         <header className="mx-auto flex w-full max-w-7xl flex-wrap items-start justify-between gap-5 mb-8">
           <div className="space-y-1">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#F87B1B]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-teal-600">
               INVENTARIS BARANG
             </p>
-            <h1 className="text-3xl font-bold tracking-tight text-[#11224E] sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-emerald-900 sm:text-4xl">
               Kelola Kategori Inventaris
             </h1>
             <p className="text-sm text-slate-500">
@@ -179,7 +169,7 @@ export default function CategoriesPage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-xl bg-[#11224E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#11224E]/90 gap-2 shadow-sm"
+              className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 gap-2 shadow-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -198,16 +188,16 @@ export default function CategoriesPage() {
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-4 sm:p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
           <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#11224E]/10 text-[#11224E] shrink-0">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-50 text-emerald-900 shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6z" />
                 </svg>
               </div>
               <div>
-                <h2 className="mb-1 text-2xl font-bold tracking-tight text-[#11224E]">Kelola Kategori</h2>
+                <h2 className="mb-1 text-2xl font-bold tracking-tight text-emerald-900">Kelola Kategori</h2>
                 <p className="text-sm text-slate-500 font-medium">
-                  Dashboard / <span className="text-[#F87B1B]">Kategori</span>
+                  Dashboard / <span className="text-teal-600">Kategori</span>
                 </p>
               </div>
             </div>
@@ -222,7 +212,7 @@ export default function CategoriesPage() {
                     handleCancelEdit(); // reset form
                     setShowForm(true);
                   }}
-                  className="rounded-xl bg-[#F87B1B] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#F87B1B]/90 transition flex items-center gap-2 whitespace-nowrap"
+                  className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 transition flex items-center gap-2 whitespace-nowrap"
                 >
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                   Tambah Kategori
@@ -244,7 +234,7 @@ export default function CategoriesPage() {
                 {canManage && (
                   <button 
                     onClick={() => { handleCancelEdit(); setShowForm(true); }}
-                    className="mt-4 text-sm font-medium text-[#F87B1B] hover:text-[#e06912] transition-colors"
+                    className="mt-4 text-sm font-medium text-teal-600 hover:text-[#e06912] transition-colors"
                   >
                     + Tambah Kategori
                   </button>
@@ -341,21 +331,21 @@ export default function CategoriesPage() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                 <label className="flex flex-col gap-2">
-                  <span className={`text-sm font-bold ${editingId ? 'text-indigo-900' : 'text-[#11224E]'}`}>
+                  <span className={`text-sm font-bold ${editingId ? 'text-indigo-900' : 'text-emerald-900'}`}>
                     Nama Kategori
                   </span>
                   <input
                     name="name"
                     value={form.name}
                     onChange={handleChange}
-                    className={`w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${editingId ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-[#F87B1B] focus:ring-orange-50'}`}
+                    className={`w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${editingId ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-teal-500 focus:ring-orange-50'}`}
                     placeholder="Contoh: Elektronik"
                     required
                   />
                 </label>
 
                 <label className="flex flex-col gap-2">
-                  <span className={`text-sm font-bold ${editingId ? 'text-indigo-900' : 'text-[#11224E]'}`}>
+                  <span className={`text-sm font-bold ${editingId ? 'text-indigo-900' : 'text-emerald-900'}`}>
                     Deskripsi <span className="font-normal text-slate-400">(opsional)</span>
                   </span>
                   <textarea
@@ -363,7 +353,7 @@ export default function CategoriesPage() {
                     value={form.description}
                     onChange={handleChange}
                     rows="4"
-                    className={`w-full resize-y rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${editingId ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-[#F87B1B] focus:ring-orange-50'}`}
+                    className={`w-full resize-y rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${editingId ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-teal-500 focus:ring-orange-50'}`}
                     placeholder="Deskripsi singkat kategori"
                   />
                 </label>
@@ -379,7 +369,7 @@ export default function CategoriesPage() {
                   </button>
                   <button
                     type="submit"
-                    className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${editingId ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-[#F87B1B] hover:bg-[#F87B1B]/90'}`}
+                    className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${editingId ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-teal-500 hover:bg-teal-600'}`}
                     disabled={submitting}
                   >
                     {submitting ? (

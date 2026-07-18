@@ -244,25 +244,15 @@ export default function BorrowingsPage() {
 
 
   return (
-    <div className="min-h-screen relative bg-slate-50 overflow-hidden pb-10">
-      {/* Background Decorations (Natural Waves / Semangat) */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-end">
-        {/* Layered Fluid Waves */}
-        <svg className="w-full absolute bottom-0 left-0" viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ height: '45vh', minHeight: '350px' }}>
-          {/* Orange Wave Background */}
-          <path fill="#F87B1B" fillOpacity="0.9" d="M0,192L48,208C96,224,192,256,288,245.3C384,235,480,181,576,170.7C672,160,768,192,864,208C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,85.3L1440,53L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          {/* Blue Wave Foreground */}
-          <path fill="#11224E" fillOpacity="1" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,202.7C672,224,768,256,864,250.7C960,245,1056,203,1152,181.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-      </div>
+    <div className="min-h-screen relative bg-transparent overflow-hidden pb-10">
 
       <div className="relative z-10 px-5 pt-8">
         <header className="mx-auto flex w-full max-w-7xl flex-wrap items-start justify-between gap-5 mb-8">
           <div className="space-y-1">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#F87B1B]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-teal-600">
               PEMINJAMAN BARANG
             </p>
-            <h1 className="text-3xl font-bold tracking-tight text-[#11224E] sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-emerald-900 sm:text-4xl">
               Daftar & Pengajuan Peminjaman
             </h1>
             <p className="text-sm text-slate-500">
@@ -281,7 +271,7 @@ export default function BorrowingsPage() {
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-xl bg-[#11224E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#11224E]/90 gap-2 shadow-sm"
+              className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 gap-2 shadow-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -300,15 +290,15 @@ export default function BorrowingsPage() {
           <div className="rounded-[28px] border border-white/60 bg-white/85 p-4 sm:p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
             <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-center gap-3 w-full sm:w-auto">
-                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#11224E]/10 text-[#11224E] shrink-0">
+                <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-50 text-emerald-900 shrink-0">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
                   </svg>
                 </div>
                 <div>
-                  <h2 className="mb-1 text-2xl font-bold tracking-tight text-[#11224E]">Riwayat Peminjaman</h2>
+                  <h2 className="mb-1 text-2xl font-bold tracking-tight text-emerald-900">Riwayat Peminjaman</h2>
                   <p className="text-sm text-slate-500 font-medium">
-                    Dashboard / <span className="text-[#F87B1B]">Peminjaman</span>
+                    Dashboard / <span className="text-teal-600">Peminjaman</span>
                   </p>
                 </div>
               </div>
@@ -354,7 +344,7 @@ export default function BorrowingsPage() {
                       setScannedItemId('');
                       setShowBorrowModal(true);
                     }}
-                    className="inline-flex items-center justify-center rounded-lg bg-[#F87B1B] px-4 py-2 text-sm font-medium text-white hover:bg-[#e06912] transition-colors shadow-sm"
+                    className="inline-flex items-center justify-center rounded-lg bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-[#e06912] transition-colors shadow-sm"
                   >
                     + Ajukan Peminjaman
                   </button>

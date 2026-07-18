@@ -71,10 +71,10 @@ export default function ItemDetailPage() {
 
   if (!loading && (error || !item)) {
     return (
-      <div className="min-h-screen px-5 py-8 bg-gray-100">
+      <div className="min-h-screen px-5 py-8 bg-transparent">
         <div className="mx-auto max-w-7xl">
           <Alert tone="error">{error || 'Barang tidak ditemukan.'}</Alert>
-          <Link to="/items" className="mt-4 inline-block text-sm font-semibold text-[#F87B1B] hover:underline">
+          <Link to="/items" className="mt-4 inline-block text-sm font-semibold text-teal-600 hover:underline">
             Kembali ke Kelola Barang
           </Link>
         </div>
@@ -86,34 +86,34 @@ export default function ItemDetailPage() {
   const totalBorrowed = item ? (item?.stock_total - item?.stock_available - item?.stock_damaged) : 0;
 
   return (
-    <div className="min-h-screen px-5 py-8 bg-gray-100">
+    <div className="min-h-screen px-5 py-8 bg-transparent">
       <div className="mx-auto max-w-7xl">
         {/* Breadcrumbs */}
         <div className="mb-4 flex items-center gap-2 text-xs font-medium text-slate-500 uppercase tracking-wider">
-          <Link to="/items" className="hover:text-[#F87B1B]">Barang</Link>
+          <Link to="/items" className="hover:text-teal-600">Barang</Link>
           <span>&gt;</span>
-          <span className="text-[#11224E]">Detail Barang</span>
+          <span className="text-emerald-900">Detail Barang</span>
         </div>
 
         {/* Header */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight text-[#11224E]">{item?.name}</h1>
-            <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-[#11224E]">
+            <h1 className="text-3xl font-bold tracking-tight text-emerald-900">{item?.name}</h1>
+            <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-semibold text-emerald-900">
               Kode: {item?.item_code}
             </span>
           </div>
           <div className="flex items-center gap-3">
             <Link
               to="/items"
-              className="rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-[#11224E] hover:bg-slate-50 transition"
+              className="rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-emerald-900 hover:bg-slate-50 transition"
             >
               Kembali
             </Link>
 
             <button
               onClick={handlePrintQR}
-              className="rounded-xl bg-[#F87B1B] px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#F87B1B]/90 transition"
+              className="rounded-xl bg-teal-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 transition"
             >
               Cetak QR Code
             </button>
@@ -167,11 +167,11 @@ export default function ItemDetailPage() {
             <div className="grid grid-cols-3 gap-4">
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm text-left">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Tersedia</span>
-                <span className="text-2xl font-bold text-[#11224E]">{item?.stock_available}</span>
+                <span className="text-2xl font-bold text-emerald-900">{item?.stock_available}</span>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm text-left">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Dipinjam</span>
-                <span className="text-2xl font-bold text-[#F87B1B]">{totalBorrowed}</span>
+                <span className="text-2xl font-bold text-teal-600">{totalBorrowed}</span>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm text-left">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block mb-1">Rusak</span>
@@ -181,7 +181,7 @@ export default function ItemDetailPage() {
 
             {/* Basic Information */}
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 flex items-center gap-2 text-md font-bold text-[#11224E]">
+              <h3 className="mb-4 flex items-center gap-2 text-md font-bold text-emerald-900">
                 <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -191,38 +191,38 @@ export default function ItemDetailPage() {
               <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm">
                 <div>
                   <span className="block text-xs font-semibold text-slate-400">Nama Barang</span>
-                  <span className="font-semibold text-[#11224E]">{item?.name}</span>
+                  <span className="font-semibold text-emerald-900">{item?.name}</span>
                 </div>
                 <div>
                   <span className="block text-xs font-semibold text-slate-400">Lokasi</span>
-                  <span className="font-semibold text-[#11224E]">{item?.location || '-'}</span>
+                  <span className="font-semibold text-emerald-900">{item?.location || '-'}</span>
                 </div>
                 <div>
                   <span className="block text-xs font-semibold text-slate-400">Kategori</span>
-                  <span className="font-semibold text-[#11224E]">{item?.category?.name ?? '-'}</span>
+                  <span className="font-semibold text-emerald-900">{item?.category?.name ?? '-'}</span>
                 </div>
                 <div>
                   <span className="block text-xs font-semibold text-slate-400">Kode</span>
-                  <span className="font-semibold text-[#11224E]">{item?.item_code}</span>
+                  <span className="font-semibold text-emerald-900">{item?.item_code}</span>
                 </div>
                 <div>
                   <span className="block text-xs font-semibold text-slate-400">Merek</span>
-                  <span className="font-semibold text-[#11224E]">{item?.brand || '-'}</span>
+                  <span className="font-semibold text-emerald-900">{item?.brand || '-'}</span>
                 </div>
                 <div>
                   <span className="block text-xs font-semibold text-slate-400">Satuan</span>
-                  <span className="font-semibold text-[#11224E]">{item?.unit}</span>
+                  <span className="font-semibold text-emerald-900">{item?.unit}</span>
                 </div>
                 <div className="col-span-2">
                   <span className="block text-xs font-semibold text-slate-400">Tipe</span>
-                  <span className="font-semibold text-[#11224E] capitalize">{item?.type === 'durable' ? 'Durable' : item?.type === 'consumable' ? 'Consumable' : item?.type}</span>
+                  <span className="font-semibold text-emerald-900 capitalize">{item?.type === 'durable' ? 'Durable' : item?.type === 'consumable' ? 'Consumable' : item?.type}</span>
                 </div>
               </div>
             </div>
 
             {/* Inventory History Plans */}
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 flex items-center gap-2 text-md font-bold text-[#11224E]">
+              <h3 className="mb-4 flex items-center gap-2 text-md font-bold text-emerald-900">
                 <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                 </svg>
@@ -234,7 +234,7 @@ export default function ItemDetailPage() {
                   {item?.maintenance_logs.map((log) => (
                     <div key={log.id} className="flex items-center justify-between border-b border-slate-100 pb-3 text-sm">
                       <div>
-                        <p className="font-semibold text-[#11224E]">{log.description || 'Laporan Kerusakan'}</p>
+                        <p className="font-semibold text-emerald-900">{log.description || 'Laporan Kerusakan'}</p>
                         <p className="text-xs text-slate-400">Tanggal: {log.created_at ? new Date(log.created_at).toLocaleDateString('id-ID') : '-'}</p>
                       </div>
                       <div className="flex items-center gap-3">

@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import PrivateRoute from './PrivateRoute';
+import Background from '../components/ui/Background';
 
 const Login = lazy(() => import('../pages/Auth/Login'));
 const Dashboard = lazy(() => import('../pages/Dashboard/Dashboard'));
@@ -14,6 +15,7 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Suspense fallback={<div className="grid min-h-screen place-items-center text-base text-slate-600">Memuat halaman...</div>}>
+        <Background />
         <Routes>
         <Route path="/login" element={<Login />} />
         <Route

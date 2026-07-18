@@ -87,15 +87,15 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
           <div className="grid gap-5 md:grid-cols-2">
             {/* Kolom Kiri - Data Laporan */}
             <div className="space-y-5 rounded-2xl bg-slate-50 p-5 border border-slate-100">
-              <h3 className="text-sm font-bold text-[#11224E] border-b border-slate-200 pb-2 mb-3">Informasi Laporan</h3>
+              <h3 className="text-sm font-bold text-emerald-900 border-b border-slate-200 pb-2 mb-3">Informasi Laporan</h3>
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Pilih Barang</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Pilih Barang</label>
                 <select
                   name="item_id"
                   value={form.item_id}
                   onChange={handleChange}
                   disabled={!!initialData}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B] disabled:bg-slate-100"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500 disabled:bg-slate-100"
                 >
                   <option value="">-- Pilih Barang --</option>
                   {(items || []).map((item) => (
@@ -107,12 +107,12 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Jenis Laporan</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Jenis Laporan</label>
                 <select
                   name="type"
                   value={form.type}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B]"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500"
                 >
                   <option value="kerusakan">Kerusakan</option>
                   <option value="maintenance">Maintenance</option>
@@ -121,40 +121,40 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Tgl Kejadian/Maintenance</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Tgl Kejadian/Maintenance</label>
                 <input
                   type="date"
                   name="maintenance_date"
                   value={form.maintenance_date}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B]"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500"
                 />
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Deskripsi Kendala</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Deskripsi Kendala</label>
                 <textarea
                   name="description"
                   value={form.description}
                   onChange={handleChange}
                   rows={4}
                   placeholder="Ceritakan detail kerusakan/kendala..."
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B]"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500"
                 />
               </div>
             </div>
 
             {/* Kolom Kanan - Tindak Lanjut */}
             <div className="space-y-5 rounded-2xl bg-slate-50 p-5 border border-slate-100">
-              <h3 className="text-sm font-bold text-[#11224E] border-b border-slate-200 pb-2 mb-3">Bagian Tindak Lanjut</h3>
+              <h3 className="text-sm font-bold text-emerald-900 border-b border-slate-200 pb-2 mb-3">Bagian Tindak Lanjut</h3>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Status Perbaikan</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Status Perbaikan</label>
                 <select
                   name="status"
                   value={form.status}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B]"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500"
                 >
                   <option value="reported">Dilaporkan (Menunggu)</option>
                   <option value="in_progress">Sedang Diproses/Diperbaiki</option>
@@ -163,37 +163,37 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Tgl Selesai Perbaikan</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Tgl Selesai Perbaikan</label>
                 <input
                   type="date"
                   name="resolved_date"
                   value={form.resolved_date}
                   onChange={handleChange}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B]"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500"
                 />
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Biaya Perbaikan (Rp)</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Biaya Perbaikan (Rp)</label>
                 <input
                   type="number"
                   name="cost"
                   value={form.cost}
                   onChange={handleChange}
                   placeholder="Misal: 150000"
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B]"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500"
                 />
               </div>
 
               <div>
-                <label className="mb-1.5 block text-sm font-semibold text-[#11224E]">Catatan Penyelesaian</label>
+                <label className="mb-1.5 block text-sm font-semibold text-emerald-900">Catatan Penyelesaian</label>
                 <textarea
                   name="resolution_notes"
                   value={form.resolution_notes}
                   onChange={handleChange}
                   rows={3}
                   placeholder="Catatan setelah diperbaiki..."
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#F87B1B] focus:ring-[#F87B1B]"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-teal-500 focus:ring-teal-500"
                 />
               </div>
             </div>
@@ -211,7 +211,7 @@ export default function MaintenanceFormModal({ isOpen, onClose, onSubmit, initia
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-xl bg-[#11224E] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#11224E]/90 shadow-sm disabled:opacity-50"
+              className="rounded-xl bg-emerald-700 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-800 shadow-sm disabled:opacity-50"
             >
               {submitting ? 'Menyimpan...' : 'Simpan Laporan'}
             </button>

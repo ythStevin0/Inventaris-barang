@@ -327,27 +327,15 @@ export default function ItemsPage() {
 
 
   return (
-    <div className="min-h-screen relative bg-slate-50 overflow-hidden pb-10">
-      {/* Background Decorations (Natural Waves / Semangat) */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden flex items-end">
-
-        {/* Layered Fluid Waves */}
-        <svg className="w-full absolute bottom-0 left-0" viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ height: '45vh', minHeight: '350px' }}>
-          {/* Orange Wave Background */}
-          <path fill="#F87B1B" fillOpacity="0.9" d="M0,192L48,208C96,224,192,256,288,245.3C384,235,480,181,576,170.7C672,160,768,192,864,208C960,224,1056,224,1152,197.3C1248,171,1344,117,1392,85.3L1440,53L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          
-          {/* Blue Wave Foreground */}
-          <path fill="#11224E" fillOpacity="1" d="M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,202.7C672,224,768,256,864,250.7C960,245,1056,203,1152,181.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-      </div>
+    <div className="min-h-screen relative bg-transparent overflow-hidden pb-10">
 
       <div className="relative z-10 px-5 pt-8">
             <header className="mx-auto flex w-full max-w-7xl flex-wrap items-start justify-between gap-5 mb-8">
         <div className="space-y-1">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#F87B1B]">
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-teal-600">
             INVENTARIS BARANG
           </p>
-          <h1 className="text-3xl font-bold tracking-tight text-[#11224E] sm:text-4xl">
+          <h1 className="text-3xl font-bold tracking-tight text-emerald-900 sm:text-4xl">
             Kelola Barang Inventaris
           </h1>
           <p className="text-sm text-slate-500">
@@ -366,7 +354,7 @@ export default function ItemsPage() {
           <button
             type="button"
             onClick={handleLogout}
-            className="inline-flex items-center justify-center rounded-xl bg-[#11224E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#11224E]/90 gap-2 shadow-sm"
+            className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 gap-2 shadow-sm"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -386,15 +374,15 @@ export default function ItemsPage() {
         <div className="rounded-[28px] border border-white/60 bg-white/85 p-4 sm:p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
           <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#11224E]/10 text-[#11224E] shrink-0">
+              <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                 </svg>
               </div>
               <div>
-                <h2 className="mb-1 text-2xl font-bold tracking-tight text-[#11224E]">Daftar Barang</h2>
+                <h2 className="mb-1 text-2xl font-bold tracking-tight text-emerald-900">Daftar Barang</h2>
                 <p className="text-sm text-slate-500 font-medium">
-                  Dashboard / <span className="text-[#F87B1B]">Kelola Barang</span>
+                  Dashboard / <span className="text-teal-600">Kelola Barang</span>
                 </p>
               </div>
             </div>
@@ -407,14 +395,14 @@ export default function ItemsPage() {
                 <div className="flex flex-wrap items-center gap-3">
                   <button 
                     onClick={() => setEditingItemId(null) || setShowForm(true)}
-                    className="rounded-xl bg-[#F87B1B] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#F87B1B]/90 transition flex items-center gap-2 whitespace-nowrap"
+                    className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 transition flex items-center gap-2 whitespace-nowrap"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                     Tambah Barang
                   </button>
                   <button 
                     onClick={() => setShowImportModal(true)}
-                    className="rounded-xl border border-[#F87B1B] bg-white px-4 py-2 text-sm font-semibold text-[#F87B1B] hover:bg-orange-50 transition flex items-center gap-2 whitespace-nowrap"
+                    className="rounded-xl border border-teal-500 bg-white px-4 py-2 text-sm font-semibold text-teal-600 hover:bg-teal-50 transition flex items-center gap-2 whitespace-nowrap"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                     Import Excel
@@ -436,8 +424,8 @@ export default function ItemsPage() {
                   }}
                   className={`rounded-xl px-5 py-2 text-sm font-semibold transition border whitespace-nowrap flex-1 sm:flex-none ${
                     activeFilter === filter.value
-                      ? 'bg-[#11224E] text-white border-[#11224E]'
-                      : 'bg-white text-[#11224E] border-slate-200 hover:border-[#11224E]'
+                      ? 'bg-emerald-700 text-white border-emerald-700'
+                      : 'bg-white text-emerald-900 border-slate-200 hover:border-emerald-700'
                   }`}
                 >
                   {filter.label}
@@ -455,7 +443,7 @@ export default function ItemsPage() {
                         placeholder="Cari nama atau kode barang..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-9 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-[#11224E] text-sm w-full sm:w-[260px] text-slate-700"
+                        className="pl-9 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-700 text-sm w-full sm:w-[260px] text-slate-700"
                     />
                 </div>
                 <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition whitespace-nowrap shrink-0">

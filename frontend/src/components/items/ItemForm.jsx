@@ -11,7 +11,7 @@ const ItemForm = memo(function ItemForm({
   isEditing,
   onCancelEdit,
 }) {
-  const fieldClassName = `w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${isEditing ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-[#F87B1B] focus:ring-orange-50'}`;
+  const fieldClassName = `w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 text-sm text-secondary-900 outline-none transition placeholder:text-slate-400 focus:bg-white focus:ring-4 ${isEditing ? 'focus:border-indigo-400 focus:ring-indigo-50' : 'focus:border-teal-500 focus:ring-orange-50'}`;
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5 p-1">
@@ -184,7 +184,7 @@ const ItemForm = memo(function ItemForm({
         </button>
         <button
           type="submit"
-          className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${isEditing ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-[#F87B1B] hover:bg-[#F87B1B]/90'}`}
+          className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${isEditing ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-teal-500 hover:bg-teal-600'}`}
           disabled={submitting || Boolean(clientError)}
         >
           {submitting ? (
@@ -211,7 +211,7 @@ export default ItemForm;
 function FormField({ label, children, isEditing }) {
   return (
     <label className="flex flex-col gap-2">
-      <span className={`text-sm font-bold ${isEditing ? 'text-indigo-900' : 'text-[#11224E]'}`}>{label}</span>
+      <span className={`text-sm font-bold ${isEditing ? 'text-indigo-900' : 'text-emerald-900'}`}>{label}</span>
       {children}
     </label>
   );

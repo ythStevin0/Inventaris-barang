@@ -20,7 +20,7 @@ const ItemsTable = memo(function ItemsTable({
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse text-left">
           <thead>
-            <tr className="border-b border-slate-200 text-[11px] uppercase tracking-wider text-[#11224E] font-bold">
+            <tr className="border-b border-slate-200 text-[11px] uppercase tracking-wider text-emerald-900 font-bold">
               <th className="px-4 py-4">KODE</th>
               <th className="px-4 py-4">NAMA BARANG</th>
               <th className="px-4 py-4">KATEGORI</th>
@@ -36,9 +36,9 @@ const ItemsTable = memo(function ItemsTable({
 
               return (
                 <tr key={item.id} className="bg-white border-b border-slate-100/80 align-middle transition-colors">
-                  <td className="px-4 py-4 font-bold text-[#11224E] text-sm relative">
+                  <td className="px-4 py-4 font-bold text-emerald-900 text-sm relative">
                     {/* Orange Indicator */}
-                    <div className="absolute left-0 top-2 bottom-2 w-1 bg-[#F87B1B] rounded-r-md"></div>
+                    <div className="absolute left-0 top-2 bottom-2 w-1 bg-teal-500 rounded-r-md"></div>
                     {item.item_code}
                   </td>
                   <td className="px-4 py-4 text-secondary-800 flex items-center gap-3">
@@ -59,7 +59,7 @@ const ItemsTable = memo(function ItemsTable({
                     <div>
                       <Link
                         to={`/items/${item.id}`}
-                        className="font-bold text-[#11224E] hover:text-[#F87B1B] transition text-sm text-left block"
+                        className="font-bold text-emerald-900 hover:text-teal-600 transition text-sm text-left block"
                       >
                         {item.name}
                       </Link>
@@ -90,7 +90,7 @@ const ItemsTable = memo(function ItemsTable({
                   </td>
                   <td className="px-4 py-4">
                     <div className="flex flex-col">
-                      <span className="font-bold text-[#11224E]">
+                      <span className="font-bold text-emerald-900">
                         {item.stock_available}/{item.stock_total}
                       </span>
                       {item.stock_damaged > 0 && (
@@ -181,21 +181,21 @@ const ItemsTable = memo(function ItemsTable({
         <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 sm:px-6 mt-4 bg-white rounded-b-xl">
           <div className="hidden sm:block">
             <p className="text-sm text-slate-500">
-              Menampilkan <span className="font-bold text-[#11224E]">{meta.from || 0}</span> sampai <span className="font-bold text-[#11224E]">{meta.to || 0}</span> dari <span className="font-bold text-[#11224E]">{meta.total}</span> hasil
+              Menampilkan <span className="font-bold text-emerald-900">{meta.from || 0}</span> sampai <span className="font-bold text-emerald-900">{meta.to || 0}</span> dari <span className="font-bold text-emerald-900">{meta.total}</span> hasil
             </p>
           </div>
           <div className="flex flex-1 justify-between sm:justify-end gap-2">
             <button
               onClick={() => onPageChange(meta.current_page - 1)}
               disabled={meta.current_page === 1}
-              className="relative inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-[#11224E] hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+              className="relative inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-emerald-900 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
             >
               Sebelumnya
             </button>
             <button
               onClick={() => onPageChange(meta.current_page + 1)}
               disabled={meta.current_page === meta.last_page}
-              className="relative inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-[#11224E] hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+              className="relative inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-emerald-900 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
             >
               Selanjutnya
             </button>

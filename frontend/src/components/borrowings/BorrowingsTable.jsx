@@ -44,7 +44,7 @@ export default function BorrowingsTable({
                 </td>
                 <td className="py-4 px-6 text-slate-600">{borrowing.borrow_date}</td>
                 <td className="py-4 px-6 text-slate-600">{borrowing.due_date}</td>
-                <td className="py-4 px-6 text-slate-600 max-w-[200px] truncate" title={borrowing.purpose}>{borrowing.purpose}</td>
+                <td className="py-4 px-6 text-slate-600 max-w-200px truncate" title={borrowing.purpose}>{borrowing.purpose}</td>
                 <td className="py-4 px-6">{getStatusBadge(borrowing.status)}</td>
                 <td className="py-4 px-6 text-right opacity-80 group-hover:opacity-100 transition-opacity">
                   <div className="flex flex-wrap items-center justify-end gap-1 opacity-60 group-hover:opacity-100 transition-opacity">

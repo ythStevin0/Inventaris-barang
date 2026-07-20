@@ -142,7 +142,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
               key={index}
               className="flex flex-wrap items-end gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3"
             >
-              <div className="min-w-[180px] flex-1">
+              <div className="min-w-180px flex-1">
                 <label className="mb-1 block text-xs font-medium text-slate-600">Pilih Barang</label>
                 <select
                   value={si.item_id}
@@ -172,7 +172,7 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
                 />
               </div>
 
-              <div className="min-w-[140px] flex-1">
+              <div className="min-w-140px flex-1">
                 <label className="mb-1 block text-xs font-medium text-slate-600">Catatan</label>
                 <input
                   type="text"

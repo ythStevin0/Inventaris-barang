@@ -111,7 +111,7 @@ const sidebarComponent = `
                                 {user?.name?.charAt(0) || 'U'}
                             </div>
                             <div>
-                                <p className="text-xs font-bold text-emerald-950 truncate max-w-[120px]">{user?.name}</p>
+                                <p className="text-xs font-bold text-emerald-950 truncate max-w-120px">{user?.name}</p>
                                 <p className="text-[10px] text-emerald-600 capitalize">{user?.role}</p>
                             </div>
                         </div>

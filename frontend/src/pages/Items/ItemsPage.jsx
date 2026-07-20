@@ -443,7 +443,7 @@ export default function ItemsPage() {
                         placeholder="Cari nama atau kode barang..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-9 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-700 text-sm w-full sm:w-[260px] text-slate-700"
+                        className="pl-9 pr-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-emerald-700 text-sm w-full sm:w-260px text-slate-700"
                     />
                 </div>
                 <button className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition whitespace-nowrap shrink-0">

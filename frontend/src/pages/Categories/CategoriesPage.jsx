@@ -255,7 +255,7 @@ export default function CategoriesPage() {
                 return (
                   <div
                     key={category.id}
-                    className={`group relative flex flex-col justify-between rounded-[24px] border ${theme.card} p-4 transition-all hover:-translate-y-1 hover:shadow-md`}
+                    className={`group relative flex flex-col justify-between rounded-24px border ${theme.card} p-4 transition-all hover:-translate-y-1 hover:shadow-md`}
                   >
                     <div>
                       {/* Top Header: Avatar + Title */}

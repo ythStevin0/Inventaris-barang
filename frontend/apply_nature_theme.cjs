@@ -10,14 +10,14 @@ content = content.replace(rootRegex,
             <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-multiply" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width=\\'100\\'%25 height=\\'100\\'%25 xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cfilter id=\\'noise\\'%3E%3CfeTurbulence type=\\'fractalNoise\\' baseFrequency=\\'0.01\\' numOctaves=\\'3\\' stitchTiles=\\'stitch\\'/%3E%3CfeColorMatrix type=\\'matrix\\' values=\\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.5 0\\' /%3E%3C/filter%3E%3Crect width=\\'100\\'%25 height=\\'100\\'%25 filter=\\'url(%23noise)\\'/%3E%3C/svg%3E')" }}></div>
             
             {/* 2. Soft Nature Orbs */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none fixed z-[0]">
-                <div className="absolute -top-[10%] -left-[10%] w-[50%] h-[80%] rounded-[100%] bg-emerald-200/40 blur-[120px] mix-blend-multiply animate-blob"></div>
-                <div className="absolute top-[20%] -right-[10%] w-[40%] h-[70%] rounded-[100%] bg-lime-200/40 blur-[120px] mix-blend-multiply animate-blob animation-delay-2000"></div>
-                <div className="absolute bottom-[0%] left-[20%] w-[60%] h-[60%] rounded-[100%] bg-green-200/30 blur-[120px] mix-blend-multiply animate-blob animation-delay-4000"></div>
+            <div className="top-0 left-0 w-full h-full overflow-hidden pointer-events-none fixed z-0">
+                <div className="absolute -top-10% -left-10% w-[50%] h-[80%] rounded-[100%] bg-emerald-200/40 blur-[120px] mix-blend-multiply animate-blob"></div>
+                <div className="absolute top-20% -right-10% w-[40%] h-[70%] rounded-[100%] bg-lime-200/40 blur-[120px] mix-blend-multiply animate-blob animation-delay-2000"></div>
+                <div className="absolute bottom-0 left-20% w-[60%] h-[60%] rounded-[100%] bg-green-200/30 blur-[120px] mix-blend-multiply animate-blob animation-delay-4000"></div>
             </div>
             
             {/* 3. Animasi Kunang-Kunang (Fireflies) */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1] fixed">
+            <div className="inset-0 overflow-hidden pointer-events-none z-1 fixed">
                 {[...Array(35)].map((_, i) => (
                     <div key={i} 
                          className="absolute rounded-full bg-lime-300 shadow-[0_0_12px_4px_rgba(163,230,53,0.7)] animate-firefly"
@@ -44,8 +44,8 @@ content = content.replace(batikRegex, '');
 
 // 3. Fix the top spacing that was inside the old header wrapper
 content = content.replace(
-    '<div className="relative w-full max-w-[1400px] mx-auto px-6 lg:px-10 pt-12 md:pt-16 pb-28 md:pb-32 z-10">',
-    '<div className="relative w-full max-w-[1400px] mx-auto px-6 lg:px-10 pt-8 md:pt-12 pb-16 z-10">'
+    '<div className="relative w-full max-w-1400px mx-auto px-6 lg:px-10 pt-12 md:pt-16 pb-28 md:pb-32 z-10">',
+    '<div className="relative w-full max-w-1400px mx-auto px-6 lg:px-10 pt-8 md:pt-12 pb-16 z-10">'
 );
 
 // 4. Update Header Typography (from light/white text to elegant dark green)
@@ -77,8 +77,8 @@ content = content.replace(/bg-white\/10/g, 'bg-emerald-900/5');
 
 // 6. Fix "Overlapping" margin so cards don't overlap a non-existent block
 content = content.replace(
-    '<div className="w-full max-w-[1400px] mx-auto px-6 lg:px-10 -mt-14 relative z-20">',
-    '<div className="w-full max-w-[1400px] mx-auto px-6 lg:px-10 relative z-20 mb-8">'
+    '<div className="w-full max-w-1400px mx-auto px-6 lg:px-10 -mt-14 relative z-20">',
+    '<div className="w-full max-w-1400px mx-auto px-6 lg:px-10 relative z-20 mb-8">'
 );
 
 // 7. Make cards glassmorphic over the nature background

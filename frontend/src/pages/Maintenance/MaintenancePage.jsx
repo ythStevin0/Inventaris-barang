@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Alert from '../../components/ui/Alert';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import MaintenanceTable from '../../components/maintenance/MaintenanceTable';
@@ -8,10 +8,11 @@ import { getMaintenanceLogs, createMaintenanceLog, updateMaintenanceLog, deleteM
 import { getItems } from '../../services/itemsService';
 import useAuthStore from '../../store/authStore';
 import { canManageInventory } from '../../utils/permissions';
+import Navbar from '../../components/Layout/Navbar';
+import bgTexture from '../../assets/download (4).jpg';
 
 export default function MaintenancePage() {
-  const navigate = useNavigate();
-  const { user, logout, getMe } = useAuthStore();
+  const { user, getMe } = useAuthStore();
   const [logs, setLogs] = useState([]);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,10 +58,6 @@ export default function MaintenancePage() {
     }
   };
 
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login');
-  };
 
   const handleAdd = () => {
     setSelectedLog(null);
@@ -105,49 +102,47 @@ export default function MaintenancePage() {
 
 
   return (
-    <div className="min-h-screen relative bg-transparent overflow-hidden pb-10">
+    <div className="min-h-screen flex flex-col font-sans bg-[#FDFBF7] pb-10">
+      {/* TOP GREEN SECTION */}
+      <div className="bg-[#0F4C3A] rounded-b-[40px] pb-32 relative shadow-lg">
+        {/* Background Image Overlay */}
+        <div 
+            className="absolute inset-0 z-0 pointer-events-none mix-blend-overlay opacity-60 rounded-b-[40px] overflow-hidden"
+            style={{
+                backgroundImage: `url(${bgTexture})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+        ></div>
+        <Navbar />
 
-      <div className="relative z-10 px-5 pt-8">
-        <header className="mx-auto flex w-full max-w-7xl flex-wrap items-start justify-between gap-5 mb-8">
-          <div className="space-y-1">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-teal-600">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 relative z-10">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-300 mb-1">
               INVENTARIS BARANG
             </p>
-            <h1 className="text-3xl font-bold tracking-tight text-emerald-900 sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
               {canManage ? "Kelola Riwayat Kerusakan & Perbaikan" : "Daftar Kerusakan Barang"}
             </h1>
-            <p className="text-sm text-slate-500">
-              Login sebagai <span className="font-medium">{user?.name ?? 'Pengguna'}</span>{user?.role ? ` (${user.role})` : ''}.
-            </p>
           </div>
-
           <div className="flex flex-wrap gap-3">
             <Link
               to="/dashboard"
-              className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 gap-2 shadow-sm"
+              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 gap-2 shadow-sm backdrop-blur"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
               Kembali ke Dashboard
             </Link>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="inline-flex items-center justify-center rounded-xl bg-emerald-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-800 gap-2 shadow-sm"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-              </svg>
-              Logout
-            </button>
           </div>
-        </header>
+        </div>
+      </div>
 
-        <div className="mx-auto mt-6 flex w-full max-w-7xl flex-col gap-4">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 lg:px-10 -mt-20 relative z-10">
           {error ? <Alert tone="error">{error}</Alert> : null}
           {success ? <Alert tone="success">{success}</Alert> : null}
         </div>
 
-        <section className="mx-auto mt-6 w-full max-w-7xl">
+      <section className="mx-auto mt-4 w-full max-w-7xl px-6 lg:px-10">
           <div className="rounded-[28px] border border-white/60 bg-white/85 p-4 sm:p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] backdrop-blur">
             <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
               <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -189,7 +184,6 @@ export default function MaintenancePage() {
           />
         </div>
       </section>
-      </div>
 
       <MaintenanceFormModal
         isOpen={isModalOpen}

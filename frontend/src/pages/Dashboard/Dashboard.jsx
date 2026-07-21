@@ -18,11 +18,11 @@ export default function Dashboard() {
         barangRusak: 0,
     });
     const [recentBorrowings, setRecentBorrowings] = useState([]);
-    const [notifications, setNotifications] = useState([]);
     const [calendarEvents, setCalendarEvents] = useState([]);
+    const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
+    const notificationRef = useRef(null);
     
-    // Pagination for widgets
     const [pageRecent, setPageRecent] = useState(0);
     const [pageCalendar, setPageCalendar] = useState(0);
     
@@ -81,16 +81,15 @@ export default function Dashboard() {
         });
     };
     
-    const notificationRef = useRef(null);
     const calendarRef = useRef(null);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (notificationRef.current && !notificationRef.current.contains(event.target)) {
-                setShowNotifications(false);
-            }
             if (calendarRef.current && !calendarRef.current.contains(event.target)) {
                 setShowCalendar(false);
+            }
+            if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+                setShowNotifications(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -133,7 +132,7 @@ export default function Dashboard() {
     const available = totalBarang - (stats.barangDipinjam || 0) - (stats.barangRusak || 0);
 
     return (
-        <div className="min-h-screen flex flex-col font-sans bg-[#FDFBF7]">
+        <div className="min-h-screen flex flex-col font-sans bg-[#FDFBF7] overflow-x-hidden">
             {/* TOP GREEN SECTION */}
             <div className="bg-[#0F4C3A] rounded-b-[40px] pb-32 relative shadow-lg">
                 {/* Background Image Overlay */}
@@ -145,12 +144,7 @@ export default function Dashboard() {
                         backgroundPosition: 'center',
                     }}
                 ></div>
-                <Navbar 
-                    notifications={notifications}
-                    showNotifications={showNotifications}
-                    setShowNotifications={setShowNotifications}
-                    notificationRef={notificationRef}
-                />
+                <Navbar />
                 
                 {/* Hero */}
                 <div className="max-w-1400px mx-auto px-6 lg:px-10 mt-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -162,6 +156,54 @@ export default function Dashboard() {
                     </div>
                     
                     <div className="flex items-center gap-3">
+                        {/* Notification */}
+                        <div className="relative" ref={notificationRef}>
+                            <button 
+                                onClick={() => setShowNotifications(!showNotifications)}
+                                className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors relative cursor-pointer"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" /></svg>
+                                {notifications?.length > 0 && (
+                                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-yellow-400 rounded-full"></span>
+                                )}
+                            </button>
+                            
+                            {/* Dropdown Notifikasi */}
+                            <div className={`absolute left-0 md:right-0 md:left-auto mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-200 overflow-hidden transform origin-top-left md:origin-top-right transition-all duration-200 ease-out z-50 ${showNotifications ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
+                                <div className="p-3 bg-[#0F4C3A] flex justify-between items-center relative">
+                                    <div className="flex items-center gap-2">
+                                        <h3 className="text-white font-bold text-xs tracking-wider">NOTIFIKASI</h3>
+                                        <span className="text-[10px] font-bold bg-emerald-500 text-white px-2 py-0.5 rounded-full">
+                                            {notifications?.length || 0} Baru
+                                        </span>
+                                    </div>
+                                    <button onClick={() => setShowNotifications(false)} className="p-1 bg-transparent hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white cursor-pointer z-10">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+                                <div className="max-h-320px overflow-y-auto custom-scrollbar">
+                                    {!notifications || notifications.length === 0 ? (
+                                        <div className="py-8 px-4 text-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-10 h-10 mx-auto text-gray-300 mb-2"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+                                            <p className="text-gray-500 text-xs">Belum ada notifikasi baru.</p>
+                                        </div>
+                                    ) : (
+                                        notifications.map(n => (
+                                            <div key={n.id} className="flex gap-3 p-3 border-b border-gray-100 hover:bg-gray-50 transition-colors last:border-0 cursor-pointer">
+                                                <div className="w-8 h-8 rounded-full flex shrink-0 items-center justify-center bg-[#0F4C3A]/10 text-[#0F4C3A]">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs text-gray-800 font-bold leading-relaxed">{n.title}</p>
+                                                    <p className="text-[11px] text-gray-500 line-clamp-2 leading-relaxed">{n.message}</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
                         <div className="relative z-50" ref={calendarRef}>
                             <button 
                                 onClick={() => {
@@ -175,8 +217,9 @@ export default function Dashboard() {
                             </button>
 
                             {/* Dropdown Kalender */}
-                            <div className={`absolute left-0 md:right-0 md:left-auto mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-100 overflow-hidden transform origin-top-left md:origin-top-right transition-all duration-200 ease-out ${showCalendar ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
-                                <div className="p-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                            <div className="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:right-0 md:left-auto mt-2 z-50">
+                                <div className={`w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-100 overflow-hidden transform origin-top md:origin-top-right transition-all duration-200 ease-out ${showCalendar ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
+                                    <div className="p-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
                                     <div className="flex items-center gap-2">
                                         <button onClick={handlePrevMonth} className="p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-500 hover:text-gray-700 cursor-pointer z-10">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
@@ -262,6 +305,7 @@ export default function Dashboard() {
                                         </div>
                                     )}
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>

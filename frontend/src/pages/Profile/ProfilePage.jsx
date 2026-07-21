@@ -11,10 +11,7 @@ export default function ProfilePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
     
-    // Notifications & Calendar States
-    const [notifications, setNotifications] = useState([]);
-    const [showNotifications, setShowNotifications] = useState(false);
-    const notificationRef = useRef(null);
+    // Calendar States
 
     const [calendarEvents, setCalendarEvents] = useState([]);
     const [showCalendar, setShowCalendar] = useState(false);
@@ -43,7 +40,6 @@ export default function ProfilePage() {
         const loadData = async () => {
             try {
                 const statsData = await getDashboardStats();
-                setNotifications(statsData.notifications || []);
                 
                 try {
                     const borrowingsData = await getBorrowings();
@@ -174,12 +170,7 @@ export default function ProfilePage() {
                         backgroundPosition: 'center',
                     }}
                 ></div>
-                <Navbar 
-                    notifications={notifications}
-                    showNotifications={showNotifications}
-                    setShowNotifications={setShowNotifications}
-                    notificationRef={notificationRef}
-                />
+                <Navbar />
                 
                 <div className="max-w-3xl mx-auto px-6 lg:px-10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div>
@@ -442,7 +433,7 @@ export default function ProfilePage() {
                         <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/50">
                             <h3 className="font-semibold text-gray-800 text-sm">Aktivitas Terkini</h3>
                         </div>
-                        <div className="divide-y divide-gray-50 max-h-[360px] overflow-y-auto custom-scrollbar">
+                        <div className="divide-y divide-gray-50 max-h-90 overflow-y-auto custom-scrollbar">
                             {userBorrowings.length > 0 ? (
                                 userBorrowings.map((borrowing) => (
                                     <div key={borrowing.id} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-gray-50 transition-colors">

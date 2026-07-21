@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
+import logoImg from '../../assets/logoSibos.png';
+
+const INITIAL_PARTICLES = [...Array(12)].map(() => ({
+    width: Math.random() * 6 + 2 + 'px',
+    height: Math.random() * 6 + 2 + 'px',
+    left: Math.random() * 100 + '%',
+    top: Math.random() * 100 + '%',
+    animationDuration: Math.random() * 10 + 10 + 's',
+    animationDelay: Math.random() * 5 + 's',
+}));
 
 export default function Login() {
     const navigate = useNavigate();
@@ -70,30 +80,21 @@ export default function Login() {
                 </div>
 
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(241,245,249,0.9)_100%)] z-0 pointer-events-none"></div>
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:40px_40px] z-0"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-size-[40px_40px] z-0"></div>
                 
                 {/* Floating "Sun Motes" / Particles */}
                 <div className="absolute inset-0 overflow-hidden z-0">
-                    {[...Array(12)].map((_, i) => (
-                        <div key={i} className="absolute rounded-full bg-emerald-400/30 animate-float" style={{
-                            width: Math.random() * 6 + 2 + 'px',
-                            height: Math.random() * 6 + 2 + 'px',
-                            left: Math.random() * 100 + '%',
-                            top: Math.random() * 100 + '%',
-                            animationDuration: Math.random() * 10 + 10 + 's',
-                            animationDelay: Math.random() * 5 + 's',
-                        }}></div>
+                    {INITIAL_PARTICLES.map((style, i) => (
+                        <div key={i} className="absolute rounded-full bg-emerald-400/30 animate-float" style={style}></div>
                     ))}
                 </div>
             </div>
 
             {/* ===================== HEADER ===================== */}
             <div className="absolute top-0 left-0 w-full p-6 md:p-10 flex justify-between items-center z-20">
-                <div className="flex items-center gap-4 group cursor-pointer">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 group-hover:rotate-12 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 text-white group-hover:scale-110 transition-transform">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
-                        </svg>
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.1),0_10px_20px_-2px_rgba(0,0,0,0.04)] flex items-center justify-center p-2.5">
+                        <img src={logoImg} alt="Logo STIMBARA" className="w-full h-full object-contain" />
                     </div>
                     <div>
                         <span className="text-slate-800 font-black text-2xl md:text-3xl tracking-widest block leading-none mb-1">STIMBARA</span>
@@ -122,7 +123,7 @@ export default function Login() {
                     <h1 className="text-slate-800 text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6 drop-shadow-sm tracking-tight">
                         Sirkulasi alat <br className="hidden lg:block" /> 
                         <div className="relative inline-block mt-2">
-                            <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">
+                            <span className="relative z-10 text-transparent bg-clip-text bg-linear-to-r from-emerald-500 to-teal-500">
                                 tanpa batas.
                             </span>
                             <div className="absolute bottom-1 left-0 w-full h-4 bg-emerald-200/50 -rotate-1 z-0"></div>
@@ -160,8 +161,8 @@ export default function Login() {
                     <div className="relative group rounded-[2.5rem] bg-white/70 backdrop-blur-3xl border border-white border-t-white p-8 lg:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(255,255,255,1)] transition-all duration-500 hover:shadow-[0_40px_70px_-15px_rgba(16,185,129,0.15)] overflow-hidden">
                         
                         {/* Dynamic Card Internal Glow */}
-                        <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-emerald-300/40 to-transparent rounded-full blur-[40px] pointer-events-none group-hover:scale-110 transition-transform duration-700"></div>
-                        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-gradient-to-tr from-cyan-300/40 to-transparent rounded-full blur-[40px] pointer-events-none group-hover:scale-110 transition-transform duration-700"></div>
+                        <div className="absolute top-[-50px] right-[-50px] w-32 h-32 bg-linear-to-br from-emerald-100 to-transparent rounded-full blur-[40px] opacity-60 pointer-events-none"></div>
+                        <div className="absolute bottom-[-50px] left-[-50px] w-32 h-32 bg-linear-to-tr from-cyan-100 to-transparent rounded-full blur-[40px] opacity-60 pointer-events-none"></div>
 
                         <div className="relative z-10">
                             <div className="mb-10 text-center">
@@ -243,7 +244,7 @@ export default function Login() {
                                     disabled={loading}
                                     className="w-full relative overflow-hidden bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-black tracking-wide uppercase rounded-2xl px-4 py-4 mt-6 flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_8px_20px_-6px_rgba(16,185,129,0.5)] hover:shadow-[0_12px_25px_-6px_rgba(16,185,129,0.6)] hover:-translate-y-1 group/btn"
                                 >
-                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-[slide-in-right_0.8s_ease-out]"></div>
+                                    <div className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/btn:animate-[slide-in-right_0.8s_ease-out]"></div>
                                     {loading ? (
                                         <>
                                             <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

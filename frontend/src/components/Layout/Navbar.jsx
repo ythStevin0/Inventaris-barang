@@ -9,6 +9,7 @@ export default function Navbar({ notifications = [], showNotifications, setShowN
     const navigate = useNavigate();
     const { user, logout } = useAuthStore();
     const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
     const profileMenuRef = useRef(null);
 
     useEffect(() => {
@@ -86,7 +87,7 @@ export default function Navbar({ notifications = [], showNotifications, setShowN
                     </button>
                     
                     {/* Dropdown Notifikasi */}
-                    <div className={`absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-200 overflow-hidden transform origin-top-right transition-all duration-200 ease-out ${showNotifications ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`} style={{ zIndex: 9999 }}>
+                    <div className={`absolute right-[-4rem] sm:right-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-200 overflow-hidden transform origin-top-right sm:origin-top-right transition-all duration-200 ease-out ${showNotifications ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`} style={{ zIndex: 9999 }}>
                         <div className="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 relative">
                             <div className="flex items-center gap-2">
                                 <h3 className="text-gray-800 font-bold text-xs tracking-wider">NOTIFIKASI</h3>
@@ -160,8 +161,14 @@ export default function Navbar({ notifications = [], showNotifications, setShowN
                             <button 
                                 onClick={async () => {
                                     setShowProfileMenu(false);
-                                    await logout();
-                                    navigate('/login');
+                                    setIsLoggingOut(true);
+                                    try {
+                                        await logout();
+                                        navigate('/login');
+                                    } catch (error) {
+                                        console.error('Logout error:', error);
+                                        setIsLoggingOut(false);
+                                    }
                                 }}
                                 className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-xl transition-colors mt-1 cursor-pointer"
                             >
@@ -172,6 +179,17 @@ export default function Navbar({ notifications = [], showNotifications, setShowN
                     </div>
                 </div>
             </div>
+
+            {/* Logout Loading Overlay */}
+            {isLoggingOut && (
+                <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center backdrop-blur-sm bg-slate-50/50">
+                    <svg className="animate-spin h-14 w-14 text-emerald-900 drop-shadow-md" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span className="mt-4 font-bold text-emerald-900 tracking-wider animate-pulse drop-shadow-sm">KELUAR...</span>
+                </div>
+            )}
         </nav>
     );
 }

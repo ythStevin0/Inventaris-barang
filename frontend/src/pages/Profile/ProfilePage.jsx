@@ -62,7 +62,7 @@ export default function ProfilePage() {
             }
         };
         loadData();
-    }, []);
+    }, [user?.email, user?.id]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -442,9 +442,9 @@ export default function ProfilePage() {
                         <div className="px-6 py-4 border-b border-gray-50 bg-gray-50/50">
                             <h3 className="font-semibold text-gray-800 text-sm">Aktivitas Terkini</h3>
                         </div>
-                        <div className="divide-y divide-gray-50 max-h-400px overflow-y-auto custom-scrollbar">
+                        <div className="divide-y divide-gray-50 max-h-[360px] overflow-y-auto custom-scrollbar">
                             {userBorrowings.length > 0 ? (
-                                userBorrowings.slice(0, 10).map((borrowing) => (
+                                userBorrowings.map((borrowing) => (
                                     <div key={borrowing.id} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-gray-50 transition-colors">
                                         <div className="flex flex-col">
                                             <span className="font-semibold text-gray-900">

@@ -101,14 +101,14 @@ export default function ItemQRDrawer({ isOpen, onClose, item }) {
           <button
             type="button"
             onClick={handlePrint}
-            className="flex-1 inline-flex items-center justify-center rounded-xl bg-primary-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700"
+            className="flex-1 inline-flex items-center justify-center rounded-xl bg-primary-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-700 cursor-pointer"
           >
             Cetak QR Code
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="flex-1 inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 cursor-pointer"
           >
             Tutup
           </button>

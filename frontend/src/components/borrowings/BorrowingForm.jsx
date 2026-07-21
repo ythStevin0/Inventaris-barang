@@ -202,14 +202,14 @@ export default function BorrowingForm({ items, submitting, onSubmit, onCancel, i
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center justify-center rounded-2xl bg-emerald-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 disabled:opacity-50"
+          className="inline-flex items-center justify-center rounded-2xl bg-emerald-700 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 disabled:opacity-50 cursor-pointer"
         >
           {submitting ? 'Mengirim...' : 'Ajukan Peminjaman'}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-emerald-900 transition hover:bg-slate-100"
+          className="inline-flex items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-emerald-900 transition hover:bg-slate-100 cursor-pointer"
         >
           Batal
         </button>

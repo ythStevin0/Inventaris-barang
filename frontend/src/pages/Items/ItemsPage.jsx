@@ -10,6 +10,7 @@ import Alert from '../../components/ui/Alert';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import { getCategories } from '../../services/categoriesService';
 import { createItem, getItems, updateItem, deleteItem, importItems } from '../../services/itemsService';
+import { exportItemsPdf, exportItemsExcel } from '../../services/reportService';
 import useAuthStore from '../../store/authStore';
 import { canManageInventory } from '../../utils/permissions';
 import { validateItemForm } from '../../utils/validateItemForm';
@@ -50,6 +51,32 @@ export default function ItemsPage() {
   // State for Import
   const [showImportModal, setShowImportModal] = useState(false);
   const [importing, setImporting] = useState(false);
+
+  // State for Export
+  const [exportingPdf, setExportingPdf] = useState(false);
+  const [exportingExcel, setExportingExcel] = useState(false);
+
+  const handleExportPdf = async () => {
+    setExportingPdf(true);
+    try {
+      await exportItemsPdf();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Gagal mengekspor laporan PDF');
+    } finally {
+      setExportingPdf(false);
+    }
+  };
+
+  const handleExportExcel = async () => {
+    setExportingExcel(true);
+    try {
+      await exportItemsExcel();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Gagal mengekspor laporan Excel');
+    } finally {
+      setExportingExcel(false);
+    }
+  };
 
   const canManageItems = canManageInventory(user);
   const itemFilters = useMemo(() => {
@@ -388,16 +415,34 @@ export default function ItemsPage() {
               </span>
               {canManageItems && (
                 <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={handleExportPdf}
+                    disabled={exportingPdf}
+                    className="flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm border border-slate-200 hover:bg-slate-50 transition whitespace-nowrap disabled:opacity-50 cursor-pointer"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 13h6m-3-3v6" /></svg>
+                    {exportingPdf ? 'Mengekspor...' : 'PDF'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleExportExcel}
+                    disabled={exportingExcel}
+                    className="flex items-center gap-2 rounded-xl bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm border border-slate-200 hover:bg-slate-50 transition whitespace-nowrap disabled:opacity-50 cursor-pointer"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    {exportingExcel ? 'Mengekspor...' : 'Excel'}
+                  </button>
                   <button 
                     onClick={() => setEditingItemId(null) || setShowForm(true)}
-                    className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 transition flex items-center gap-2 whitespace-nowrap"
+                    className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 transition flex items-center gap-2 whitespace-nowrap cursor-pointer"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                     Tambah Barang
                   </button>
                   <button 
                     onClick={() => setShowImportModal(true)}
-                    className="rounded-xl border border-teal-500 bg-white px-4 py-2 text-sm font-semibold text-teal-600 hover:bg-teal-50 transition flex items-center gap-2 whitespace-nowrap"
+                    className="rounded-xl border border-teal-500 bg-white px-4 py-2 text-sm font-semibold text-teal-600 hover:bg-teal-50 transition flex items-center gap-2 whitespace-nowrap cursor-pointer"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                     Import Excel

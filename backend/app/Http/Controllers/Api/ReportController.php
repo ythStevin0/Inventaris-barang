@@ -48,4 +48,30 @@ class ReportController extends Controller
             'laporan-peminjaman.xlsx'
         );
     }
+
+    public function exportItemsPdf(Request $request)
+    {
+        $query = \App\Models\Item::with('category')->orderBy('name', 'asc');
+        
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $items = $query->get();
+
+        $pdf = Pdf::loadView('reports.items', [
+            'items' => $items,
+            'category_id' => $request->category_id,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->download('laporan-inventaris-barang.pdf');
+    }
+
+    public function exportItemsExcel(Request $request)
+    {
+        return Excel::download(
+            new \App\Exports\ItemsExport($request->category_id), 
+            'laporan-inventaris-barang.xlsx'
+        );
+    }
 }

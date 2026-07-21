@@ -114,7 +114,7 @@ export default function BorrowingDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-emerald-900 transition hover:bg-slate-100"
+            className="rounded-2xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-emerald-900 transition hover:bg-slate-100 cursor-pointer"
           >
             Tutup
           </button>

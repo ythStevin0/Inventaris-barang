@@ -80,7 +80,7 @@ export default function MaintenanceDetailModal({ log, onClose }) {
           <div className="mt-8 flex justify-end">
             <button
               onClick={onClose}
-              className="rounded-xl bg-accent-100 px-6 py-2.5 text-sm font-bold text-secondary-700 transition hover:bg-slate-200"
+              className="rounded-xl bg-accent-100 px-6 py-2.5 text-sm font-bold text-secondary-700 transition hover:bg-slate-200 cursor-pointer"
             >
               Tutup
             </button>

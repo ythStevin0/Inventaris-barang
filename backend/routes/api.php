@@ -53,6 +53,10 @@ Route::middleware(['auth:sanctum', 'role:admin,pengurus'])->group(function () {
     Route::get('/reports/borrowings/pdf', [\App\Http\Controllers\Api\ReportController::class, 'exportBorrowingsPdf']);
     Route::get('/reports/borrowings/excel', [\App\Http\Controllers\Api\ReportController::class, 'exportBorrowingsExcel']);
 
+    // Laporan Barang
+    Route::get('/reports/items/pdf', [\App\Http\Controllers\Api\ReportController::class, 'exportItemsPdf']);
+    Route::get('/reports/items/excel', [\App\Http\Controllers\Api\ReportController::class, 'exportItemsExcel']);
+
     // Maintenance (Full CRUD untuk Admin/Pengurus)
     Route::post('/maintenance', [\App\Http\Controllers\Api\MaintenanceController::class, 'store']);
     Route::put('/maintenance/{id}', [\App\Http\Controllers\Api\MaintenanceController::class, 'update']);

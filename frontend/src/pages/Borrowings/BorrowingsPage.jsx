@@ -8,6 +8,7 @@ import BorrowingsTable from '../../components/borrowings/BorrowingsTable';
 import BorrowingDetailModal from '../../components/borrowings/BorrowingDetailModal';
 import RejectBorrowingModal from '../../components/borrowings/RejectBorrowingModal';
 import QRScannerModal from '../../components/borrowings/QRScannerModal';
+import SlideOver from '../../components/ui/SlideOver';
 import {
   getBorrowings,
   createBorrowing,
@@ -304,7 +305,7 @@ export default function BorrowingsPage() {
                     type="button"
                     onClick={handleExportPdf}
                     disabled={exportingPdf}
-                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-red-600 transition-colors disabled:opacity-50"
+                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-red-600 transition-colors disabled:opacity-50 cursor-pointer"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     {exportingPdf ? 'Mengekspor...' : 'PDF'}
@@ -313,7 +314,7 @@ export default function BorrowingsPage() {
                     type="button"
                     onClick={handleExportExcel}
                     disabled={exportingExcel}
-                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-green-600 transition-colors disabled:opacity-50"
+                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-green-600 transition-colors disabled:opacity-50 cursor-pointer"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                     {exportingExcel ? 'Mengekspor...' : 'Excel'}
@@ -327,7 +328,7 @@ export default function BorrowingsPage() {
                   <button
                     type="button"
                     onClick={() => setShowScannerModal(true)}
-                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                    className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                     Scan QR
@@ -338,7 +339,7 @@ export default function BorrowingsPage() {
                       setScannedItemId('');
                       setShowBorrowModal(true);
                     }}
-                    className="inline-flex items-center justify-center rounded-lg bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-[#e06912] transition-colors shadow-sm"
+                    className="inline-flex items-center justify-center rounded-lg bg-teal-500 px-4 py-2 text-sm font-medium text-white hover:bg-[#e06912] transition-colors shadow-sm cursor-pointer"
                   >
                     + Ajukan Peminjaman
                   </button>
@@ -374,29 +375,22 @@ export default function BorrowingsPage() {
       </section>
 
       {/* Modal Ajukan Peminjaman */}
-      {showBorrowModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-secondary-900">Form Pengajuan Peminjaman</h3>
-              <button
-                type="button"
-                onClick={() => setShowBorrowModal(false)}
-                className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
-              >
-                ✕
-              </button>
-            </div>
-            <BorrowingForm
-              items={items}
-              submitting={submitting}
-              onSubmit={handleCreateBorrowing}
-              onCancel={() => setShowBorrowModal(false)}
-              initialItemId={scannedItemId}
-            />
-          </div>
+      <SlideOver
+        isOpen={showBorrowModal}
+        onClose={() => setShowBorrowModal(false)}
+        title="Form Pengajuan Peminjaman"
+        width="max-w-3xl"
+      >
+        <div className="p-6 h-full overflow-y-auto">
+          <BorrowingForm
+            items={items}
+            submitting={submitting}
+            onSubmit={handleCreateBorrowing}
+            onCancel={() => setShowBorrowModal(false)}
+            initialItemId={scannedItemId}
+          />
         </div>
-      )}
+      </SlideOver>
 
       {/* Modal Detail Peminjaman */}
       <BorrowingDetailModal

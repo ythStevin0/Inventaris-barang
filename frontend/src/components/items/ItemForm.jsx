@@ -36,14 +36,27 @@ const ItemForm = memo(function ItemForm({
 
       <div className="grid gap-4 md:grid-cols-2">
         <FormField label="Kode Barang" isEditing={isEditing}>
-          <input
-            name="item_code"
-            value={form.item_code}
-            onChange={onChange}
-            className={fieldClassName}
-            placeholder="Contoh: LPT"
-            required
-          />
+          <div className="flex gap-2">
+            <input
+              name="item_code"
+              value={form.item_code}
+              onChange={onChange}
+              className={fieldClassName}
+              placeholder="Contoh: INV-..."
+              required
+            />
+            <button
+              type="button"
+              onClick={() => {
+                const newCode = `INV-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
+                onChange({ target: { name: 'item_code', value: newCode } });
+              }}
+              className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-xl border border-slate-200 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              title="Generate Kode Otomatis"
+            >
+              Generate
+            </button>
+          </div>
         </FormField>
 
         <FormField label="Nama Barang" isEditing={isEditing}>
@@ -177,14 +190,14 @@ const ItemForm = memo(function ItemForm({
         <button
           type="button"
           onClick={onCancelEdit}
-          className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto shadow-sm"
+          className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-600 transition hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto shadow-sm cursor-pointer"
           disabled={submitting}
         >
           Batal
         </button>
         <button
           type="submit"
-          className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 ${isEditing ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-teal-500 hover:bg-teal-600'}`}
+          className={`inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto gap-2 cursor-pointer ${isEditing ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-teal-500 hover:bg-teal-600'}`}
           disabled={submitting || Boolean(clientError)}
         >
           {submitting ? (

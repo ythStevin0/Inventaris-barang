@@ -128,7 +128,11 @@ export default function Navbar({ notifications = [], showNotifications, setShowN
                         onClick={() => setShowProfileMenu(!showProfileMenu)}
                     >
                         <div className="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold overflow-hidden border-2 border-white/20">
-                            {user?.name?.charAt(0).toUpperCase()}
+                            {user?.avatar_url ? (
+                                <img src={user.avatar_url} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                user?.name?.charAt(0).toUpperCase()
+                            )}
                         </div>
                         <div className="hidden sm:block pr-2">
                             <p className="text-white font-semibold text-sm leading-tight">{user?.name}</p>
@@ -144,7 +148,10 @@ export default function Navbar({ notifications = [], showNotifications, setShowN
                         </div>
                         <div className="p-2">
                             <button 
-                                onClick={() => setShowProfileMenu(false)}
+                                onClick={() => {
+                                    setShowProfileMenu(false);
+                                    navigate('/profile');
+                                }}
                                 className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-colors cursor-pointer"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>

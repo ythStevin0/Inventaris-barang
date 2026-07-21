@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { loginRequest, logoutRequest, meRequest } from '../services/authService';
+import { loginRequest, logoutRequest, meRequest, updateProfileRequest } from '../services/authService';
 
 // Hydrate user dari sessionStorage agar tidak perlu memanggil getMe() berulang
 function getStoredUser() {
@@ -41,6 +41,14 @@ const useAuthStore = create((set, get) => ({
         sessionStorage.setItem('user', JSON.stringify(user));
         set({ user });
         return user;
+    },
+
+    updateProfile: async (formData) => {
+        const response = await updateProfileRequest(formData);
+        const { user } = response;
+        sessionStorage.setItem('user', JSON.stringify(user));
+        set({ user });
+        return response;
     },
 }));
 

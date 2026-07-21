@@ -10,6 +10,7 @@ const ItemDetailPage = lazy(() => import('../pages/Items/ItemDetailPage'));
 const CategoriesPage = lazy(() => import('../pages/Categories/CategoriesPage'));
 const BorrowingsPage = lazy(() => import('../pages/Borrowings/BorrowingsPage'));
 const MaintenancePage = lazy(() => import('../pages/Maintenance/MaintenancePage'));
+const ProfilePage = lazy(() => import('../pages/Profile/ProfilePage'));
 
 export default function AppRouter() {
   return (
@@ -63,6 +64,14 @@ export default function AppRouter() {
           element={
             <PrivateRoute>
               <MaintenancePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <ProfilePage />
             </PrivateRoute>
           }
         />

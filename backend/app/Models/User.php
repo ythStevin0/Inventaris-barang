@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;         
 
-#[Fillable(['name', 'email', 'password', 'role', 'nim_nip', 'no_hp', 'is_active'])]
+#[Fillable(['name', 'email', 'avatar', 'password', 'role', 'nim_nip', 'no_hp', 'is_active'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -56,5 +56,12 @@ class User extends Authenticatable
     public function hasAnyRole(array $roles): bool
     {
         return in_array($this->role, $roles, true);
+    }
+
+    protected $appends = ['avatar_url'];
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        return $this->avatar ? url('storage/' . $this->avatar) : null;
     }
 }

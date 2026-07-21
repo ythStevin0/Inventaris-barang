@@ -48,11 +48,11 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen relative flex flex-col items-center justify-center overflow-hidden bg-slate-50 font-sans selection:bg-emerald-500 selection:text-white">
+        <div className="min-h-screen relative flex flex-col items-center justify-center overflow-x-hidden bg-slate-50 font-sans selection:bg-emerald-500 selection:text-white">
             
             {/* ===================== BACKGROUND LAYER ===================== */}
             <div className="absolute inset-0 w-full h-full pointer-events-none">
-                <div className="absolute inset-0 bg-[#f8fafc] z-0"></div>
+                <div className="absolute inset-0 bg-accent-50 z-0"></div>
                 
                 {/* Parallax Blobs */}
                 <div 
@@ -108,7 +108,7 @@ export default function Login() {
             </div>
 
             {/* ===================== MAIN CONTENT ===================== */}
-            <div className="relative z-20 w-full max-w-[1300px] mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 pt-20 lg:pt-0">
+            <div className="relative z-20 w-full max-w-325 mx-auto px-6 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-24 pt-28 pb-20 lg:py-0">
                 
                 {/* Left Side: Dynamic Typography */}
                 <div className="flex-1 text-center lg:text-left max-w-xl lg:max-w-2xl">
@@ -157,12 +157,12 @@ export default function Login() {
                 </div>
 
                 {/* Right Side: Animated Floating Glass Card */}
-                <div className="w-full max-w-[420px] shrink-0 lg:animate-float-card">
+                <div className="w-full max-w-105 shrink-0 lg:animate-float-card">
                     <div className="relative group rounded-[2.5rem] bg-white/70 backdrop-blur-3xl border border-white border-t-white p-8 lg:p-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(255,255,255,1)] transition-all duration-500 hover:shadow-[0_40px_70px_-15px_rgba(16,185,129,0.15)] overflow-hidden">
                         
                         {/* Dynamic Card Internal Glow */}
-                        <div className="absolute top-[-50px] right-[-50px] w-32 h-32 bg-linear-to-br from-emerald-100 to-transparent rounded-full blur-[40px] opacity-60 pointer-events-none"></div>
-                        <div className="absolute bottom-[-50px] left-[-50px] w-32 h-32 bg-linear-to-tr from-cyan-100 to-transparent rounded-full blur-[40px] opacity-60 pointer-events-none"></div>
+                        <div className="absolute -top-12.5 -right-12.5 w-32 h-32 bg-linear-to-br from-emerald-100 to-transparent rounded-full blur-2xl opacity-60 pointer-events-none"></div>
+                        <div className="absolute -bottom-12.5 -left-12.5 w-32 h-32 bg-linear-to-tr from-cyan-100 to-transparent rounded-full blur-2xl opacity-60 pointer-events-none"></div>
 
                         <div className="relative z-10">
                             <div className="mb-10 text-center">

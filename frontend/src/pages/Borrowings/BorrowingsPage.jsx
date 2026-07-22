@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Alert from '../../components/ui/Alert';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import BorrowingForm from '../../components/borrowings/BorrowingForm';
@@ -22,6 +22,7 @@ import { getItems } from '../../services/itemsService';
 import useAuthStore from '../../store/authStore';
 import { canManageInventory } from '../../utils/permissions';
 import Navbar from '../../components/Layout/Navbar';
+import HeaderActions from '../../components/ui/HeaderActions';
 import bgTexture from '../../assets/download (4).jpg';
 
 export default function BorrowingsPage() {
@@ -265,13 +266,7 @@ export default function BorrowingsPage() {
             </h1>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 gap-2 shadow-sm backdrop-blur"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-              Kembali ke Dashboard
-            </Link>
+            <HeaderActions />
           </div>
         </div>
       </div>
@@ -466,34 +461,27 @@ export default function BorrowingsPage() {
       )}
 
       {/* Modal Proses Pengembalian */}
-      {showReturnModal && selectedBorrowing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-secondary-900/40 p-4 backdrop-blur-xs">
-          <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-secondary-900">Form Pengembalian Barang</h3>
-              <button
-                type="button"
-                onClick={() => {
-                  setShowReturnModal(false);
-                  setSelectedBorrowing(null);
-                }}
-                className="rounded-lg p-1 text-slate-400 hover:bg-accent-100 hover:text-secondary-700"
-              >
-                ✕
-              </button>
-            </div>
-            <ReturnForm
-              borrowing={selectedBorrowing}
-              submitting={submitting}
-              onSubmit={handleReturnBorrowing}
-              onCancel={() => {
-                setShowReturnModal(false);
-                setSelectedBorrowing(null);
-              }}
-            />
-          </div>
-        </div>
-      )}
+      <SlideOver
+        isOpen={!!(showReturnModal && selectedBorrowing)}
+        onClose={() => {
+          setShowReturnModal(false);
+          setSelectedBorrowing(null);
+        }}
+        title="Form Pengembalian Barang"
+        width="max-w-3xl"
+      >
+        {selectedBorrowing && (
+          <ReturnForm
+            borrowing={selectedBorrowing}
+            submitting={submitting}
+            onSubmit={handleReturnBorrowing}
+            onCancel={() => {
+              setShowReturnModal(false);
+              setSelectedBorrowing(null);
+            }}
+          />
+        )}
+      </SlideOver>
 
       {/* Modal Scanner QR Code */}
       <QRScannerModal

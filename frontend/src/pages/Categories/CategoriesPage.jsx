@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Alert from '../../components/ui/Alert';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import SlideOver from '../../components/ui/SlideOver';
+import HeaderActions from '../../components/ui/HeaderActions';
+import { getDashboardStats } from '../../services/dashboardService';
+import { getBorrowings } from '../../services/borrowingsService';
 import {
   getCategories,
   createCategory,
@@ -30,12 +32,27 @@ export default function CategoriesPage() {
 
   const canManage = canManageInventory(user);
 
+  const [notifications, setNotifications] = useState([]);
+  const [calendarEvents, setCalendarEvents] = useState([]);
+
   useEffect(() => {
     const loadPage = async () => {
       try {
         if (!user) await getMe();
         const data = await getCategories();
         setCategories(data);
+        
+        try {
+            const statsData = await getDashboardStats();
+            setNotifications(statsData.notifications || []);
+            const borrowingsData = await getBorrowings();
+            if (borrowingsData && borrowingsData.data) {
+                setCalendarEvents(borrowingsData.data.filter(b => b.status === 'borrowed' || b.status === 'approved'));
+            }
+        } catch (e) {
+            console.error("Gagal memuat notifikasi", e);
+        }
+
       } catch (err) {
         setError(
           err.response?.data?.message ?? 'Gagal memuat data kategori.'
@@ -162,15 +179,10 @@ export default function CategoriesPage() {
               Kelola Kategori Inventaris
             </h1>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 gap-2 shadow-sm backdrop-blur"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-              Kembali ke Dashboard
-            </Link>
-          </div>
+          <HeaderActions 
+            notifications={notifications} 
+            calendarEvents={calendarEvents} 
+          />
         </div>
       </div>
 

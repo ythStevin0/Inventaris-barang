@@ -44,9 +44,9 @@ class BorrowingController extends Controller
             $search = trim((string) $request->string('search'));
             $query->where(function ($builder) use ($search): void {
                 $builder
-                    ->where('borrower_name', 'like', "%{$search}%")
+                    ->where('borrower_name', 'ilike', "%{$search}%")
                     ->orWhereHas('user', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%");
+                        $q->where('name', 'ilike', "%{$search}%");
                     });
             });
         }

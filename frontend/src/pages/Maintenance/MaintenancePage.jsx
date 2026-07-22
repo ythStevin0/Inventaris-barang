@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Alert from '../../components/ui/Alert';
 import LoadingOverlay from '../../components/ui/LoadingOverlay';
 import MaintenanceTable from '../../components/maintenance/MaintenanceTable';
@@ -9,6 +8,7 @@ import { getItems } from '../../services/itemsService';
 import useAuthStore from '../../store/authStore';
 import { canManageInventory } from '../../utils/permissions';
 import Navbar from '../../components/Layout/Navbar';
+import HeaderActions from '../../components/ui/HeaderActions';
 import bgTexture from '../../assets/download (4).jpg';
 
 export default function MaintenancePage() {
@@ -126,13 +126,7 @@ export default function MaintenancePage() {
             </h1>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link
-              to="/dashboard"
-              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 gap-2 shadow-sm backdrop-blur"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-              Kembali ke Dashboard
-            </Link>
+            <HeaderActions />
           </div>
         </div>
       </div>
@@ -167,7 +161,7 @@ export default function MaintenancePage() {
                   <button
                     type="button"
                     onClick={handleAdd}
-                    className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 transition flex items-center gap-2 whitespace-nowrap"
+                    className="rounded-xl bg-teal-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-600 transition flex items-center gap-2 whitespace-nowrap cursor-pointer"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                     Tambah Riwayat

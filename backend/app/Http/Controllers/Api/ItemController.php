@@ -29,10 +29,13 @@ class ItemController extends Controller
 
             $query->where(function ($builder) use ($search): void {
                 $builder
-                    ->where('name', 'like', "%{$search}%")
-                    ->orWhere('item_code', 'like', "%{$search}%")
-                    ->orWhere('brand', 'like', "%{$search}%")
-                    ->orWhere('location', 'like', "%{$search}%");
+                    ->where('name', 'ilike', "%{$search}%")
+                    ->orWhere('item_code', 'ilike', "%{$search}%")
+                    ->orWhere('brand', 'ilike', "%{$search}%")
+                    ->orWhere('location', 'ilike', "%{$search}%")
+                    ->orWhereHas('category', function ($q) use ($search): void {
+                        $q->where('name', 'ilike', "%{$search}%");
+                    });
             });
         }
 

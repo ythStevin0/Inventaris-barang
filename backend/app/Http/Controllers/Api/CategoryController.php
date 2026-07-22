@@ -23,8 +23,8 @@ class CategoryController extends Controller
 
             $query->where(function ($builder) use ($search): void {
                 $builder
-                    ->where('name', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%");
+                    ->where('name', 'ilike', "%{$search}%")
+                    ->orWhere('description', 'ilike', "%{$search}%");
             });
         }
 

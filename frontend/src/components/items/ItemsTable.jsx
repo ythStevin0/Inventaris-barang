@@ -14,6 +14,13 @@ const ItemsTable = memo(function ItemsTable({
   onShowQR,
 }) {
   const [previewImage, setPreviewImage] = useState(null);
+  const [paginatingDirection, setPaginatingDirection] = useState(null);
+  const [prevMeta, setPrevMeta] = useState(meta);
+
+  if (meta !== prevMeta) {
+    setPrevMeta(meta);
+    setPaginatingDirection(null);
+  }
 
   return (
     <>
@@ -186,18 +193,28 @@ const ItemsTable = memo(function ItemsTable({
           </div>
           <div className="flex flex-1 justify-between sm:justify-end gap-2">
             <button
-              onClick={() => onPageChange(meta.current_page - 1)}
-              disabled={meta.current_page === 1}
-              className="relative inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-emerald-900 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+              onClick={() => { setPaginatingDirection('prev'); onPageChange(meta.current_page - 1); }}
+              disabled={meta.current_page === 1 || paginatingDirection !== null}
+              className="relative inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-emerald-900 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm cursor-pointer min-w-27.5"
             >
-              Sebelumnya
+              {paginatingDirection === 'prev' ? (
+                <svg className="h-4 w-4 text-emerald-700 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : 'Sebelumnya'}
             </button>
             <button
-              onClick={() => onPageChange(meta.current_page + 1)}
-              disabled={meta.current_page === meta.last_page}
-              className="relative inline-flex items-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-emerald-900 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
+              onClick={() => { setPaginatingDirection('next'); onPageChange(meta.current_page + 1); }}
+              disabled={meta.current_page === meta.last_page || paginatingDirection !== null}
+              className="relative inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-emerald-900 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm cursor-pointer min-w-27.5"
             >
-              Selanjutnya
+              {paginatingDirection === 'next' ? (
+                <svg className="h-4 w-4 text-emerald-700 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : 'Selanjutnya'}
             </button>
           </div>
         </div>

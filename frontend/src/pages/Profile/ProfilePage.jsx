@@ -3,25 +3,13 @@ import { getDashboardStats } from '../../services/dashboardService';
 import { getBorrowings } from '../../services/borrowingsService';
 import useAuthStore from '../../store/authStore';
 import Navbar from '../../components/Layout/Navbar';
+import HeaderActions from '../../components/ui/HeaderActions';
 import bgTexture from '../../assets/download (4).jpg';
-
-
 export default function ProfilePage() {
     const { user, updateProfile } = useAuthStore();
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
     
-    // Calendar States
-
-    const [calendarEvents, setCalendarEvents] = useState([]);
-    const [showCalendar, setShowCalendar] = useState(false);
-    const calendarRef = useRef(null);
-
-    const today = new Date();
-    const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-    const [currentYear, setCurrentYear] = useState(today.getFullYear());
-    const [selectedDate, setSelectedDate] = useState(null);
-
     // Form States
     const [name, setName] = useState(user?.name || '');
     const [email, setEmail] = useState(user?.email || '');
@@ -39,19 +27,16 @@ export default function ProfilePage() {
     useEffect(() => {
         const loadData = async () => {
             try {
-                const statsData = await getDashboardStats();
+                await getDashboardStats();
                 
                 try {
                     const borrowingsData = await getBorrowings();
                     if (borrowingsData && borrowingsData.data) {
                         const allBorrowings = borrowingsData.data;
-                        setCalendarEvents(allBorrowings.filter(b => b.status === 'borrowed' || b.status === 'approved'));
                         setUserBorrowings(allBorrowings.filter(b => b.user_id === user?.id || b.user?.email === user?.email));
-                    } else {
-                        setCalendarEvents(statsData.calendarEvents || []);
                     }
                 } catch {
-                    setCalendarEvents(statsData.calendarEvents || []);
+                    // Ignore errors
                 }
             } catch {
                 console.error("Gagal memuat data:");
@@ -59,55 +44,6 @@ export default function ProfilePage() {
         };
         loadData();
     }, [user?.email, user?.id]);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-                setShowCalendar(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    const calendarDays = Array.from({ length: firstDay }).fill(null).concat(
-        Array.from({ length: daysInMonth }, (_, i) => i + 1)
-    );
-    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-
-    const handlePrevMonth = (e) => {
-        e.stopPropagation();
-        if (currentMonth === 0) {
-            setCurrentMonth(11);
-            setCurrentYear(currentYear - 1);
-        } else {
-            setCurrentMonth(currentMonth - 1);
-        }
-        setSelectedDate(null);
-    };
-
-    const handleNextMonth = (e) => {
-        e.stopPropagation();
-        if (currentMonth === 11) {
-            setCurrentMonth(0);
-            setCurrentYear(currentYear + 1);
-        } else {
-            setCurrentMonth(currentMonth + 1);
-        }
-        setSelectedDate(null);
-    };
-
-    const getEventsForDate = (day) => {
-        if (!day) return [];
-        return calendarEvents.filter(ev => {
-            const dateStr = ev.return_date || ev.due_date;
-            if (!dateStr) return false;
-            const evDate = new Date(dateStr);
-            return evDate.getDate() === day && evDate.getMonth() === currentMonth && evDate.getFullYear() === currentYear;
-        });
-    };
 
     // Calculate User Statistics
     const totalBorrowings = userBorrowings.length;
@@ -179,104 +115,7 @@ export default function ProfilePage() {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <div className="relative z-50" ref={calendarRef}>
-                            <button 
-                                onClick={() => setShowCalendar(!showCalendar)}
-                                className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/20 text-white bg-white/5 hover:bg-white/10 transition-colors text-sm cursor-pointer"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg>
-                                <span>{today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3 ml-1"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-                            </button>
-
-                            {/* Dropdown Kalender */}
-                            <div className={`absolute left-0 md:right-0 md:left-auto mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-gray-100 overflow-hidden transform origin-top-left md:origin-top-right transition-all duration-200 ease-out ${showCalendar ? 'opacity-100 scale-100 translate-y-0 visible pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'}`}>
-                                <div className="p-3 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
-                                    <div className="flex items-center gap-2">
-                                        <button onClick={handlePrevMonth} className="p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-500 hover:text-gray-700 cursor-pointer z-10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
-                                        </button>
-                                        <h3 className="text-[#11224E] font-bold text-sm text-center min-w-100px">{monthNames[currentMonth]} {currentYear}</h3>
-                                        <button onClick={handleNextMonth} className="p-1 hover:bg-gray-200 rounded-full transition-colors text-gray-500 hover:text-gray-700 cursor-pointer z-10">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
-                                        </button>
-                                    </div>
-                                    <button onClick={() => setShowCalendar(false)} className="p-1 bg-transparent hover:bg-gray-200 rounded-full transition-colors text-gray-400 hover:text-gray-600 z-10">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                                    </button>
-                                </div>
-                                <div className="p-3">
-                                    <div className="grid grid-cols-7 gap-1 text-center mb-2">
-                                        {['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'].map(day => (
-                                            <div key={day} className="text-[10px] font-bold text-gray-400">{day}</div>
-                                        ))}
-                                    </div>
-                                    <div className="grid grid-cols-7 gap-1 text-center">
-                                        {calendarDays.map((day, index) => {
-                                            const dayEvents = getEventsForDate(day);
-                                            const hasEvents = dayEvents.length > 0;
-                                            const isToday = day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
-                                            const isSelected = day !== null && selectedDate === day;
-
-                                            return (
-                                                <div 
-                                                    key={index} 
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        if (day) setSelectedDate(isSelected ? null : day);
-                                                    }}
-                                                    className={`relative h-8 w-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium ${
-                                                        isToday
-                                                            ? 'bg-[#0F4C3A] text-white shadow-md' 
-                                                            : isSelected
-                                                                ? 'bg-emerald-100 text-[#0F4C3A] ring-2 ring-emerald-500'
-                                                                : day 
-                                                                    ? 'text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors' 
-                                                                    : 'text-transparent cursor-default'
-                                                    }`}
-                                                >
-                                                    {day || ''}
-                                                    {day && hasEvents && !isToday && (
-                                                        <span className="absolute bottom-1 w-1 h-1 bg-red-500 rounded-full"></span>
-                                                    )}
-                                                    {day && hasEvents && isToday && (
-                                                        <span className="absolute bottom-1 w-1 h-1 bg-white rounded-full"></span>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                    
-                                    {/* Tampilan Detail / List */}
-                                    {selectedDate && (
-                                        <div className="mt-3 pt-3 border-t border-gray-100 animate-fadeIn" onClick={(e) => e.stopPropagation()}>
-                                            <h4 className="text-xs font-bold text-gray-700 mb-2">
-                                                Keterangan {selectedDate} {monthNames[currentMonth]} {currentYear}:
-                                            </h4>
-                                            {getEventsForDate(selectedDate).length === 0 ? (
-                                                <p className="text-xs text-gray-500 italic">Tidak ada jadwal.</p>
-                                            ) : (
-                                                <ul className="space-y-2 max-h-40 overflow-y-auto custom-scrollbar pr-1">
-                                                    {getEventsForDate(selectedDate).map(ev => {
-                                                        const bDateStr = ev.borrow_date ? new Date(ev.borrow_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'}) : '-';
-                                                        const rDateStr = ev.return_date ? new Date(ev.return_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'}) : (ev.due_date ? new Date(ev.due_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'}) : '-');
-                                                        return (
-                                                            <li key={ev.id} className="text-[11px] bg-gray-50 p-2 rounded-lg border border-gray-100">
-                                                                <div className="font-semibold text-gray-900">{ev.item?.name || 'Peminjaman'}</div>
-                                                                <div className="text-gray-500 flex justify-between mt-1">
-                                                                    <span>Dipinjam: {bDateStr}</span>
-                                                                    <span>Tenggat: <span className="font-semibold text-red-500">{rDateStr}</span></span>
-                                                                </div>
-                                                            </li>
-                                                        );
-                                                    })}
-                                                </ul>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                        <HeaderActions />
                     </div>
                 </div>
             </div>

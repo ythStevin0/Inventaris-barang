@@ -24,7 +24,7 @@ export default function QRScannerModal({ isOpen, onClose, onScanSuccess }) {
               onScanSuccess(decodedText);
             }).catch(err => console.error("Failed to stop scanner", err));
           },
-          (errorMessage) => {
+          () => {
             // ignore scan errors (it fires constantly when nothing is found)
           }
         );

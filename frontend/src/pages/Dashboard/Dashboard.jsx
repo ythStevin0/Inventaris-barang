@@ -6,6 +6,7 @@ import { getBorrowings } from '../../services/borrowingsService';
 import Navbar from '../../components/Layout/Navbar';
 import HeaderActions from '../../components/ui/HeaderActions';
 import bgTexture from '../../assets/download (4).jpg';
+import { getImageUrl } from '../../utils/imageUtils';
 
 export default function Dashboard() {
     const { user, getMe } = useAuthStore();
@@ -246,8 +247,11 @@ export default function Dashboard() {
                                     <div key={ev.id} className="flex justify-between items-center py-3 border-b border-gray-50 last:border-0">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-700 overflow-hidden flex items-center justify-center font-bold text-sm">
-                                                {/* Fallback avatar */}
-                                                <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(evName)}&background=random`} alt={evName} className="w-full h-full object-cover" />
+                                                {ev.user?.avatar ? (
+                                                    <img src={getImageUrl(ev.user.avatar)} alt={evName} className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <span>{evName.charAt(0).toUpperCase()}</span>
+                                                )}
                                             </div>
                                             <div>
                                                 <h4 className="font-semibold text-gray-900 text-sm">{evName}</h4>
@@ -281,7 +285,7 @@ export default function Dashboard() {
                         {/* Progress Bars Stack */}
                         <div className="w-full h-4 rounded-full flex overflow-hidden mb-6 gap-0.5">
                             <div className="bg-[#0F4C3A] h-full transition-all duration-500" style={{ width: `${totalBarang ? (available/totalBarang)*100 : 0}%` }}></div>
-                            <div className="bg-#14b8a6 h-full transition-all duration-500" style={{ width: `${totalBarang ? ((stats.barangDipinjam || 0)/totalBarang)*100 : 0}%` }}></div>
+                            <div className="bg-secondary-500 h-full transition-all duration-500" style={{ width: `${totalBarang ? ((stats.barangDipinjam || 0)/totalBarang)*100 : 0}%` }}></div>
                             <div className="bg-gray-200 h-full transition-all duration-500" style={{ width: `${totalBarang ? ((stats.barangRusak || 0)/totalBarang)*100 : 0}%` }}></div>
                         </div>
                         
@@ -295,7 +299,7 @@ export default function Dashboard() {
                             </div>
                             <div className="flex justify-between items-center text-sm p-3 rounded-xl bg-gray-50">
                                 <div className="flex items-center gap-3">
-                                    <span className="w-3 h-3 rounded-full bg-#14b8a6"></span>
+                                    <span className="w-3 h-3 rounded-full bg-secondary-500"></span>
                                     <span className="text-gray-600 font-medium">Dipinjam</span>
                                 </div>
                                 <span className="font-bold text-gray-900">{stats.barangDipinjam || 0}</span>
